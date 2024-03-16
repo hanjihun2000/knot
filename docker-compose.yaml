@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  backend:
+    container_name: node-backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: "knot/node-backend"
+    ports:
+      - "5000:5000"
+    # volumes:
+    #   - ./server:/app
+  frontend:
+    container_name: react-frontend
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: "knot/react-frontend"
+    ports:
+      - "3000:3000"
+    # volumes:
+    #   - ./client:/app
