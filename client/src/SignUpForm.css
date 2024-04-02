@@ -1,0 +1,101 @@
+.root{
+    background-color: #D3D0B3;
+    
+}
+
+.signup-form-container {
+    background-color: #D3D0B3;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    margin: auto;
+    font-family: "Inika" ,Arial, sans-serif;
+  }
+  .password-container {
+    position: relative;
+    display: flex;
+  }
+  
+  .password-container input {
+     /* Adjust based on image size */
+     
+  }
+  
+  .password-container img {
+    position: absolute;
+    top: 1.2em;
+    right: 0.5em;
+    height: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .signup-form-header {
+    position: relative; /* Makes the header a reference point for absolute positioning */
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 1.5em;
+  }
+ 
+  .signup-form-header .back-arrow {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 2.5em;
+    
+    
+  }
+  
+  .signup-form-header h1 {
+    margin: 0;
+  }
+  
+  .signup-form-header p {
+    
+    font-size: 0.9em;
+    font-family: "Inknut Antiqua";
+    margin-top: -0.5em;
+    color: black;
+  }
+  
+  .signup-form input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .signup-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #D9D9D9;
+    color: black;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .terms,
+  .login-redirect {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.8em;
+  }
+  
+  .terms a,
+  .login-redirect a {
+    color: #6a5acd;
+    text-decoration: none;
+  }
+  
+  .terms a:hover,
+  .login-redirect a:hover {
+    text-decoration: underline;
+  }
+  
+  
