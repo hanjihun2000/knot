@@ -1,8 +1,11 @@
-# Knot
+# Knot Development Information
 
 ## Docker
 
-`docker-compose up -d` to initiate both client and server environment
+`docker-compose up -d --build` to initiate both client and server environment
+
+`docker-compose down` to close both client and server environment
+
 
 ## GitHub
 
