@@ -1,7 +1,7 @@
 const express = require("express");
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+// const mongoose = require('mongoose');
+// const router = express.Router();
 
 const PORT = 8000;
 
@@ -26,10 +26,33 @@ async function listDatabases(client){
 };
 listDatabases(client);
 
+// Fetch first 10 entries from a specified collection in a given database
+async function getListings(client, dbName, collectionName) {
+	const collection = client.db(dbName).collection(collectionName);
+	const listings = await collection.find().limit(10).toArray();
+	return listings;
+  }
+  
+  // API endpoint to fetch listings data
+  app.get("/api/listings/:dbName/:collectionName", async (req, res) => {
+	try {
+	  const dbName = req.params.dbName;
+	  const collectionName = req.params.collectionName;
+	  console.log(`Fetching listings from ${dbName} in collection ${collectionName}`);
+	  const listings = await getListings(client, dbName, collectionName);
+	  res.json(listings);
+	} catch (err) {
+	  console.error(err);
+	  res.status(500).json({ error: 'Server error' });
+	}
+  });
+
 app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
+	console.log(`Server listening on ${PORT}`);
 });
+  
+  
