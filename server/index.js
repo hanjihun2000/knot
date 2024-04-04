@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 5000;
 const mongoose = require("mongoose");
-const uri = "mongodb+srv://admin1:1234567890@knot-cluster.ggtkwpg.mongodb.net/app?retryWrites=true&w=majority&appName=knot-cluster";
+const uri = process.env.ATLAS_URI;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 async function checkDBConnection() {
 	try {
