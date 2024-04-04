@@ -19,5 +19,6 @@ services:
     image: "knot/react-frontend"
     ports:
       - "3000:3000"
-    # volumes:
-    #   - ./client:/app
+    volumes:
+      - ./client:/app
+      - /app/node_modules

@@ -1,7 +1,7 @@
 const express = require("express");
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const userRouter = require('./routes/users');
 // const mongoose = require('mongoose');
-// const router = express.Router();
 
 const PORT = 8000;
 
@@ -19,33 +19,38 @@ const client = new MongoClient(uri, {
 
 client.connect();
 
-async function listDatabases(client){
-	databasesList = await client.db().admin().listDatabases();
-	console.log("Databases:");
-	databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-};
-listDatabases(client);
+// async function listDatabases(client){
+// 	databasesList = await client.db().admin().listDatabases();
+// 	console.log("Databases:");
+// 	databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+// };
+// listDatabases(client);
 
-// Fetch first 10 entries from a specified collection in a given database
-async function getListings(client, dbName, collectionName) {
-	const collection = client.db(dbName).collection(collectionName);
-	const listings = await collection.find().limit(10).toArray();
-	return listings;
-  }
+// // Fetch first 10 entries from a specified collection in a given database
+// async function getListings(client, dbName, collectionName) {
+// 	const collection = client.db(dbName).collection(collectionName);
+// 	const listings = await collection.find().limit(10).toArray();
+// 	return listings;
+//   }
   
-// API endpoint to fetch listings data
-app.get("/api/listings/:dbName/:collectionName", async (req, res) => {
-try {
-	const dbName = req.params.dbName;
-	const collectionName = req.params.collectionName;
-	console.log(`Fetching listings from ${dbName} in collection ${collectionName}`);
-	const listings = await getListings(client, dbName, collectionName);
-	res.json(listings);
-} catch (err) {
-	console.error(err);
-	res.status(500).json({ error: 'Server error' });
-}
-});
+// // API endpoint to fetch listings data
+// app.get("/api/listings/:dbName/:collectionName", async (req, res) => {
+// try {
+// 	const dbName = req.params.dbName;
+// 	const collectionName = req.params.collectionName;
+// 	console.log(`Fetching listings from ${dbName} in collection ${collectionName}`);
+// 	const listings = await getListings(client, dbName, collectionName);
+// 	res.json(listings);
+// } catch (err) {
+// 	console.error(err);
+// 	res.status(500).json({ error: 'Server error' });
+// }
+// });
+
+//use users route
+app.use('/api/users', require('./routes/users'));
+
+
 
 app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
