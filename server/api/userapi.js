@@ -4,8 +4,8 @@ const User = require("../models/user");
 
 router.post("/register", async (req, res) => {
     // req.body for form
-    console.log(req);
-    console.log(req.body);
+    // console.log(req);
+    // console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
@@ -38,6 +38,7 @@ router.post("/register", async (req, res) => {
 
 router.get("/fetchUser", async (req, res) => {
 	try {
+		console.log(req.body)
 		const username = req.body.username;
 		console.log(username);
 		const user = await User.findOne({ username: username });
@@ -58,6 +59,40 @@ router.get("/fetchAllUsernames", async (req, res) => {
 	res.send(usernames);
 })
 
+router.post("/login", async (req, res) => {
+	console.log(req.body)
+	try {
+	  const { username, password } = req.body;
+  
+	  // Find the user by username
+	  const user = await User.findOne({ username });
+  
+	  if (!user) {
+		return res.status(401).json({ message: "Invalid username or password" });
+	  }
+  
+	  // Check if the password is correct
+	  if (user.password !== password) {
+		return res.status(401).json({ message: "Invalid username or password" });
+	  }
+  
+	  // TODO: Generate and send a token for authentication
+  
+	  res.json({ message: "Login successful" });
+	} catch (error) {
+	  res.status(500).json({ message: error.message });
+	}
+  });
+
+router.post("/logout", (req, res) => {
+try {
+	// TODO: Invalidate the token or perform any necessary logout actions
+
+	res.json({ message: "Logout successful" });
+} catch (error) {
+	res.status(500).json({ message: error.message });
+}
+});
 
 
 module.exports = router;
