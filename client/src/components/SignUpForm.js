@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../component_css/SignUpForm.css'; // Make sure to create a corresponding CSS file
 import toggleVisi from '../OIP.jpg'
+import { Link } from 'react-router-dom';
 
 function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -87,7 +88,7 @@ function SignUpForm() {
       </div>
     <div className="signup-form-container">
       <div className="signup-form-header">
-        <span className="back-arrow">←</span>
+      <Link to="/login" className="back-arrow" style={{ textDecoration: 'none', color: 'inherit' }}>←</Link>
         <h1>Knot</h1>
         <p>Weaving Stories, Building Communities</p>
       </div>
