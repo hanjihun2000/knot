@@ -36,5 +36,11 @@ router.post("/register", async (req, res) => {
 	}
 });
 
+router.get("/fetchUser", async (req, res) => {
+	const username = req.query.username;
+	const user = await User.findOne
+	({ username: username });
+	res.send(user);
+})
 
 module.exports = router;
