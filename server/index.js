@@ -48,7 +48,7 @@ client.connect();
 // });
 
 //use users route
-app.use('/api/users', require('./users'));
+app.use('/api/users', userRouter);
 
 app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });

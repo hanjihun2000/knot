@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion} = require('mongodb');
 const { User } = require('./models');
+
+
 
 //get mongo client
 const uri = "mongodb+srv://admin1:1234567890@knot-cluster.ggtkwpg.mongodb.net/?retryWrites=true&w=majority&appName=knot-cluster";
