@@ -1,6 +1,6 @@
 const express = require("express");
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const userRouter = require('./routes/users');
+const userRouter = require('./users');
 // const mongoose = require('mongoose');
 
 const PORT = 8000;
@@ -48,7 +48,7 @@ client.connect();
 // });
 
 //use users route
-app.use('/api/users', require('./routes/users'));
+app.use('/api/users', require('./users'));
 
 app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });

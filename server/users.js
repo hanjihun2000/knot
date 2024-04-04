@@ -58,7 +58,7 @@ router.get("/register/:username/:password/:email", async (req, res) => {
             username: username,
             password: password,
             email: email,
-            accountType: 'user',
+            accountType: 'user'
         });
         res.json({ userId: user._id }); // respond with user id
     } catch (err) {
@@ -66,6 +66,45 @@ router.get("/register/:username/:password/:email", async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 })
+
+router.get("/login/:username/:password", async (req, res) => {
+    try {
+        const username = req.params.username;
+        const password = req.params.password;
+        const collection = client.db('app').collection('users');
+        const user = await collection.findOne({ 
+            username: username
+        });
+        if (user.password === password) {
+            res.json({ userId: user._id });
+        } else {
+            res.status(401).json({ error: 'Invalid login' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+})
+
+router.get("/logout/:username", async (req, res) => {
+    try {
+        const username = req.params.username;
+        const collection = client.db('app').collection('users');
+        const user = await collection
+            .findOne({ username: username });
+        if (user) {
+            res.json({ message: 'User logged out' });
+        }
+        else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+})
+
+
 
 
 module.exports = router;
