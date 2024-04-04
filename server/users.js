@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { User } = require('./models');
 
 //get mongo client
 const uri = "mongodb+srv://admin1:1234567890@knot-cluster.ggtkwpg.mongodb.net/?retryWrites=true&w=majority&appName=knot-cluster";
@@ -48,24 +50,36 @@ router.get("/fetchUser/:username", async (req, res) => {
     }
 })
 
-router.get("/register/:username/:password/:email", async (req, res) => {
+router.post('/register/:username/:password/:email', async (req, res) => {
     try {
-        const username = req.params.username;
-        const password = req.params.password;
-        const email = req.params.email;
-        const collection = client.db('app').collection('users');
-        const user = await collection.insertOne({ 
-            username: username,
-            password: password,
-            email: email,
-            accountType: 'user'
-        });
-        res.json({ userId: user._id }); // respond with user id
+      const { username, password, email } = req.params;
+      const collection = client.db('app').collection('users');
+  
+      // Check if the user already exists
+      const existingUser = await User.findOne({ username });
+      if (existingUser) {
+        return res.status(400).json({ error: 'Username already exists' });
+      }
+  
+      // Create a new user
+      const newUser = new User({
+        username: username,
+        password: password,
+        email: email,
+      });
+  
+      console.log(newUser)
+      // Save the new user to the database
+      const savedUser = await newUser.save();
+  
+      // Return the saved user as a response
+      res.status(201).json(savedUser);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
     }
-})
+  });
+  
 
 router.get("/login/:username/:password", async (req, res) => {
     try {
