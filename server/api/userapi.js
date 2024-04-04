@@ -37,10 +37,26 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/fetchUser", async (req, res) => {
-	const username = req.query.username;
-	const user = await User.findOne
-	({ username: username });
-	res.send(user);
+	try {
+		const username = req.query.username;
+		const user = await User.findOne({ username: username });
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found!" });
+		}
+
+		res.json(user);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
+
+router.get("/fetchAllUsernames", async (req, res) => {
+	const users = await User.find();
+	const usernames = users.map(user => user.username);
+	res.send(usernames);
 })
+
+
 
 module.exports = router;
