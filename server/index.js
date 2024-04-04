@@ -50,8 +50,6 @@ client.connect();
 //use users route
 app.use('/api/users', require('./routes/users'));
 
-
-
 app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
 });

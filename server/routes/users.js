@@ -58,9 +58,9 @@ router.get("/register/:username/:password/:email", async (req, res) => {
             username: username,
             password: password,
             email: email,
-            accountType: 'user'
+            accountType: 'user',
         });
-        res.json({ userId: result.insertedId }); // respond with user id
+        res.json({ userId: user._id }); // respond with user id
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error' });
