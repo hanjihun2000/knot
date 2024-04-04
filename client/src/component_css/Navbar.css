@@ -1,0 +1,15 @@
+.navbar {
+  display: flex;
+  justify-content: space-between; /* This will push the search bar to the right */
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #f2e9e4; 
+  }
+  
+  .search-bar {
+    margin-left: auto; /* This pushes the search bar to the right */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  }

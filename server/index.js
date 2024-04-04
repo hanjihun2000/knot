@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const PORT = 8000;
 const mongoose = require("mongoose");
+require('dotenv').config()
 const uri = process.env.ATLAS_URI;
-// console.log(uri);
 const { MongoClient, ServerApiVersion } = require('mongodb');
 async function checkDBConnection() {
 	try {
