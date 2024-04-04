@@ -7,7 +7,8 @@ RUN npm install
 
 COPY . .
 
-ENV port=5000
+ENV port=8000
+ENV ATLAS_URI=${ATLAS_URI}
 EXPOSE ${port}
 
 CMD [ "npm", "start" ]

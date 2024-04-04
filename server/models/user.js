@@ -1,4 +1,8 @@
 const mongoose = require("../index");
+const uri = process.env.ATLAS_URI;
+// mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('Database connected!'))
+//   .catch(err => console.log(err));
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
