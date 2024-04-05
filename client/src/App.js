@@ -20,7 +20,7 @@ function App() {
             <Route exact path = '/privacy-settings'>
               <MainPagePrivacy/>
             </Route>
-      </Switch>
+        </Switch>
       </Router>
   );
 }
