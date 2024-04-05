@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 5000;
 const mongoose = require("mongoose");
+require("dotenv").config()
 const uri = process.env.ATLAS_URI;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 async function checkDBConnection() {
@@ -38,11 +39,14 @@ db.once("open", () => console.log("Connected to Database"));
 
 module.exports = mongoose;
 const userapiRouter = require("./api/userapi");
+const postapiRouter = require("./api/postapi");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
 app.use("/api/userapi", userapiRouter);
+app.use("/api/postapi", postapiRouter);
 
 // I implemented the route so the insert function may not work if there is no request from api
 // you can uncomment this code to test the insert function

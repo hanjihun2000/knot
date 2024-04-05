@@ -3,12 +3,11 @@ const router = express.Router();
 const User = require("../models/user");
 
 router.post("/register", async (req, res) => {
-    // req.body for form
-    console.log(req);
-    console.log(req.body);
+    // req.body for form data
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
+	console.log(username, password, email);
     // check if the username is inside the users database
 	const userExists = await User.exists({ username: username });
 	console.log(userExists);
