@@ -24,7 +24,7 @@ function SignUpForm() {
       }
   
       // Define the API endpoint where the form data should be sent.
-      const apiUrl = 'http://localhost:3000/api/userapi/register';
+      const apiUrl = 'http://localhost:8000/api/userapi/register';
   
       // Set up the request options for the fetch call.
       // This includes the method (POST), headers, and the body,
