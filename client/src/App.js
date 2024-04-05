@@ -4,6 +4,8 @@ import LogInForm from './components/LogInForm';
 import { BrowserRouter as Router,Route,Switch } from 'react-router-dom';
 import MainPageEdit  from './components/UserSettings/MainPageEdit';
 import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
+import ProtectedRoute from './components/ProtectedRoute';
+
 function App() {
   return (
       <Router>
