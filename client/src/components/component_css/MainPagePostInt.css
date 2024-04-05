@@ -1,0 +1,31 @@
+/* MainPagePostInt.css */
+.vote-button img {
+    width: 25px; /* Adjust the width as needed */
+    height: auto; /* Keeps the aspect ratio */
+    margin-right: 8px; /* Adds some space between the image and the text */
+  }
+  
+  .vote-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none; /* Removes the border from the button */
+    background-color: transparent; /* Makes the button background transparent */
+    cursor: pointer; /* Changes the cursor to pointer on hover */
+    padding: 5px 10px; /* Adjusts padding */
+    margin: 5px; /* Adjusts margin */
+  }
+  .image-pair{
+    display:flex;
+  }
+  
+  textarea {
+    resize: none;
+  }
+  
+  /* If you have a class for the textarea, for example, .autoresize-textarea */
+  .autoresize-textarea {
+    resize: none;
+  }
+  /* Further styling for other elements if needed */
+  

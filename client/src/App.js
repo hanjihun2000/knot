@@ -2,7 +2,11 @@ import './App.css';
 import SignUpForm from './components/SignUpForm';
 import LogInForm from './components/LogInForm';
 import { BrowserRouter as Router,Route,Switch } from 'react-router-dom';
-import MainPage  from './components/MainPage';
+import MainPageEdit  from './components/UserSettings/MainPageEdit';
+import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
+import ProtectedRoute from './components/ProtectedRoute';
+import MainPagePost from './components/UserSettings/MainPagePost';
+
 function App() {
   return (
       <Router>
@@ -14,7 +18,13 @@ function App() {
             <LogInForm />
             </Route>
             <Route exact path = '/home'>
-              <MainPage />
+              <MainPageEdit />
+            </Route>
+            <Route exact path = '/privacy-settings'>
+              <MainPagePrivacy/>
+            </Route>
+            <Route exact path = '/post'>
+              <MainPagePost/>
             </Route>
         </Switch>
       </Router>

@@ -11,10 +11,35 @@ function LogInForm() {
   const [passwordShown, setPasswordShown] = useState(false);
 
 
-  const handleSignUp = (event) => {
-    event.preventDefault();
-    // Handle the sign-up logic here
-    console.log(username, password);
+  const handleLogIn = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+  
+    // Make a POST request to the server's login endpoint
+    try {
+      const response = await fetch('http://localhost:8000/login', { // Make sure the URL matches your server's URL (you might need to prefix with your server's base URL)
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log('Login successful:', data);
+        // Here you can handle successful login, e.g., redirecting the user, storing the login token, etc.
+        // For example, using localStorage to store the token (assuming the server sends one)
+        localStorage.setItem('token', data.token);
+        // Redirect user or update UI
+      } else {
+        console.error('Login failed:', data.message);
+        // Handle login failure, e.g., showing an error message to the user
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      // Handle network errors, show feedback to the user
+    }
   };
 
 
@@ -34,7 +59,7 @@ function LogInForm() {
       <div className="signup-form-header">
           <h1>Knot</h1>
       </div>
-      <form className="login-form" onSubmit={handleSignUp}>
+      <form className="login-form" onSubmit={handleLogIn}>
         
         <input
           type="text"

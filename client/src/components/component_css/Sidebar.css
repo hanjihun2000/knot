@@ -6,11 +6,11 @@
   align-items: center; /* Aligns items horizontally */
   height: 100vh; /* Full height of the viewport */
   background-color: #F2E9E4;
-  
+  position: relative; /*
   padding: 20px;
   padding-right: 40px;
   padding-top: 100px; /* Padding for the sidebar */
-  font-family: "Inika";
+  font-family: "Inika"; 
   }
   
   .menu-item{
@@ -46,15 +46,17 @@
     width: 100%;
     padding: 10px;
     margin: 5px 0;
-    background: transparent;
-    border: none;
+    
     text-align: left;
     color: #000; /* or any color you want */
     cursor: pointer;
-    border-radius: 4px;
+    border: none;
     font-size: 1em;
     bottom: 0;
-    
+    padding-left: 2em;
+    font-family: "Inika";
+    z-index: 2;
+    background-color: transparent;
   }
   .menu-item:hover, .logout:hover {
     background-color: #ddd; /* Gray background on hover */

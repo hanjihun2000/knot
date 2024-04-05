@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import ProfileSettings from './ProfileSettings';
-import Navbar from './Navbar';
-import ProfileEdit from './ProfileEdit';
-import ProfileSideBar from './ProfileSideBar';
-
+import Sidebar from '../Sidebar';
+import ProfileSettings from '../ProfileSettings';
+import Navbar from '../Navbar';
+import MainPagePrivacyDets from './MainPagePrivacyDets';
+import ProfileSideBarPrivacy from '../ProfileSideBarPrivacy';
 import '../component_css/MainPage.css';
 
 
@@ -13,7 +12,7 @@ import '../component_css/MainPage.css';
 
 
 
-const MainPage = () => {
+const MainPagePrivacy = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,8 +32,8 @@ const MainPage = () => {
       <div className="main-content">
         <Navbar />
         <div className="profile-edit-container">
-        <ProfileSideBar/>
-          <ProfileEdit/>
+          <ProfileSideBarPrivacy/>
+          <MainPagePrivacyDets/>
          
         </div>
       </div>
@@ -43,4 +42,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default MainPagePrivacy;
