@@ -1,5 +1,6 @@
 .sidebar {
-    display: flex;
+  display: flex;
+  position: relative;
   flex-direction: column;
   background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
    /* Centers items vertically */
@@ -84,8 +85,8 @@
    width: 100%;
    font-family: "Inika";
   }
-  .menu-item-create :hover{
-    background-color: rgba(23, 23, 23, 0.3);
+  .menu-item-button-create:hover {
+    background-color: rgba(236, 162, 249, 0.5);
   }
   
   .logout {
@@ -110,22 +111,66 @@
   }
 
   .profile-section {
-    bottom: 0;
-    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    gap: 10px;
   } 
+
+  .profile-section:hover{
+    cursor: pointer;
+    color: Gray; /*maybe change to a different color with a css*/
+  }
   
   .profile-pic {
     width: 50px;
     height: 50px;
     border-radius: 50%;
   }
+  .menu-bottom-part{
+    position:absolute;
+    display:flex;
+    flex-direction: column;
+    bottom: 10vh;
+    width: 100%;
+    left:0px;
+    text-align: right;
+  }
   
   .profile-name {
-    /* add your styles here */
+    
   }
   
   .separator {
+    box-sizing: border-box; 
+    color: Gray;
     width: 100%;
-    border: 0;
-    border-top: 1px solid #000; /* change color as needed */
+    border-color: #808080;
+    border-top: 0.1px; /* change color as needed */
+  }
+
+  .logout {
+    align-self: flex-end; /* Aligns the button to the right */
+    display: flex; /* Changes display to flex */
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+    bottom: 0;
+    width: 90px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-size: 1em;
+    font-family: "Inika";
+  }
+  .logout-svg{
+    width: 20px;
+    height: 20px;
+  }
+  .logout:hover {
+    margin-right: 10px;
+    background-color: #ddd; /* Gray background on hover */
+    width: 85px; /* match the width of the .logout selector */
   }

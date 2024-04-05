@@ -2,13 +2,13 @@ import React from 'react';
 import '../component_css/Sidebar.css';
 import {sideBarItem} from './sideBarItem';
 import { useHistory } from 'react-router-dom';
-
+import { SignOut} from "@phosphor-icons/react";
 const Sidebar = () => {
   const history = useHistory();
 
   return (
     <nav className="sidebar">
-      <button className="menu-item-button-create">create</button>
+      <button className="menu-item-button-create" onClick={() => history.push("/create")}>create</button>
       <ul className="sidebar-list">
       {sideBarItem.map((item, index) => {
         return (
@@ -23,12 +23,16 @@ const Sidebar = () => {
         );
       })}
       </ul>
-
-      <div className="profile-section">
-        <img src="https://via.placeholder.com/150" alt="Profile" className="profile-pic" />
-        <div className="profile-name">Profile Name</div> {/* replace with the actual profile name */}
+      <div className="menu-bottom-part">
+        <div className="profile-section"onClick={() => history.push("/profile")}>
+            <img src="https://via.placeholder.com/150" alt="Profile" className="profile-pic" />
+            <div className="profile-name" >Profile Name</div> {/* replace with the actual profile name */}
+        </div>
         <hr className="separator" />
-        <button className="logout">Logout</button>
+        <button className="logout">
+          <SignOut className="logout-svg"/>
+          Logout
+        </button> 
       </div>
     </nav>
   );
