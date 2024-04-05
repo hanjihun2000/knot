@@ -16,7 +16,7 @@ function LogInForm() {
   
     // Make a POST request to the server's login endpoint
     try {
-      const response = await fetch('http://localhost:8000/login', { // Make sure the URL matches your server's URL (you might need to prefix with your server's base URL)
+      const response = await fetch('http://localhost:8000/api/userapi/login', { // Make sure the URL matches your server's URL (you might need to prefix with your server's base URL)
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
