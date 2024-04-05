@@ -1,10 +1,12 @@
 .sidebar {
-    display: flex;
+  display: flex;
+  position: relative;
   flex-direction: column;
   background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
    /* Centers items vertically */
   align-items: center; /* Aligns items horizontally */
   height: 100vh; /* Full height of the viewport */
+  width: 185px; /* Width of the sidebar */
   background-color: #F2E9E4;
   position: relative; /*
   padding: 20px;
@@ -12,6 +14,50 @@
   padding-top: 100px; /* Padding for the sidebar */
   font-family: "Inika"; 
   }
+
+ .sidebar-list{
+  list-style-type: none; /* Removes default bullet points */
+  padding: 0; /* Removes default padding */
+  width: 100%; /* Full width of the sidebar */
+  height: auto; /* Full height of the sidebar */
+ }
+ .row{
+  width: 100%; /* Full width of the sidebar */
+  display: flex; /* Displays items in a row */
+  flex-direction: row; /* Items are arranged horizontally */
+  padding: 10px; /* Padding between rows */
+  font-size: 1.2em;
+ }
+ 
+ .sidebar-list #active{
+  background-color: #ddd; /* Gray background on hover */
+  width: 100%;
+  border-radius: 32px;
+  background-color: rgba(23, 23, 23, 0.1);
+ }
+ .sidebar-list #active:hover{
+  background-color: #ddd; /* Gray background on hover */
+  width: 100%;
+  border-radius: 32px;
+  background-color: rgba(23, 23, 23, 0.3);
+ }
+ .sidebar-list .row:hover{
+  width: 100%;
+  border-radius: 32px;
+  cursor: pointer;
+  background-color: #DDD;
+  background-color: rgba(23, 23, 23, 0.3);
+ }
+ .row #menu-item-icon{
+  flex: 30%;
+  display: grid;
+  place-items: center;
+ }
+
+ .row #menu-item-text{
+  flex: 70%;
+ }
+ 
   
   .menu-item{
     background: none;
@@ -27,21 +73,24 @@
   width: auto; /* Let the width be automatically determined */
   min-width: 80%; /* Set a minimum width for the buttons */
   }
-  .menu-item-create{
-    background-color: #ECA2F9; /* Your button's pink background color */
-  color: black; /* Text color */
+  .menu-item-button-create{
+  background-color: #ECA2F9; /* Your button's pink background color */
   border: none; /* No border */
   padding: 10px 25px; /* Padding inside the button */
-  font-size: 1em; /* Text size */
+  font-size: 1.2em; /* Text size */
   border-radius: 20px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
   cursor: pointer; /* Cursor changes to pointer when hovering over the button */
    /* Smooth transition for interactions */
-   width: 125%;
+   width: 100%;
+   font-family: "Inika";
+  }
+  .menu-item-button-create:hover {
+    background-color: rgba(236, 162, 249, 0.5);
   }
   
   .logout {
-    position: absolute;
+    position: right;
     display: block;
     width: 100%;
     padding: 10px;
@@ -61,4 +110,69 @@
   .menu-item:hover, .logout:hover {
     background-color: #ddd; /* Gray background on hover */
     width: 100%;
+  }
+
+  .profile-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    gap: 10px;
+  } 
+
+  .profile-section:hover{
+    cursor: pointer;
+    color: Gray; /*maybe change to a different color with a css*/
+  }
+  
+  .profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  .menu-bottom-part{
+    position:absolute;
+    display:flex;
+    flex-direction: column;
+    bottom: 10vh;
+    width: 100%;
+    left:0px;
+    text-align: right;
+  }
+  
+  .profile-name {
+    
+  }
+  
+  .separator {
+    box-sizing: border-box; 
+    color: Gray;
+    width: 100%;
+    border-color: #808080;
+    border-top: 0.1px; /* change color as needed */
+  }
+
+  .logout {
+    align-self: flex-end; /* Aligns the button to the right */
+    display: flex; /* Changes display to flex */
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+    bottom: 0;
+    width: 90px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-size: 1em;
+    font-family: "Inika";
+  }
+  .logout-svg{
+    width: 20px;
+    height: 20px;
+  }
+  .logout:hover {
+    margin-right: 10px;
+    background-color: #ddd; /* Gray background on hover */
+    width: 85px; /* match the width of the .logout selector */
   }
