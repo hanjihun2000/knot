@@ -8,9 +8,12 @@ services:
       dockerfile: Dockerfile
     image: "knot/node-backend"
     ports:
-      - "5000:5000"
+      - "8000:8000"
     volumes:
       - ./server:/app
+      - /app/node_modules
+    environment:
+      - ATLAS_URI=${ATLAS_URI}
   frontend:
     container_name: react-frontend
     build:
@@ -21,3 +24,4 @@ services:
       - "3000:3000"
     volumes:
       - ./client:/app
+      - /app/node_modules
