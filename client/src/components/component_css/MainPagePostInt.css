@@ -19,5 +19,13 @@
     display:flex;
   }
   
+  textarea {
+    resize: none;
+  }
+  
+  /* If you have a class for the textarea, for example, .autoresize-textarea */
+  .autoresize-textarea {
+    resize: none;
+  }
   /* Further styling for other elements if needed */
   
