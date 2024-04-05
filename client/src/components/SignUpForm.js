@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../component_css/SignUpForm.css'; // Make sure to create a corresponding CSS file
-import toggleVisi from '../OIP.jpg'
+import toggleVisi from '../OIP.jpg';
 import { Link } from 'react-router-dom';
 
 function SignUpForm() {
