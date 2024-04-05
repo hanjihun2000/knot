@@ -1,6 +1,7 @@
 .main-container {
     display: flex;
      height: 100vh; /* Full viewport height */
+     font-family: "Inika";
   }
   
   .main-content {
@@ -8,7 +9,7 @@
     overflow: auto; /* In case the content overflows */
     display: flex;
     flex-direction: column;
-    
+    font-family: "Inika";
   }
   
   .profile-edit-container{
@@ -19,5 +20,6 @@
     margin-top: 40px;
     width: 50vw;
     background-color: #D3D0B3;
+    font-family: "Inika";
     
   }
