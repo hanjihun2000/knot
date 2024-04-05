@@ -1,8 +1,11 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const User = require("../models/user");
 
-router.post("/register", async (req, res) => {
+const upload = multer({ storage: multer.memoryStorage() });
+
+router.post("/register", upload.none(), async (req, res) => {
     // req.body for form
     // console.log(req);
     // console.log(req.body);
@@ -11,12 +14,16 @@ router.post("/register", async (req, res) => {
     const email = req.body.email;
     // check if the username is inside the users database
 	const userExists = await User.exists({ username: username });
-	console.log(userExists);
 	if (userExists) {
 		// if the username is already taken, return an error
 		console.log("UsernameExistsError!");
         // send error response
         res.send({ status: "error", message: "Username already exists!" });
+	} else if (!username || !password || !email) {
+		// if the username, password, or email is empty, return an error
+		console.log("EmptyFieldError!");
+		// send error response
+		res.send({ status: "error", message: "Please fill in all fields!" });
 	} else {
 		// create a new user account
 		const user = new User({
@@ -36,7 +43,12 @@ router.post("/register", async (req, res) => {
 	}
 });
 
-router.get("/fetchUser", async (req, res) => {
+// router.get('/test', upload.none(), async (req, res) => {
+// 	console.log(req.body.test);
+// 	res.send("Hello World!");
+// });
+
+router.get("/fetchUser", upload.none(), async (req, res) => {
 	try {
 		console.log(req.body)
 		const username = req.body.username;
@@ -59,7 +71,7 @@ router.get("/fetchAllUsernames", async (req, res) => {
 	res.send(usernames);
 })
 
-router.post("/login", async (req, res) => {
+router.post("/login", upload.none(), async (req, res) => {
 	console.log(req.body)
 	try {
 	  const { username, password } = req.body;
@@ -84,7 +96,7 @@ router.post("/login", async (req, res) => {
 	}
 });
 
-router.post("/logout", (req, res) => {
+router.post("/logout", upload.none(), (req, res) => {
 try {
 	// TODO: Invalidate the token or perform any necessary logout actions
 
@@ -93,6 +105,71 @@ try {
 	res.status(500).json({ message: error.message });
 }
 });
+
+router.put("/editUserProfile", upload.single('profilePicture'), async (req, res) => {
+	try {
+	  const { username } = req.body;
+  
+	  // Find the user by username
+	  const user = await User.findOne({ username: username });
+  
+	  if (!user) {
+		return res.status(404).json({ message: "User not found!" });
+	  }
+  
+	  // Update the fields
+	  for (const field in req.body) {
+		user[field] = req.body[field];
+	  }
+  
+	  // Add image to user with buffer and mimetype
+	  if (req.file) {
+		user.profilePicture = {
+		  buffer: req.file.buffer,
+		  mimetype: req.file.mimetype
+		};
+	  } else {
+		//set empty buffer
+		user.profilePicture = {
+		  buffer: null,
+		  mimetype: null
+		}
+	  }
+  
+	  // Save the updated user
+	  const updatedUser = await user.save();
+  
+	  res.json(updatedUser);
+	} catch (error) {
+	  res.status(500).json({ message: error.message });
+	}
+  });
+
+
+  router.get("/viewProfilePicture/:username", async (req, res) => {
+	try {
+	  const { username } = req.params;
+  
+	  // Find the user by username
+	  const user = await User.findOne({ username: username });
+  
+	  if (!user) {
+		return res.status(404).json({ message: "User not found!" });
+	  }
+  
+	  if (!user.profilePicture || !user.profilePicture.buffer) {
+		return res.status(404).json({ message: "Profile picture not found!" });
+	  }
+  
+	  // Set the response headers
+	  res.set("Content-Type", user.profilePicture.mimetype);
+  
+	  // Send the profile picture buffer as the response
+	  res.send(user.profilePicture.buffer);
+	} catch (error) {
+	  res.status(500).json({ message: error.message });
+	}
+  });
 
 
 module.exports = router;
