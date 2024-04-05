@@ -23,7 +23,7 @@ function App() {
             <Route exact path = '/privacy-settings'>
               <MainPagePrivacy/>
             </Route>
-            <Route exact path= "/po">
+            <Route exact path= "/post">
               <mainPagePost/>
               </Route>
             
