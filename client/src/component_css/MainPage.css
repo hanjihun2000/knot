@@ -1,11 +1,11 @@
 .main-container {
     display: flex;
-     height: 100vh; /* Full viewport height */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* In case the content overflows */
   }
   
   .main-content {
     flex-grow: 1; /* To fill the remaining space */
-    overflow: auto; /* In case the content overflows */
     display: flex;
     flex-direction: column;
     
