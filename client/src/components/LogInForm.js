@@ -55,7 +55,7 @@ function LogInForm() {
         
       </div>
     <div className="signup-form-container">
-    <img className = 'knot-logo' src={logo} alt="Show/Hide"  />
+   
       <div className="signup-form-header">
           <h1>Knot</h1>
       </div>

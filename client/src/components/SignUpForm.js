@@ -111,7 +111,7 @@ function SignUpForm() {
           placeholder="Password"
           required
         />
-        <img className = 'toggle-vis' src={toggleVisi} alt="Show/Hide" onClick={togglePasswordVisibility} />
+        <img className = 'toggle-vis'  alt="Show/Hide" onClick={togglePasswordVisibility} />
         </div>
         <div className = "password-container">
         <input

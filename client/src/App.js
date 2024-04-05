@@ -5,6 +5,7 @@ import { BrowserRouter as Router,Route,Switch } from 'react-router-dom';
 import MainPageEdit  from './components/UserSettings/MainPageEdit';
 import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
+import mainPagePost from './components/mainPagePost';
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
             <Route exact path = '/privacy-settings'>
               <MainPagePrivacy/>
             </Route>
+            <Route exact path= "/po">
+              <mainPagePost/>
+              </Route>
+            
         </Switch>
       </Router>
   );

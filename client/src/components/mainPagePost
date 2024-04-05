@@ -1,0 +1,72 @@
+import React, { useState } from 'react';
+import './component_css/LogInForm.css'; // Make sure to create a corresponding CSS file
+
+import {Link} from 'react-router-dom'
+
+const mainPagePost = () => {
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  const [showComments, setShowComments] = useState(false);
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
+
+  const handleLike = () => {
+    setLikes(likes + 1);
+  };
+
+  const handleDislike = () => {
+    setDislikes(dislikes + 1);
+  };
+
+  const handleCommentClick = () => {
+    setShowComments(!showComments);
+  };
+
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim() !== '') {
+      setComments([...comments, newComment.trim()]);
+      setNewComment('');
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <div>sdgfuissighsuidgbsidgbuisdgbsidgb</div>
+        <span>Username</span>
+        <button>Report</button>
+      </div>
+      <h3>Post Title</h3>
+      <p>Post Description</p>
+      <div>
+        <button onClick={handleLike}>Like ({likes})</button>
+        <button onClick={handleDislike}>Dislike ({dislikes})</button>
+        <button onClick={handleCommentClick}>
+          {showComments ? 'Hide Comments' : 'View Comments'}
+        </button>
+      </div>
+      {showComments && (
+        <div>
+          <input
+            type="text"
+            value={newComment}
+            onChange={handleCommentChange}
+            placeholder="Add a comment..."
+          />
+          <button onClick={handleAddComment}>Add Comment</button>
+          <ul>
+            {comments.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default mainPagePost;
