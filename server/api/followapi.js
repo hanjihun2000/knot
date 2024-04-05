@@ -61,6 +61,11 @@ router.get('/viewAllFollowRequests', upload.none(), async (req, res) => {
 router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 	try {
 		const receiver = req.query.username;
+		// check if a user
+		const userExists = await User.exists({ username: receiver });
+		if (!userExists) {
+			return res.status(400).send({ status: "error", message: "User does not exist!" });
+		}
 		const followRequests = await Follow.find({ receiver: receiver });
 		//get usernames of senders
 		const senders = followRequests.map((followRequest) => followRequest.sender);
