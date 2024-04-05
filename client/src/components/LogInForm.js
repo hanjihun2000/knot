@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../component_css/LogInForm.css'; // Make sure to create a corresponding CSS file
+import './component_css/LogInForm.css'; // Make sure to create a corresponding CSS file
 import logo from '../unnamed.png';
 import toggleVisi from '../OIP.jpg';
 import {Link} from 'react-router-dom';
