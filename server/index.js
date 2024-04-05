@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 
 const app = express();
 const PORT = 8000;
@@ -19,6 +20,10 @@ async function checkDBConnection() {
 	  }
 };
 checkDBConnection();
+
+app.use(cors({
+	origin: 'http://localhost:3000'
+  }));
 
 mongoose.connect(uri, { 
 	serverApi: {
