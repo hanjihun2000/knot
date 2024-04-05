@@ -4,7 +4,15 @@ import {sideBarItem} from './sideBarItem';
 import { useHistory } from 'react-router-dom';
 import { SignOut} from "@phosphor-icons/react";
 const Sidebar = () => {
-  const history = useHistory();
+  const history = useHistory(); // Use the useHistory hook to programmatically navigate
+
+  const handleLogout = () => {
+    // Clear the authentication token
+    localStorage.removeItem('token');
+
+    // Redirect to the login page
+    history.push('/login');
+  };
 
   return (
     <nav className="sidebar">
@@ -29,7 +37,7 @@ const Sidebar = () => {
             <div className="profile-name" >Profile Name</div> {/* replace with the actual profile name */}
         </div>
         <hr className="separator" />
-        <button className="logout">
+        <button className="logout" onClick={handleLogout}>{/* Add the onClick event handler */}
           <SignOut className="logout-svg"/>
           Logout
         </button> 
