@@ -1,6 +1,6 @@
 import '../component_css/ProfileEdit.css';
 import React, { useState } from 'react';
-import toggleVisi from '../OIP.jpg'
+import toggleVisi from './OIP.jpg'
 const ProfileEdit = () => {
 
 

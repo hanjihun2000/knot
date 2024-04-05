@@ -7,22 +7,15 @@ const uri = process.env.ATLAS_URI;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 async function checkDBConnection() {
 	try {
-		const client = new MongoClient(uri, { 
-			serverApi: {
-				version: ServerApiVersion.v1,
-				strict: true,
-				deprecationErrors: true,
-			}
+		const client = new MongoClient(uri, {
+		  serverApi: ServerApiVersion.v1,
 		});
-		client.connect(async (err) => {
-			if (err) throw err;
-			client.close();
-		});
+		await client.connect();
 		console.log("Connected to MongoDB");
-	}
-	catch (err) {
-		console.error(err);
-	}
+		client.close();
+	  } catch (err) {
+		console.error("Failed to connect to MongoDB", err);
+	  }
 };
 checkDBConnection();
 

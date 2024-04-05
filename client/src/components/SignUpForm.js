@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../component_css/SignUpForm.css'; // Make sure to create a corresponding CSS file
+import './component_css/SignUpForm.css'; // Make sure to create a corresponding CSS file
 import toggleVisi from '../OIP.jpg'
 
 function SignUpForm() {
@@ -12,7 +12,7 @@ function SignUpForm() {
   const [isTermsVisible, setIsTermsVisible] = useState(false); //
 
   
-    const handleSignUp = (event) => {
+    const handleSignUp = async (event) => {
       event.preventDefault();
   
       // Check if the passwords entered in both password fields match.
@@ -41,20 +41,16 @@ function SignUpForm() {
       try {
         // Execute the fetch call with the defined options.
         // Await the response from the server before moving on.
-        const response =  fetch(apiUrl, requestOptions);
-  
+        const response = await fetch(apiUrl, requestOptions);
+      
         // Convert the response payload into JSON.
         // Await the completion of the JSON parsing.
-        const data =  response.json();
-  
+        const data = await response.json();
+      
         if (response.ok) {
           // The request was successful, process the response data as needed.
           console.log(data);
           alert(data.message || 'Signed up successfully!');
-  
-          // Here, you would typically redirect the user to a login page
-          // or show some sort of confirmation screen.
-          // window.location.href = '/login';
         } else {
           // The request was completed but the server responded with an error status.
           // Alert the user with the message returned from the server.
