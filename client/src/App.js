@@ -7,6 +7,8 @@ import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
 import MainPagePost from './components/UserSettings/MainPagePost';
 
+const isAuthenticated = !!localStorage.getItem('token');
+
 function App() {
   return (
       <Router>
@@ -17,15 +19,24 @@ function App() {
             <Route path = '/login'>
             <LogInForm />
             </Route>
-            <Route exact path = '/home'>
-              <MainPageEdit />
-            </Route>
-            <Route exact path = '/privacy-settings'>
-              <MainPagePrivacy/>
-            </Route>
-            <Route exact path = '/post'>
-              <MainPagePost/>
-            </Route>
+            <ProtectedRoute
+          exact
+          path='/home'
+          component={MainPageEdit}
+          auth={isAuthenticated}
+        />
+        <ProtectedRoute
+          exact
+          path='/privacy-settings'
+          component={MainPagePrivacy}
+          auth={isAuthenticated}
+        />
+        <ProtectedRoute
+          exact
+          path='/post'
+          component={MainPagePost}
+          auth={isAuthenticated}
+        />
         </Switch>
       </Router>
   );
