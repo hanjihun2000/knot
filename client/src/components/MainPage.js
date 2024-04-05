@@ -19,6 +19,7 @@ const MainPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
@@ -29,9 +30,9 @@ const MainPage = () => {
 
   return (
     <div className="main-container">
-      <Sidebar />
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="main-content">
-        <Navbar />
+        <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="profile-edit-container">
         <ProfileSideBar/>
           <ProfileEdit/>
