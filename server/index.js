@@ -1,32 +1,28 @@
 const express = require("express");
+const cors = require('cors');
 
 const app = express();
 const PORT = 8000;
 const mongoose = require("mongoose");
-require("dotenv").config()
 const uri = process.env.ATLAS_URI;
-// console.log(uri);
 const { MongoClient, ServerApiVersion } = require('mongodb');
 async function checkDBConnection() {
 	try {
-		const client = new MongoClient(uri, { 
-			serverApi: {
-				version: ServerApiVersion.v1,
-				strict: true,
-				deprecationErrors: true,
-			}
+		const client = new MongoClient(uri, {
+		  serverApi: ServerApiVersion.v1,
 		});
-		client.connect(async (err) => {
-			if (err) throw err;
-			client.close();
-		});
+		await client.connect();
 		console.log("Connected to MongoDB");
-	}
-	catch (err) {
-		console.error(err);
-	}
+		client.close();
+	  } catch (err) {
+		console.error("Failed to connect to MongoDB", err);
+	  }
 };
 checkDBConnection();
+
+app.use(cors({
+	origin: 'http://localhost:3000'
+  }));
 
 mongoose.connect(uri, { 
 	serverApi: {

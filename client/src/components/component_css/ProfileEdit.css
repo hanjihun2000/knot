@@ -1,0 +1,61 @@
+.profile-edit {
+    background: #f9f3ee; /* Adjust color to match your design */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     /* Or adjust to fit under your navbar */
+    max-width: 550px; /* Adjust to your preference */
+    width: 40vw;
+    margin-right: auto;
+    height: 75vh;
+  }
+  
+  .profile-picture img {
+    width: 100px; /* Adjust size as necessary */
+    height: 100px;
+    border-radius: 50%; /* Circular image */
+    margin-bottom: 20px;
+  }
+  
+  .edit-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-form input[type="text"],
+  .edit-form input[type="password"],
+  .edit-form textarea,
+  .edit-form button {
+    margin-bottom: 10px; /* Spacing between fields */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-form button {
+    background: #d1bfa7; /* Adjust to match your design */
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-form button:hover {
+    background: #bfa07d; /* Darker shade for hover state */
+  }
+  .password-container {
+    position: relative;
+    display: flex;
+  }
+  
+ 
+  .password-container img {
+    position: absolute;
+    top: 1.2em;
+    right: 0.5em;
+    height: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .password-input {
+    width: 100%;
+  }

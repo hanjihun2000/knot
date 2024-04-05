@@ -1,4 +1,10 @@
 const express = require("express");
+const app = express();
+const cors = require('cors');
+// Enable All CORS Requests for development
+app.use(express.json())
+app.use(cors());
+
 const multer = require("multer");
 const router = express.Router();
 const User = require("../models/user");
