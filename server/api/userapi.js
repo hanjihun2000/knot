@@ -14,16 +14,22 @@ router.post("/register", upload.none(), async (req, res) => {
     const email = req.body.email;
     // check if the username is inside the users database
 	const userExists = await User.exists({ username: username });
+	const emailExists = await User.exists({ email: email });
 	if (userExists) {
 		// if the username is already taken, return an error
 		console.log("UsernameExistsError!");
         // send error response
-        res.send({ status: "error", message: "Username already exists!" });
+        return res.send({ status: "error", message: "Username already exists!" });
+	} else if (emailExists){
+		// if the email is already taken, return an error
+		console.log("EmailExistsError!");
+		// send error response
+		return res.send({ status: "error", message: "Email already exists!" });
 	} else if (!username || !password || !email) {
 		// if the username, password, or email is empty, return an error
 		console.log("EmptyFieldError!");
 		// send error response
-		res.send({ status: "error", message: "Please fill in all fields!" });
+		return res.send({ status: "error", message: "Please fill in all fields!" });
 	} else {
 		// create a new user account
 		const user = new User({
@@ -39,7 +45,7 @@ router.post("/register", upload.none(), async (req, res) => {
 		});
 		user.save();
         // send success response
-        res.send({ status: "success", message: "User account created successfully!"});
+        return res.send({ status: "success", message: "User account created successfully!"});
 	}
 });
 
@@ -50,8 +56,7 @@ router.post("/register", upload.none(), async (req, res) => {
 
 router.get("/fetchUser", upload.none(), async (req, res) => {
 	try {
-		console.log(req.body)
-		const username = req.body.username;
+		const username = req.query.username;
 		console.log(username);
 		const user = await User.findOne({ username: username });
 
@@ -146,30 +151,72 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
   });
 
 
-  router.get("/viewProfilePicture/:username", async (req, res) => {
-	try {
-	  const { username } = req.params;
-  
-	  // Find the user by username
-	  const user = await User.findOne({ username: username });
-  
-	  if (!user) {
+router.get("/viewProfilePicture", async (req, res) => {
+try {
+	const username = req.query.username;
+	console.log(username);
+
+	// Find the user by username
+	const user = await User.findOne({ username: username });
+
+	if (!user) {
 		return res.status(404).json({ message: "User not found!" });
-	  }
-  
-	  if (!user.profilePicture || !user.profilePicture.buffer) {
-		return res.status(404).json({ message: "Profile picture not found!" });
-	  }
-  
-	  // Set the response headers
-	  res.set("Content-Type", user.profilePicture.mimetype);
-  
-	  // Send the profile picture buffer as the response
-	  res.send(user.profilePicture.buffer);
-	} catch (error) {
-	  res.status(500).json({ message: error.message });
 	}
-  });
+
+	if (!user.profilePicture || !user.profilePicture.buffer) {
+		return res.status(404).json({ message: "Profile picture not found!" });
+	}
+
+	// Set the response headers
+	res.set("Content-Type", user.profilePicture.mimetype);
+
+	// Send the profile picture buffer as the response
+	res.send(user.profilePicture.buffer);
+} catch (error) {
+	res.status(500).json({ message: error.message });
+}
+});
+
+router.get("/viewFollowers", async (req, res) => {
+	try {
+		const requestedUsername = req.query.username;
+		const user = await User.findOne({ username: requestedUsername });
+		if (!user) {
+			return res.status(404).json({ message: "User not found!" });
+		}
+		const followers = user.followers;
+		const followerUsers = await Promise.all(
+			followers.map(async (followerUsername) => {
+			  const followerUser = await User.findOne({ username: followerUsername });
+			  return followerUser;
+			})
+		  );
+		res.json(followerUsers);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
+
+router.get("/viewFollowing", async (req, res) => {
+	try {
+		const usernameParam = req.query.username;
+		const user = await User.findOne({ username: usernameParam });
+		if (!user) {
+			return res.status(404).json({ message: "User not found!" });
+		}
+		const following = user.following;
+		const followingUsers = await Promise.all(
+		  following.map(async (followingUsername) => {
+			const followingUser = await User.findOne({ username: followingUsername });
+			return followingUser;
+		  })
+		);
+	
+		res.json(followingUsers);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
 
 
 module.exports = router;
