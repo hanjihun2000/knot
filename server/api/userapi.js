@@ -224,27 +224,40 @@ router.get("/viewFollowing", async (req, res) => {
 	}
 });
 
-app.get('/test', (req, res) => {
-	res.send('Hello World!');
-});
+// router.get("/test", upload.none(), async (req, res) => {
+// 	console.log(req.body.test);
+// 	res.send("Hello World!");
+// });
 
-app.get('/searchUsers', (req, res) => {
+router.get('/searchUsers', upload.none(), async (req, res) => {
 	try {
 		const {username, searchTerm} = req.query;
-	
-		// Get the searcher's following and follower lists
-		const followingList = users[username]?.following || [];
-		const followerList = users[username]?.followers || [];
-	
-		// Filter users based on the search term
-		const matchedUsers = Object.keys(users).filter(user => {
-		const lowerCaseUser = user.toLowerCase();
-		return lowerCaseUser.includes(searchTerm);
-		});
-	
+
+		// Find the user by username
+		const user = await User.findOne({username}).select("following followers");
+
+		if (!user) {
+			return res.status(404).json({ message: "Search user not found!" });
+		}
+
+		const followingList = user.following;
+		const followerList = user.followers;
+		console.log(followingList)
+		console.log(followerList)
+
+		// Filter users which have the search term in their username
+		const matchedUsers = await User.find({ username: {
+			$regex: searchTerm,
+			$options: "i"
+		} }).select("username");
+		const matchedUsernames = matchedUsers.map(user => user.username);
+
+		console.log(matchedUsers);
+
 		// Prioritize users from the searcher's following and follower lists
-		const prioritizedUsers = [...followingList, ...followerList].filter(user => matchedUsers.includes(user));
-		const otherUsers = matchedUsers.filter(user => !prioritizedUsers.includes(user));
+		const prioritizedUsers = [username, ...followingList, ...followerList].filter(user => matchedUsernames.includes(user));
+		console.log(prioritizedUsers);
+		const otherUsers = matchedUsernames.filter(user => !prioritizedUsers.includes(user));
 	
 		// Combine the prioritized and other users into a single list
 		const searchResults = [...prioritizedUsers, ...otherUsers];

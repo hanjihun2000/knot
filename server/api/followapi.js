@@ -6,10 +6,10 @@ const Follow = require("../models/follow");
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// router.get("/test", upload.none(), async (req, res) => {
-// 	console.log(req.body.test);
-// 	res.send("Hello World!");
-// });
+router.get("/test", upload.none(), async (req, res) => {
+	console.log(req.body.test);
+	res.send("Hello World!");
+});
 
 router.post("/makeFollowRequest", upload.none(), async (req, res) => {
 	try {
@@ -79,7 +79,8 @@ router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 router.delete('/handleFollowRequest', upload.none(), async (req, res) => {
 	try {
 		const {sender, receiver, accept} = req.body;
-		acceptBool = Boolean(accept);
+		acceptBool = accept === "true";
+		console.log(acceptBool)
 		const followExists = await Follow.exists({ sender: sender, receiver: receiver });
 		if (!followExists) {
 			return res.status(400).send({ status: "error", message: "Follow request does not exist!" });
