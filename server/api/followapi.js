@@ -6,10 +6,10 @@ const Follow = require("../models/follow");
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// router.get("/test", upload.none(), async (req, res) => {
-// 	console.log(req.body.test);
-// 	res.send("Hello World!");
-// });
+router.get("/test", upload.none(), async (req, res) => {
+	console.log(req.body.test);
+	res.send("Hello World!");
+});
 
 router.post("/makeFollowRequest", upload.none(), async (req, res) => {
 	try {
@@ -41,7 +41,7 @@ router.post("/makeFollowRequest", upload.none(), async (req, res) => {
 		}
 
 		follow.save();
-		return res.status(500).send({ status: "success", message: "Follow request sent!" });
+		return res.status(200).send({ status: "success", message: "Follow request sent!" });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
@@ -51,7 +51,7 @@ router.post("/makeFollowRequest", upload.none(), async (req, res) => {
 router.get('/viewAllFollowRequests', upload.none(), async (req, res) => {
 	try {
 		const followRequests = await Follow.find();
-		return res.status(500).send({ status: "success", message: followRequests });
+		return res.status(200).send({ status: "success", message: followRequests });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
@@ -69,7 +69,7 @@ router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 		const followRequests = await Follow.find({ receiver: receiver });
 		//get usernames of senders
 		const senders = followRequests.map((followRequest) => followRequest.sender);
-		return res.status(500).send({ status: "success", message: senders });
+		return res.status(200).send({ status: "success", message: senders });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
@@ -79,7 +79,8 @@ router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 router.delete('/handleFollowRequest', upload.none(), async (req, res) => {
 	try {
 		const {sender, receiver, accept} = req.body;
-		acceptBool = Boolean(accept);
+		acceptBool = accept === "true";
+		console.log(acceptBool)
 		const followExists = await Follow.exists({ sender: sender, receiver: receiver });
 		if (!followExists) {
 			return res.status(400).send({ status: "error", message: "Follow request does not exist!" });
@@ -92,9 +93,9 @@ router.delete('/handleFollowRequest', upload.none(), async (req, res) => {
 			receiverUser.followers.push(sender);
 			await senderUser.save();
 			await receiverUser.save();
-			return res.status(500).send({ status: "success", message: "Follow request accepted!" });
+			return res.status(200).send({ status: "success", message: "Follow request accepted!" });
 		}
-		return res.status(500).send({ status: "success", message: "Follow request deleted!" });
+		return res.status(200).send({ status: "success", message: "Follow request deleted!" });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });

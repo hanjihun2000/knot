@@ -225,5 +225,48 @@ router.get("/viewFollowing", async (req, res) => {
 	}
 });
 
+// router.get("/test", upload.none(), async (req, res) => {
+// 	console.log(req.body.test);
+// 	res.send("Hello World!");
+// });
+
+router.get('/searchUsers', upload.none(), async (req, res) => {
+	try {
+		const {username, searchTerm} = req.query;
+
+		// Find the user by username
+		const user = await User.findOne({username}).select("following followers");
+
+		if (!user) {
+			return res.status(404).json({ message: "Search user not found!" });
+		}
+
+		const followingList = user.following;
+		const followerList = user.followers;
+		console.log(followingList)
+		console.log(followerList)
+
+		// Filter users which have the search term in their username
+		const matchedUsers = await User.find({ username: {
+			$regex: searchTerm,
+			$options: "i"
+		} }).select("username");
+		const matchedUsernames = matchedUsers.map(user => user.username);
+
+		console.log(matchedUsers);
+
+		// Prioritize users from the searcher's following and follower lists
+		const prioritizedUsers = [username, ...followingList, ...followerList].filter(user => matchedUsernames.includes(user));
+		console.log(prioritizedUsers);
+		const otherUsers = matchedUsernames.filter(user => !prioritizedUsers.includes(user));
+	
+		// Combine the prioritized and other users into a single list
+		const searchResults = [...prioritizedUsers, ...otherUsers];
+	
+		res.status(200).json(searchResults);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
 
 module.exports = router;
