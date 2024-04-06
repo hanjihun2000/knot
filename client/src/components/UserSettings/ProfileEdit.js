@@ -1,6 +1,10 @@
 import '../component_css/ProfileEdit.css';
 import React, { useState } from 'react';
 import toggleVisi from './OIP.jpg'
+
+
+
+
 const ProfileEdit = () => {
 
 
@@ -34,7 +38,7 @@ const ProfileEdit = () => {
       <form className="edit-form" onSubmit={handleEditSignUp}>
     <input
       type="text"
-      placeholder="daniel"
+      placeholder="Username"
       // ... rest of your input attributes
     />
     <div className="password-container">

@@ -14,8 +14,11 @@ const Sidebar = () => {
   
   useEffect(() => {
     
-    
+   
     const fetchProfile = async () => {
+       if (profile.name !== "Loading...") {
+      return;
+    }
       const token = localStorage.getItem('token');
       
       if (token) {

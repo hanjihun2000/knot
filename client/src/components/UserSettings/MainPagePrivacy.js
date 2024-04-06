@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
 import Navbar from '../Navbar';
 import MainPagePrivacyDets from './MainPagePrivacyDets';
-import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBarPrivacy';
+import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBar';
 import '../component_css/MainPage.css';
 
 

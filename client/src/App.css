@@ -39,13 +39,17 @@
 
 :root {
   --background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+  --background-color: #D3D0B3;
   --text-color: #000;
-  --accent-color: #007bff;
+  --background: #f9f3ee;
+  --navbackgroundcolor: #f2e9e4; 
+   --profile-sidebar: #D3D0B3;
 }
 
 /* Define other theme variables */
 [data-theme='dark'] {
   --background-color: #333;
+  --background: #333;
   --text-color: #fff;
   --accent-color: #1a73e8;
 }

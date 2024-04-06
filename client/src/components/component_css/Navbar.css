@@ -3,7 +3,7 @@
   justify-content: space-between; /* This will push the search bar to the right */
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: #f2e9e4; 
+  background-color: var(--navbackgroundcolor);
   height: 60px;
   }
   

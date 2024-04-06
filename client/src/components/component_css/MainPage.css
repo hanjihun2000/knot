@@ -32,7 +32,7 @@
     margin-right: auto;
     margin-top: 40px;
     width: 50vw;
-    background-color: #D3D0B3;
+    background-color: var(--background-color);
     font-family: "Inika";
     
   }

@@ -1,27 +1,28 @@
 import React from 'react';
 import '../component_css/ProfileSideBar.css'; // Ensure to create this CSS file
 import {Link} from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 const ProfileSidebar = () => {
   return (
     <aside className="profile-sidebar">
       
       <nav className="sidebar-nav">
-        <ul className="sidebar-nav-list">
+      <ul className="sidebar-nav-list">
           <li className="sidebar-nav-item">
-          <Link to= "/home" >
-            <a href="/home" className="sidebar-nav-link active">Edit Profile</a>
-            </Link>
+            <NavLink to="/home" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
+              Edit Profile
+            </NavLink>
           </li>
           <li className="sidebar-nav-item">
-          <Link to= "/privacy-settings" >
-            <a href="/privacy-settings" className="sidebar-nav-link">Privacy Settings</a></Link>
+            <NavLink to="/privacy-settings" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
+              Privacy Settings
+            </NavLink>
           </li>
           <li className="sidebar-nav-item">
-          <Link to= "/privacy-settings" >
-            <a href="/theme-settings" className="sidebar-nav-link">Theme Settings</a>
-            </Link>
+            <NavLink to="/theme-settings" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
+              Theme Settings
+            </NavLink>
           </li>
-          {/* Add additional list items as needed */}
         </ul>
       </nav>
     </aside>
