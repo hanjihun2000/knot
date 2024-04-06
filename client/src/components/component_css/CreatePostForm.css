@@ -1,0 +1,108 @@
+.create-post-container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    flex-direction: column;
+    display: flex;
+  justify-content: center; /* Horizontally centers the child in the container */
+  align-items: center;
+    
+    background-color: #D3D0B3;
+    border: 1px solid #787876;
+    border-radius: 10px; /* Added border-radius */
+    margin-bottom: 60px;
+    overflow: hidden; /* Added overflow property */
+    position: relative; 
+  }
+  
+  .create-post-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-right: auto;
+  }
+  
+  .post-title-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    border-color: transparent transparent transparent;
+  }
+  
+  .post-image-container {
+    margin-bottom: 10px;
+  }
+  
+  .post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .post-description-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-top: 25px;
+    
+  }
+  
+  .create-post-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #e85aed;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .create-post-button:hover {
+    background-color: #d644d2;
+  }
+  .post-image-container {
+    /* ... existing styles ... */
+    /* Position relative for the absolute positioning of the button */
+  }
+  
+  .post-image {
+    max-width: 100%; /* Full width of the container */
+    max-height: 300px; /* Adjust as needed, this will maintain the image size */
+    object-fit: contain; /* Ensures the aspect ratio is maintained */
+  }
+  
+  .attach-photo-button {
+    left: 13px;
+    position: absolute;
+   ;
+    border-color: none;
+    border: none;
+    font-family: Georgia, 'Times New Roman', Times, serif,;
+
+    
+    /* Additional styles for the button */
+  }
+  .attach-photo-button:hover {
+    left: 13px;
+    position: absolute;
+    border: 1px solid grey;
+    
+    /* Additional styles for the button */
+  }
+
+  .separator {
+    box-sizing: border-box; 
+    color: Gray;
+    width: calc(100% + 40px);
+    margin-left: -20px; /* Negative margin to offset left padding */
+    margin-right: -20px; /* Negative margin to offset right padding */
+    border-color: #808080;
+    border-top: 0.1px; /* change color as needed */
+    
+  }

@@ -5,39 +5,9 @@
     
 }
 
-/* --background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
-  --background-color: #D3D0B3;
-  --text-color: #000;
-  --accent-color: #007bff;
-  
-  --background-color: #333;
-  --text-color: #fff;
-  --accent-color: #1a73e8;
-}
-
-[data-theme='retro'] 
-  --background-color: #f4f4f2;
-  --text-color: #2c3e50;
-  --accent-color: #e67e22;
-
-
-[data-theme='summer'] 
-  --background-color: #fdfd96;
-  --text-color: #3498db;
-  --accent-color: #e74c3c;
 
 
 
-
-  background-color: var(--background-color);
-  color: var(--text-color);
-
-
-
-  color: var(--accent-color);
-
-  
-  */
 
 
 .header{
@@ -154,6 +124,8 @@
     text-decoration: underline;
   }
   
-  
+  .body{
+    background-image: var(--background-image);
+  }
  
     
