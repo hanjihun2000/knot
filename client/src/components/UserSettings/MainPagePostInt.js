@@ -48,6 +48,9 @@ const MainPagePostInt = () => {
         </div>
         <button className="report-button">Report</button>
       </div>
+      <div className="post-title">
+        <h3>Post Title</h3>
+      </div>
       <div className="post-image">
         <img src={postImage} alt="Post Image" />
       </div>
