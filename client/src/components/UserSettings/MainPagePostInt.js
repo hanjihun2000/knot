@@ -49,7 +49,7 @@ const MainPagePostInt = () => {
       <h3>Post Title</h3>
       <div className="centered-image">
       <img src={postImage} alt="Post Image" />
-
+      </div>
       <p>Post Description</p>
       <div className="image-pair">
         <button className="vote-button" onClick={handleLike}>
