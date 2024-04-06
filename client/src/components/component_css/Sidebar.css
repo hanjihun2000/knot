@@ -18,14 +18,17 @@
   transform: translateX(-100%); /* Move the element out of its normal position */
   transition: opacity 0.5s, transform 0.5s; /* Add transitions */
   transition: all 0.5s ease-in-out;
+  
   }
   .nav-link-none {
     text-decoration: none; /* Removes underline */
     color: inherit; /* Inherits text color from parent, adjust as needed */
     width: 100%; /* Full width of the sidebar */
-    display: flex; /* Displays items in a row */
-    flex-direction: row; /* Items are arranged horizontally */
-    font-size: 1em;
+  display: flex; /* Displays items in a row */
+  flex-direction: row; /* Items are arranged horizontally */
+  
+  font-size: 1em;
+  
   }
 
   .sidebar-header{
@@ -70,6 +73,8 @@
     opacity: 1; /* Make the element visible when the sidebar is open */
     transform: translateX(0); /* Move the element into place when the sidebar is open */
     transition-delay: 0s; /* No delay when the sidebar is open */
+    overflow: auto;
+    padding-bottom: 10px;
     /* Other styles for open sidebar */
   }
   

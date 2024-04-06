@@ -1,4 +1,5 @@
 .main-container {
+  
     display: flex;
     height: 100vh; /* Full viewport height */
     overflow: hidden; /* In case the content overflows */
