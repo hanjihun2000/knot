@@ -9,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import MainPageThemes from './components/UserSettings/MainPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
+import MainPagePostInt from './components/UserSettings/MainPagePostInt';
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -32,6 +33,9 @@ function App() {
               component={MainPageEdit}
               auth={isAuthenticated}
             />
+            <Route path='/mainPage'>
+              <MainPagePostInt />
+              </Route>
             <ProtectedRoute
               exact
               path='/privacy-settings'

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import upvoteImg from './U.png';
 import downvoteImg from './R.png';
 import '../component_css/MainPagePostInt.css';
+import postImage from './iphone14promax_dirt_0.5x.jpg'
 
 const MainPagePostInt = () => {
   const [likes, setLikes] = useState(0);
@@ -46,6 +47,9 @@ const MainPagePostInt = () => {
         <button>Report</button>
       </div>
       <h3>Post Title</h3>
+      <div className="centered-image">
+      <img src={postImage} alt="Post Image" />
+
       <p>Post Description</p>
       <div className="image-pair">
         <button className="vote-button" onClick={handleLike}>
@@ -56,14 +60,13 @@ const MainPagePostInt = () => {
         </button>
       </div>
       <textarea
-  ref={textareaRef}
-  value={newComment}
-  onChange={handleCommentChange}
-  onKeyPress={handleKeyPress}
-  placeholder="Add a comment and press Enter..."
-  rows="1" // Start with a single row
-  style={{ resize: 'none' }} // Prevent manual resizing
-></textarea>
+        ref={textareaRef}
+        value={newComment}
+        onChange={handleCommentChange}
+        onKeyPress={handleKeyPress}
+        placeholder="Add a comment and press Enter..."
+        rows="1" // Start with a single row
+      ></textarea>
       <div className="comments">
         {comments.map((comment, index) => (
           <div key={index} className="comment">{comment}</div>

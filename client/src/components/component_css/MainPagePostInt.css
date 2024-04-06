@@ -29,3 +29,9 @@
   }
   /* Further styling for other elements if needed */
   
+  .centered-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust the margin as needed */
+  }
