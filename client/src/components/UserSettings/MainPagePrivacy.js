@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import Sidebar from '../Sidebar';
+import Sidebar from '../SidebarComp/Sidebar';
 import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
+import ProfileEdit from './ProfileEdit';
+import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import MainPagePrivacyDets from './MainPagePrivacyDets';
-import ProfileSideBarPrivacy from '../ProfileSideBarPrivacy';
+import upvote from './U.png';
+import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBarPrivacy';
+import downvote from './R.png'
 import '../component_css/MainPage.css';
 
 

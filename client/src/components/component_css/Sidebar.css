@@ -154,7 +154,7 @@
     cursor: pointer;
     border: none;
     font-size: 1em;
-    bottom: 0;
+    
     padding-left: 2em;
     font-family: "Inika";
     z-index: 2;
@@ -210,9 +210,10 @@
     display: flex; /* Changes display to flex */
     justify-content: center; /* Centers items horizontally */
     align-items: center; /* Centers items vertically */
-    bottom: 0;
+   
     width: 100px;
     padding: 10px;
+    padding-bottom: 100px;
     margin: 5px 0;
     margin-right: 10px;
     cursor: pointer;

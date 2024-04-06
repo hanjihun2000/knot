@@ -7,6 +7,7 @@ import MainPageEdit from './components/UserSettings/MainPageEdit';
 import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
 import MainPagePost from './components/UserSettings/MainPagePost';
+import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Adjust the path as necessary
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <Router>
+      <SideBarProvider>
       <Switch>
         <Route exact path='/'>
           <SignUpForm />
@@ -21,6 +23,7 @@ function App() {
         <Route path='/login'>
           <LogInForm />
         </Route>
+        
         <ProtectedRoute
           exact
           path='/home'
@@ -39,7 +42,9 @@ function App() {
           component={MainPagePost}
           auth={isAuthenticated}
         />
+        
       </Switch>
+      </SideBarProvider>
     </Router>
   );
 }

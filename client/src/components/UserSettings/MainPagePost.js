@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Sidebar from '../Sidebar';
+import Sidebar from '../SidebarComp/Sidebar';
 import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
 import ProfileEdit from './ProfileEdit';
-import ProfileSideBarEdit from '../ProfileSideBarEdit';
+import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import MainPagePostInt from './MainPagePostInt';
 import upvote from './U.png';
 import downvote from './R.png'

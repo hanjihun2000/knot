@@ -1,5 +1,5 @@
 import React from 'react';
-import './component_css/ProfileSideBar.css'; // Ensure to create this CSS file
+import '../component_css/ProfileSideBar.css'; // Ensure to create this CSS file
 import {Link} from 'react-router-dom'
 const ProfileSidebarPrivacy = () => {
   return (

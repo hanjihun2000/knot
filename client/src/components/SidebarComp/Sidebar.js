@@ -1,13 +1,15 @@
 import React from 'react';
-import './component_css/Sidebar.css';
+import '../component_css/Sidebar.css';
 import {sideBarItem} from './sideBarItem';
 import { useHistory } from 'react-router-dom';
 import { SignOut, List, XCircle} from "@phosphor-icons/react";
-import logo from '../unnamed.png'
+import logo from './unnamed.png' 
+import { useSideBarContext } from './SideBarContext';
 /*import {ReactComponent as icon} from '../assets/knotlogo.svg';*/
 
 
-const Sidebar = ({ isOpen, setIsOpen }) => {
+const Sidebar =  () => {
+  const { isOpen, setIsOpen } = useSideBarContext(); // Use context to get state and updater
   const history = useHistory(); // Use the useHistory hook to programmatically navigate
 
   const handleLogout = () => {
@@ -31,26 +33,24 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           <>
             <button className="menu-item-button-create" onClick={() => history.push("/create")}>create</button>
             <ul className="sidebar-list">
-              {sideBarItem.map((item, index) => {
-                return (
+              {sideBarItem.map((item, index) => (
                   <li 
                   key={index} 
                   className="row"
-                  id = {window.location.pathname === item.link ? "active" : ""}
+                  id={window.location.pathname === item.link ? "active" : ""}
                   onClick={() => history.push(item.link)}>
                     <div id="menu-item-icon">{item.icon}</div>
                     <div id="menu-item-text">{item.title}</div>
                   </li>
-                );
-              })}
+              ))}
             </ul>
             <div className="menu-bottom-part">
-              <div className="profile-section"onClick={() => history.push("/profile")}>
+              <div className="profile-section" onClick={() => history.push("/profile")}>
                   <img src="https://via.placeholder.com/150" alt="Profile" className="profile-pic" />
-                  <div className="profile-name" >Profile Name</div> {/* replace with the actual profile name */}
+                  <div className="profile-name">Profile Name</div> {/* Ideally, replace with the actual profile name */}
               </div>
               <hr className="separator" />
-              <button className="logout">
+              <button className="logout" onClick={handleLogout}>
                 <SignOut className="logout-svg"/>
                 Logout
               </button> 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Sidebar from '../Sidebar';
+import Sidebar from '../SidebarComp/Sidebar';
 import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
 import ProfileEdit from './ProfileEdit';
-import ProfileSideBarEdit from '../ProfileSideBarEdit';
+import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 
 import '../component_css/MainPage.css';
 
@@ -35,7 +35,7 @@ const MainPageEdit = () => {
         <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="main-content">
           <div className="profile-edit-container">
-            <ProfileSideBar/>
+            <ProfileSideBarEdit/>
             <ProfileEdit/>
           </div>
         </div>
