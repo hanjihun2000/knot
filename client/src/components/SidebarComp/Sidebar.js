@@ -1,62 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import '../component_css/Sidebar.css';
-import { sideBarItem } from './sideBarItem'; // Ensure this path is correct
+import { sideBarItem } from './sideBarItem';
 import { useHistory } from 'react-router-dom';
-import { SignOut, XCircle } from "@phosphor-icons/react"; // Removed unused import List
-import logo from './unnamed.png'; // Ensure this path is correct
-import { useSideBarContext } from './SideBarContext'; // Ensure this path is correct
+import { SignOut, XCircle } from "@phosphor-icons/react";
+import logo from './unnamed.png';
+import { useSideBarContext } from './SideBarContext';
 import { useUser } from '../../userContext';
+import { NavLink } from 'react-router-dom';
 const Sidebar = () => {
   const { isOpen, setIsOpen } = useSideBarContext();
   const history = useHistory();
   const [profile, setProfile] = useState({ name: "Loading...", picture: "https://via.placeholder.com/150" });
   const { username, setUsername } = useUser();
-  
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setUsername('');
+    setProfile({ name: "Loading...", picture: "https://via.placeholder.com/150" }); // Reset profile on logout
+    history.push('/login');
+  };
+
   useEffect(() => {
-    
-   
-    const fetchProfile = async () => {
-       if (profile.name !== "Loading...") {
-      return;
+    // On component mount, read the username from localStorage
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
     }
+  }, [setUsername]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
       const token = localStorage.getItem('token');
-      
-      if (token) {
+      if (token && username) {
         try {
           const response = await fetch(`http://localhost:8000/api/userapi/fetchUser?username=${username}`, {
             method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            },
+            headers: { 'Authorization': `Bearer ${token}` },
           });
           if (response.ok) {
             const data = await response.json();
             setProfile({ name: data.username, picture: data.picture || "https://via.placeholder.com/150" });
+          } else {
+            // Handle HTTP errors here
           }
         } catch (error) {
           console.error('Failed to fetch profile:', error);
+          // Handle fetch errors here
         }
       }
     };
 
     if (isOpen && username) {
       fetchProfile();
-      console.log(username);
     }
-  }, [isOpen,username]);
+  }, [isOpen, username]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    history.push('/login');
-    setUsername('');
-  };
+  
 
   return (
     <nav className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
         {isOpen && <img src={logo} alt="Knot" className="knot-logo" />}
         <button onClick={() => setIsOpen(prevIsOpen => !prevIsOpen)} className="List-icon-button">
-          <XCircle size={24} className="List-icon" /> {/* Ensure your icon supports size prop */}
+          <XCircle size={24} className="List-icon" />
         </button>
       </div>
       <div className="sidebar-content">
@@ -69,9 +76,13 @@ const Sidebar = () => {
                   key={index} 
                   className="row"
                   id={window.location.pathname === item.link ? "active" : ""}
-                  onClick={() => history.push(item.link)}>
+                  >
+                    <NavLink to="/mainPage" className="nav-link-none" >
+                  
+                
                     <div id="icon">{item.icon}</div>
                     <div id="title">{item.title}</div>
+                    </NavLink>
                 </li>
               ))}
             </ul>
@@ -82,7 +93,7 @@ const Sidebar = () => {
               </div>
               <hr className="separator" />
               <button className="logout" onClick={handleLogout}>
-                <SignOut size={24} className="logout-svg" /> {/* Ensure your icon supports size prop */}
+                <SignOut size={24} className="logout-svg" /> logout
               </button>
             </div>
           </>
