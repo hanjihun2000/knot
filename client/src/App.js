@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MainPageEdit from './components/UserSettings/MainPageEdit';
 import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
-import MainPagePost from './components/UserSettings/MainPagePost';
+import MainPageThemes from './components/UserSettings/MainPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 
@@ -40,8 +40,8 @@ function App() {
             />
             <ProtectedRoute
               exact
-              path='/post'
-              component={MainPagePost}
+              path='/theme-settings'
+              component={MainPageThemes}
               auth={isAuthenticated}
             />
           </Switch>

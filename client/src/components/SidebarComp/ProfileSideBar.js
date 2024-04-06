@@ -17,7 +17,9 @@ const ProfileSidebar = () => {
             <a href="/privacy-settings" className="sidebar-nav-link">Privacy Settings</a></Link>
           </li>
           <li className="sidebar-nav-item">
+          <Link to= "/privacy-settings" >
             <a href="/theme-settings" className="sidebar-nav-link">Theme Settings</a>
+            </Link>
           </li>
           {/* Add additional list items as needed */}
         </ul>

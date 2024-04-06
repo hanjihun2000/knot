@@ -2,7 +2,7 @@
     display: flex;
     height: 100vh; /* Full viewport height */
     overflow: hidden; /* In case the content overflows */
-    background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+    background-image: var(--background-image);
     flex-direction: column;
   }
 
