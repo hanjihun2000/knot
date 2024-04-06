@@ -1,0 +1,64 @@
+    .FriendLists {
+    display: flex;
+    position: relative;
+    width: 20vw;
+    height: 100vh;
+    overflow: auto;
+    background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center; /* Aligns items horizontally */
+    max-width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding-right: 40px;
+    font-family: "Inika";
+  }
+  .row{
+    width: 100%; /* Full width of the sidebar */
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    padding: 10px; /* Padding between rows */
+    font-size: 1.2em;
+    margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
+   }
+  
+  .FriendLists ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .FriendLists li {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .nav-link{
+    width: 100%; /* Full width of the sidebar */
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    padding: 10px; /* Padding between rows */
+    margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Makes the text color the same as the parent element */
+  }
+
+
+
+  .row:hover{
+    width: 100%;
+    border-radius: 32px;
+    cursor: pointer;
+    background-color: #DDD;
+    background-color: rgba(23, 23, 23, 0.3);
+   }
+   .profilePicture{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+      padding-right: 10px;
+   }
+    .username{
+      margin-left: 10px;
+      padding-left: 10px;
+    }

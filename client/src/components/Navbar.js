@@ -15,6 +15,7 @@ const Navbar = () => {
         <button onClick={handleButtonClick} className="List-icon-button">
           <List className="List-icon" />
         </button>
+        <h1 className="navbar-title">Knot</h1>
       <input type="text" placeholder="Search..." className="search-bar"/>
     </div>
   );

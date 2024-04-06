@@ -10,7 +10,6 @@ import MainPageThemes from './components/UserSettings/MainPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePostInt from './components/UserSettings/MainPagePostInt';
-
 function App() {
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem('token');
@@ -35,7 +34,7 @@ function App() {
             />
             <Route path='/mainPage'>
               <MainPagePostInt />
-              </Route>
+            </Route>
             <ProtectedRoute
               exact
               path='/privacy-settings'
@@ -45,6 +44,12 @@ function App() {
             <ProtectedRoute
               exact
               path='/theme-settings'
+              component={MainPageThemes}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/profile/:username'
               component={MainPageThemes}
               auth={isAuthenticated}
             />

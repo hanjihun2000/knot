@@ -6,6 +6,7 @@ import { SignOut, XCircle } from "@phosphor-icons/react"; // Removed unused impo
 import logo from './unnamed.png'; // Ensure this path is correct
 import { useSideBarContext } from './SideBarContext'; // Ensure this path is correct
 import { useUser } from '../../userContext';
+
 const Sidebar = () => {
   const { isOpen, setIsOpen } = useSideBarContext();
   const history = useHistory();

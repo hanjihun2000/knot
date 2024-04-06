@@ -1,0 +1,29 @@
+import React from 'react';
+
+export const FriendListItem = [
+  { 
+    profileID: "1",
+    profilePicture: "https://placeimg.com/64/64/people?1",
+    name: "Alice"
+  },
+  {
+    profileID: "2",
+    profilePicture: "https://placeimg.com/64/64/people?2",
+    name: "Bob"
+  },
+  {
+    profileID: "3",
+    profilePicture: "https://placeimg.com/64/64/people?3",
+    name: "Charlie"
+  },
+  {
+    profileID: "4",
+    profilePicture: "https://placeimg.com/64/64/people?4",
+    name: "Dave"
+  },
+  {
+    profileID: "5",
+    profilePicture: "https://placeimg.com/64/64/people?4",
+    name: "test"
+  }
+];

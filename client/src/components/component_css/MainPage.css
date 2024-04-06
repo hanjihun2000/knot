@@ -10,6 +10,7 @@
     display: flex;
     flex-grow: 1; /* Take up remaining space after Navbar */
   }
+
   .navBar {
     position:fixed;
     width: 100%;
@@ -17,6 +18,7 @@
     overflow: hidden; /* Add this line */
     /* other styles... */
   }
+
   .main-content {
     flex-grow: 1; /* To fill the remaining space */
     overflow: hidden; /* In case the content overflows */
@@ -34,5 +36,6 @@
     width: 50vw;
     background-color: var(--background-color);
     font-family: "Inika";
-    
+  }
+  .friend-list{
   }
