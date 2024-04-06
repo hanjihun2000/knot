@@ -224,5 +224,35 @@ router.get("/viewFollowing", async (req, res) => {
 	}
 });
 
+app.get('/test', (req, res) => {
+	res.send('Hello World!');
+});
+
+app.get('/searchUsers', (req, res) => {
+	try {
+		const {username, searchTerm} = req.query;
+	
+		// Get the searcher's following and follower lists
+		const followingList = users[username]?.following || [];
+		const followerList = users[username]?.followers || [];
+	
+		// Filter users based on the search term
+		const matchedUsers = Object.keys(users).filter(user => {
+		const lowerCaseUser = user.toLowerCase();
+		return lowerCaseUser.includes(searchTerm);
+		});
+	
+		// Prioritize users from the searcher's following and follower lists
+		const prioritizedUsers = [...followingList, ...followerList].filter(user => matchedUsers.includes(user));
+		const otherUsers = matchedUsers.filter(user => !prioritizedUsers.includes(user));
+	
+		// Combine the prioritized and other users into a single list
+		const searchResults = [...prioritizedUsers, ...otherUsers];
+	
+		res.status(200).json(searchResults);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
 
 module.exports = router;

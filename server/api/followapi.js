@@ -41,7 +41,7 @@ router.post("/makeFollowRequest", upload.none(), async (req, res) => {
 		}
 
 		follow.save();
-		return res.status(500).send({ status: "success", message: "Follow request sent!" });
+		return res.status(200).send({ status: "success", message: "Follow request sent!" });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
@@ -51,7 +51,7 @@ router.post("/makeFollowRequest", upload.none(), async (req, res) => {
 router.get('/viewAllFollowRequests', upload.none(), async (req, res) => {
 	try {
 		const followRequests = await Follow.find();
-		return res.status(500).send({ status: "success", message: followRequests });
+		return res.status(200).send({ status: "success", message: followRequests });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
@@ -69,7 +69,7 @@ router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 		const followRequests = await Follow.find({ receiver: receiver });
 		//get usernames of senders
 		const senders = followRequests.map((followRequest) => followRequest.sender);
-		return res.status(500).send({ status: "success", message: senders });
+		return res.status(200).send({ status: "success", message: senders });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
@@ -92,9 +92,9 @@ router.delete('/handleFollowRequest', upload.none(), async (req, res) => {
 			receiverUser.followers.push(sender);
 			await senderUser.save();
 			await receiverUser.save();
-			return res.status(500).send({ status: "success", message: "Follow request accepted!" });
+			return res.status(200).send({ status: "success", message: "Follow request accepted!" });
 		}
-		return res.status(500).send({ status: "success", message: "Follow request deleted!" });
+		return res.status(200).send({ status: "success", message: "Follow request deleted!" });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
