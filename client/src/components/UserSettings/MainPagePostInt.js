@@ -40,37 +40,47 @@ const MainPagePostInt = () => {
   };
 
   return (
-    <div>
-      <div>
-        <img src="user-profile-pic.jpg" alt="User Profile" />
-        <span> Username</span>
-        <button>Report</button>
+    <div className="instagram-post">
+      <div className="post-header">
+        <div className="user-info">
+          <img src="user-profile-pic.jpg" alt="User Profile" className="profile-pic" />
+          <span className="username">Username</span>
+        </div>
+        <button className="report-button">Report</button>
       </div>
-      <h3>Post Title</h3>
-      <div className="centered-image">
-      <img src={postImage} alt="Post Image" />
+      <div className="post-image">
+        <img src={postImage} alt="Post Image" />
       </div>
-      <p>Post Description</p>
-      <div className="image-pair">
-        <button className="vote-button" onClick={handleLike}>
-          <img src={upvoteImg} alt="Upvote" /> Like ({likes})
-        </button>
-        <button className="vote-button" onClick={handleDislike}>
-          <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikes})
-        </button>
+      <div className="post-actions">
+        <div className="action-buttons">
+          <button className="vote-button" onClick={handleLike}>
+            <img src={upvoteImg} alt="Upvote" /> Like ({likes})
+          </button>
+          <button className="vote-button" onClick={handleDislike}>
+            <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikes})
+          </button>
+        </div>
       </div>
-      <textarea
-        ref={textareaRef}
-        value={newComment}
-        onChange={handleCommentChange}
-        onKeyPress={handleKeyPress}
-        placeholder="Add a comment and press Enter..."
-        rows="1" // Start with a single row
-      ></textarea>
-      <div className="comments">
-        {comments.map((comment, index) => (
-          <div key={index} className="comment">{comment}</div>
-        ))}
+      <div className="post-content">
+        <p className="post-description">Post Description</p>
+      </div>
+      <div className="comments-container">
+        <textarea
+          ref={textareaRef}
+          value={newComment}
+          onChange={handleCommentChange}
+          onKeyPress={handleKeyPress}
+          placeholder="Add a comment..."
+          rows="1"
+          className="comment-input"
+        ></textarea>
+        <div className="comments">
+          {comments.map((comment, index) => (
+            <div key={index} className="comment">
+              <span className="username">Username</span> {comment}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
