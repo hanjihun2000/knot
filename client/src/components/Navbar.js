@@ -8,11 +8,9 @@ const Navbar = ({ isOpen, setIsOpen }) => {
 
   return (
     <div className="navbar">
-      {!isOpen && (
         <button onClick={handleButtonClick} className="List-icon-button">
           <List className="List-icon" />
         </button>
-      )}
       <input type="text" placeholder="Search..." className="search-bar"/>
     </div>
   );

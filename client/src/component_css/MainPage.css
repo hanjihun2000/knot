@@ -17,7 +17,6 @@
     overflow: hidden; /* Add this line */
     /* other styles... */
   }
-  
   .main-content {
     flex-grow: 1; /* To fill the remaining space */
     overflow: hidden; /* In case the content overflows */
