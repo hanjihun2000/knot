@@ -1,6 +1,8 @@
 .FriendListsContainer {
     max-height: 100%; /* Adjust this value as needed */
     overflow-y: auto;
+    padding-right: 4px; 
+  box-sizing: border-box;
   }
     .FriendLists {
     display: flex;
@@ -18,10 +20,10 @@
     font-family: "Inika";
   }
   .row{
-    width: 50%; /* Full width of the sidebar */
+    width: 100%; /* Full width of the sidebar */
+    padding: 10px; /* Padding between rows */
     display: flex; /* Displays items in a row */
     flex-direction: row; /* Items are arranged horizontally */
-    padding: 1px; /* Padding between rows */
     font-size: 1.2em;
    }
   
@@ -65,16 +67,19 @@
     }
     ::-webkit-scrollbar {
         width: 10px; /* Width of the scrollbar */
+        border-radius: 10px;
       }
       
       /* Track or progress bar */
       ::-webkit-scrollbar-track {
         background: #f1f1f1; /* Color of the track */
+        border-radius: 10px;
       }
       
       /* Handle or slider */
       ::-webkit-scrollbar-thumb {
         background: #888; /* Color of the slider */
+        border-radius: 10px;
       }
       
       /* Handle or slider on hover */
