@@ -1,12 +1,19 @@
-import './component_css/Navbar.css';
+import '../component_css/Navbar.css';
+import { List} from "@phosphor-icons/react";
 
-const Navbar = () => {
-    return (
-      <div className="navbar">
-        <input type="text" placeholder="Search..." className="search-bar"/>
-          
-      </div>
-    );
+const Navbar = ({ isOpen, setIsOpen }) => {
+  const handleButtonClick = () => {
+    setIsOpen(prevState => !prevState); // Toggle the state
   };
-  
-  export default Navbar;
+
+  return (
+    <div className="navbar">
+        <button onClick={handleButtonClick} className="List-icon-button">
+          <List className="List-icon" />
+        </button>
+      <input type="text" placeholder="Search..." className="search-bar"/>
+    </div>
+  );
+};
+
+export default Navbar;

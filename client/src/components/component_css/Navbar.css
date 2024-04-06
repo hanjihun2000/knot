@@ -4,6 +4,7 @@
   align-items: center;
   padding: 0.5rem 1rem;
   background-color: #f2e9e4; 
+  height: 60px;
   }
   
   .search-bar {
@@ -12,4 +13,20 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 1rem;
+  }
+
+  .List-icon-button{
+    display: flex;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 12px;
+    border: none;
+    background-color: transparent; /* Add this line */
+  }
+  .List-icon-button:hover{
+    background-color: rgba(23, 23, 23, 0.3);
+  }
+  .List-icon{
+    width: 28px;
+    height: 28px;
   }
