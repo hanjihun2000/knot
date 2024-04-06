@@ -14,12 +14,13 @@
     font-family: "Inika";
   }
   .row{
-    width: 100%; /* Full width of the sidebar */
+    width: 50%; /* Full width of the sidebar */
     display: flex; /* Displays items in a row */
     flex-direction: row; /* Items are arranged horizontally */
     padding: 10px; /* Padding between rows */
     font-size: 1.2em;
     margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
+    margin-right: auto;
    }
   
   .FriendLists ul {
@@ -45,11 +46,13 @@
 
 
   .row:hover{
-    width: 100%;
+    width: 50%;
+    height: 5%;
     border-radius: 32px;
     cursor: pointer;
     background-color: #DDD;
     background-color: rgba(23, 23, 23, 0.3);
+    
    }
    .profilePicture{
       width: 50px;
@@ -58,7 +61,7 @@
       margin-right: 10px;
       padding-right: 10px;
    }
-    .username{
-      margin-left: 10px;
+    #username{
+      
       padding-left: 10px;
     }
