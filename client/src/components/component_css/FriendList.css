@@ -18,7 +18,7 @@
     font-family: "Inika";
   }
   .row{
-    width: 100%; /* Full width of the sidebar */
+    width: 50%; /* Full width of the sidebar */
     display: flex; /* Displays items in a row */
     flex-direction: row; /* Items are arranged horizontally */
     padding: 1px; /* Padding between rows */
