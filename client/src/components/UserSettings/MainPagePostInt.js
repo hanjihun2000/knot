@@ -40,40 +40,41 @@ const MainPagePostInt = () => {
   };
 
   return (
-    <div className="instagram-post">
+    <div className="post-container">
       <div className="post-header">
         <div className="user-info">
           <img src="user-profile-pic.jpg" alt="User Profile" className="profile-pic" />
-          <span className="username">Username</span>
+          <span className="username">daniel</span>
         </div>
-        <button className="report-button">Report</button>
-      </div>
-      <div className="post-title">
-        <h3>Post Title</h3>
-      </div>
-      <div className="post-image">
-        <img src={postImage} alt="Post Image" />
-      </div>
-      <div className="post-actions">
-        <div className="action-buttons">
-          <button className="vote-button" onClick={handleLike}>
-            <img src={upvoteImg} alt="Upvote" /> Like ({likes})
-          </button>
-          <button className="vote-button" onClick={handleDislike}>
-            <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikes})
-          </button>
-        </div>
+        <button className="options-button">⋯</button>
       </div>
       <div className="post-content">
-        <p className="post-description">Post Description</p>
+        <div className="post-title">My first beach trip!</div>
+        <div className="post-image">
+          <img src={postImage} alt="Post Image" />
+        </div>
+        <div className="post-description-actions">
+          <div className="post-description">
+            <p>Happy day! <span>#beach</span> <span>#ik</span> <span>#sand</span> <span>#holiday</span></p>
+          </div>
+          <div className="action-buttons">
+            <button className="vote-button" onClick={handleLike}>
+              <img src={upvoteImg} alt="Upvote" /> Like ({likes})
+            </button>
+            <button className="vote-button" onClick={handleDislike}>
+              <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikes})
+            </button>
+          </div>
+        </div>
       </div>
       <div className="comments-container">
+        <div className="comment-info">View comments</div>
         <textarea
           ref={textareaRef}
           value={newComment}
           onChange={handleCommentChange}
           onKeyPress={handleKeyPress}
-          placeholder="Add a comment..."
+          placeholder="Write a comment..."
           rows="1"
           className="comment-input"
         ></textarea>
