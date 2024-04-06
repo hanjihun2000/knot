@@ -4,13 +4,14 @@ import downvoteImg from './R.png';
 import '../component_css/MainPagePostInt.css';
 import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
+
 const MainPagePostInt = () => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
-  const { username, setUsername } = useUser();
+  const { username } = useUser(); // setUsername removed since it wasn't used
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -18,12 +19,11 @@ const MainPagePostInt = () => {
   const handleImageClick = () => {
     setIsImageActive(current => !current);
   };
-  // Toggle the display of comments
+
   const toggleComments = () => {
     setShowComments(!showComments);
   };
 
-  // Close comments when clicking outside (optional)
   useEffect(() => {
     const closeComments = (event) => {
       if (!event.target.closest('.comments-container') && showComments) {
@@ -38,9 +38,8 @@ const MainPagePostInt = () => {
   }, [showComments]);
 
   useEffect(() => {
-    // Adjust the height of the textarea based on its scroll height
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'; // Reset height to recalculate
+      textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [newComment]);
@@ -77,7 +76,7 @@ const MainPagePostInt = () => {
       <div className="post-content">
         <div className="post-title">My first beach trip!</div>
         <div className="post-image" onClick={handleImageClick}>
-          <img src={postImage} alt="Post Image" className={isImageActive ? 'active' : ''} />
+        {!isImageActive &&    <img src={postImage} alt="Post Image" /> }
         </div>
         <div className="post-description-actions">
           <div className="post-description">
@@ -92,8 +91,8 @@ const MainPagePostInt = () => {
             </button>
           </div>
         </div>
-        <div className="comments-container">
-          <div className="comment-info" onClick={() => setShowComments(true)}>View comments</div>
+        <div className="comments-container" onClick={toggleComments}>
+          <div className="comment-info">View comments</div>
           <textarea
             ref={textareaRef}
             value={newComment}
@@ -103,28 +102,24 @@ const MainPagePostInt = () => {
             rows="1"
             className="comment-input"
           ></textarea>
-          <div className="comments">
-            {comments.map((comment, index) => (
-              <div key={index} className="comment">
-                <span className="username">{username}</span> {comment}
-              </div>
-            ))}
-          </div>
+          {showComments && (
+            <div className="comments">
+              {comments.map((comment, index) => (
+                <div key={index} className="comment">
+                  <span className="username">{username}</span> {comment}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       {isImageActive && (
         <div className="image-overlay" onClick={() => setIsImageActive(false)}>
-          <img src={postImage} alt="Post Image" className="active" />
-        </div>
-      )}
-      {showComments && (
-        <div className="comments-overlay" onClick={() => setShowComments(false)}>
-          {/* Comments will be shown here */}
+          <img src={postImage} alt="Post Image Enlarged" />
         </div>
       )}
     </div>
   );
-  
 };
 
 export default MainPagePostInt;

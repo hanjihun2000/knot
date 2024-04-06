@@ -1,8 +1,10 @@
 /* MainPagePostInt.css */
 body {
   background-image: var(--background-image);
-  height: 150vh;
+  height: 100vh;
   overflow: auto; /* Updated to auto to allow scrolling */
+  margin: 0;
+  padding: 0;
 }
 
 .post-container {
