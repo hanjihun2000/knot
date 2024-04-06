@@ -1,124 +1,183 @@
 const express = require("express");
+const cors = require('cors');
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 const router = express.Router();
+const app = express();
+app.use(express.json());
+app.use(cors());
+
 const Post = require("../models/post");
 
-router.post("/create", async (req, res) => {
-    console.log(req);
-    console.log(req.body);
+router.post("/createPost", upload.single('file'), async (req, res) => {
     const postId = req.body.postId;
     const username = req.body.username;
     const title = req.body.title;
     const text = req.body.text;
-    const mediaType = req.body.mediaType;
-    const mediaContext = req.body.mediaContext;
+    const buffer = req.file.buffer;
+    const mimetype = req.file.mimetype;
+
+    // do some data type checking here if needed
+
     const post = new Post({
         postId: postId,
         username: username,
         title: title,
         text: text,
-        media: {mediaType: mediaType, mediaContext: mediaContext},
-        likeDislike: [0, 0],
+        media: { buffer: buffer, mimetype: mimetype },
+        likeDislike: [[], []], // [[username who likes a post], [username who dislikes a post]]
         comments: [],
         IsReported: false
     });
-    post.save();
-    res.send({ status: "success", message: "Post created successfully!" });
+    post.save().then(savedPost => {
+        const postId = savedPost.postId;
+        res.status(201).json({ status: "success", message: "Post created successfully!", postId: postId });
+    }).catch((err) => {
+        res.status(500).json({ status: "error", message: "Post creation failed!" });
+    });
 })
 
-router.post("/edit", async (req, res) => {
+router.post("/editPost", upload.none(), async (req, res) => {
     const postId = req.body.postId;
     const attribute = req.body.attribute;
     const value = req.body.value;
-    const postExists = await Post.exists({ postId: postId });
-    if (postExists) {
-        // if the post exists, update the post
-        const post = await Post.findOne({ postId: postId });
-        post[attribute] = value;
-        res.send({ status: "success", message: "Post updated successfully!" });
+    const post = await Post.findOne({ postId: postId });
+
+    if (!post) {
+        return res.status(404).json({ status: "error", message: "Post does not exist!" });
     }
+
+    // if the post exists, update the attribute with the new value
+    if (attribute === "title") {
+        post.title = value;
+        await post.save();
+    } else if (attribute === "text") {
+        post.text = value;
+        await post.save();
+    } else {
+        return res.status(400).json({ status: "error", message: "Invalid attribute!" });
+    }
+    res.status(201).json({ status: "success", message: "Post updated successfully!" });
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/deletePost", upload.none(), async (req, res) => {
     const postId = req.body.postId;
-    const postExists = await Post.exists({ postId: postId });
-    if (postExists) {
-        // if the post exists, delete the post
-        await Post.deleteOne({ postId: postId });
-        res.send({ status: "success", message: "Post deleted successfully!" });
+    const post = await Post.findOne({ postId: postId });
+
+    if (!post) {
+        return res.status(404).json({ status: "error", message: "Post does not exist!" });
     }
+
+    // if the post exists, delete the post
+    post.deleteOne().then(() => {
+        res.status(200).json({ status: "success", message: "Post deleted successfully!" });
+    }).catch((err) => {
+        res.status(500).json({ status: "error", message: "Post deletion failed!" });
+    });
 });
 
-router.post("/share", async (req, res) => {
+router.post("/sharePost",  async (req, res) => {
     const postId = req.body.postId;
     const username = req.body.username;
-    const postExists = await Post.exists({ postId: postId });
-    if (postExists) {
-        // if the post exists, create a new post with the same content
-        const post = await Post.findOne({ postId: postId });
-        res.send({ 
-            status: "success",
-            sharedData: {
-                postId: post.postId,
-                username: username,
-                title: post.title,
-                text: post.text,
-                media: {mediaType: post.media.mediaType, mediaContext: post.media.mediaContext},
-                likeDislike: post.likeDislike,
-                comments: post.comments,
-                IsReported: post.IsReported
-            }
+    const post = await Post.findOne({ postId: postId });
+
+    if (!post) {
+        return res.status(404).json({ status: "error", message: "Post does not exist!" });
+    }
+    
+    // create a new post with the same information as the original post
+});
+
+router.get("/fetchPost", upload.none(), async (req, res) => {
+    const postId = req.body.postId;
+    const post = await Post.findOne({ postId: postId });
+
+    if (!post) {
+        return res.status(404).json({ status: "error", message: "Post does not exist!" });
+    }
+
+    // send the post information back to the client
+    const postInfo = {
+        postId: post.postId,
+        username: post.username,
+        title: post.title,
+        text: post.text,
+        media: post.media,
+        likeDislike: post.likeDislike,
+        comments: post.comments,
+        IsReported: post.IsReported
+    };
+    res.status(200).json(postInfo);
+});
+
+router.post("/likeDislikePost", upload.none(), async (req, res) => {
+    const postId = req.body.postId;
+    const username = req.body.username;
+    const action = req.body.action;
+    const post = await Post.findOne({ postId: postId });
+
+    if (!post) {
+        return res.status(404).json({ status: "error", message: "Post does not exist!" });
+    }
+
+    // if the post exists, update the likeDislike array with the username
+    // likeDislike[0] is the array of usernames who liked the post
+    // likeDislike[1] is the array of usernames who disliked the post
+    if (action == "like") {
+        post.likeDislike[0].push(username);
+        post.save().then(() => {
+            res.status(200).json({ status: "success", message: "Post liked successfully!" });
+        }).catch((err) => {
+            res.status(500).json({ status: "error", message: "Post like failed!" });
+        });
+    } else if (postExists && action == "dislike") {
+        post.likeDislike[1].push(username);
+        post.save().then(() => {
+            res.status(200).json({ status: "success", message: "Post disliked successfully!" });
+        }).catch((err) => {
+            res.status(500).json({ status: "error", message: "Post dislike failed!" });
         });
     }
 });
 
-router.get("/fetch", async (req, res) => {
+router.post("/reportPost", upload.none(), async (req, res) => {
     const postId = req.body.postId;
-    const postExists = await Post.exists({ postId: postId });
-    if (postExists) {
-        // if the post exists, fetch the post
-        const post = await Post.findOne({ postId: postId });
-        res.send(post);
+    const post = await Post.findOne({ postId: postId });
+
+    if (!post) {
+        return res.status(404).json({ status: "error", message: "Post does not exist!" });
     }
+
+    // if the post exists, set the IsReported attribute to true
+    post.IsReported = true;
+    post.save().then(() => {
+        res.status(200).json({ status: "success", message: "Post reported successfully!" });
+    }).catch((err) => {
+        res.status(500).json({ status: "error", message: "Post report failed!" });
+    });
 });
 
-router.post("/likedislike", async (req, res) => {
-    const postId = req.body.postId;
-    const likeOrDislike = req.body.likeOrDislike;
-    const postExists = await Post.exists({ postId: postId });
-    if (postExists && likeOrDislike == "like") {
-        if (postExists) {
-            // if the post exists, like the post
-            const post = await Post.findOne({ postId: postId });
-            post.likeDislike[0] = post.likeDislike[0] + 1;
-        }
-    } else if (postExists && likeOrDislike == "dislike") {
-        if (postExists) {
-            // if the post exists, dislike the post
-            const post = await Post.findOne({ postId: postId });
-            post.likeDislike[1] = post.likeDislike[1] + 1;
-        }
-    }
-    // no need to send a response back to the client
-});
-
-router.post("/report", async (req, res) => {
-    const postId = req.body.postId;
-    // check if the post is inside the posts database
-    const postExists = await Post.exists({ postId: postId });
-    if (postExists) {
-        // if the post exists, report the post
-        const post = await Post.findOne({ postId: postId });
-        post.IsReported = true;
-    }
-    // no need to send a response back to the client
-});
-
-router.get("/search", async (req, res) => {
-    const query = req.body.query;
-    // search for posts that contain the query keyword in the title
-    const posts = await Post.find({ title: { "$regex": query, "$options": "i" } });
-    // for search ranking logic, we need to check if the owner of the post is in the 
-    // search user's following list, and then rank the post higher
+router.get("/searchPosts", upload.none(), async (req, res) => {
+    // return a list of postIds that contain the keyword in the title
+    const keyword = req.body.keyword;
+    const postsSearchedByTitle = await Post.find({ title: { "$regex": keyword, "$options": "i" } });
+    const postsSearchedByText = await Post.find({ text: { "$regex": keyword, "$options": "i" } });
     // *** need to implement this logic ***
-    res.send(posts);
+    const postIds = [];
+
+    if (!postsSearchedByTitle && !postsSearchedByText) {
+        return res.status(404).json({ status: "error", message: "No post found!" });
+    }
+
+    // send a list of postIds back to the client
+    // post searched by title will be displayed first, followed by posts searched by text
+    postsSearchedByTitle.forEach(element => {
+        postIds.push(element.postId);
+    });
+    postsSearchedByText.forEach(element => {
+        postIds.push(element.postId);
+    });
+    res.status(200).json({ status: "success", message: "Posts found!", postIds: postIds });
 });
+
+module.exports = router;

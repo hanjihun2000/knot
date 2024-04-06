@@ -9,17 +9,12 @@ const multer = require("multer");
 const router = express.Router();
 const User = require("../models/user");
 
-<<<<<<< HEAD
-router.post("/register", async (req, res) => {
-    // req.body for form data
-=======
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/register", upload.none(), async (req, res) => {
     // req.body for form
     // console.log(req);
     // console.log(req.body);
->>>>>>> origin/backend-dev-quinson
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;

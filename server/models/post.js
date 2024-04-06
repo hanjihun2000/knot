@@ -6,9 +6,9 @@ const postSchema = new Schema({
     username: { type: String, required: true, ref:"user" },
     title: { type: String, required: true },
     text: { type: String, required: false },
-    media: { 
-        mediaType: { type: String, required: false },
-        mediaContext: { type: Buffer, contentType: String, required: true}
+    media: {
+        buffer: { type: Buffer, required: true },
+        mimetype: { type: String, required: true }
     },
     likeDislike: { type: Array, required: false },
     comments: { type: Array, required: false },
