@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
-import ProfileSettings from '../ProfileSettings';
+
 import Navbar from '../Navbar';
-import ProfileEdit from './ProfileEdit';
+
 import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
-import MainPagePrivacyDets from './MainPagePrivacyDets';
-import upvote from './U.png';
-import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBarPrivacy';
-import downvote from './R.png'
+
 
 import '../component_css/MainPage.css';
 import ThemeSelector from './ThemeSelector';
@@ -18,7 +15,7 @@ import ThemeSelector from './ThemeSelector';
 
 
 
-const MainPageEdit = () => {
+const MainPageThemes = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -52,4 +49,4 @@ const MainPageEdit = () => {
   );
 };
 
-export default MainPageEdit;
+export default MainPageThemes;
