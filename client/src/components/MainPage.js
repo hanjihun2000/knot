@@ -30,18 +30,18 @@ const MainPage = () => {
 
   return (
     <div className="main-container">
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="main-content">
-        <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="profile-edit-container">
-        <ProfileSideBar/>
-          <ProfileEdit/>
-         
+      <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div className="content-container">
+        <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className="main-content">
+          <div className="profile-edit-container">
+            <ProfileSideBar/>
+            <ProfileEdit/>
+          </div>
         </div>
       </div>
-    
     </div>
   );
-};
+}
 
 export default MainPage;
