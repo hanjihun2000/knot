@@ -10,6 +10,8 @@ import MainPageThemes from './components/UserSettings/MainPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePostInt from './components/UserSettings/MainPagePostInt';
+import CreatePostForm from './components/UserSettings/CreatePostForm';
+
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -33,6 +35,10 @@ function App() {
               component={MainPageEdit}
               auth={isAuthenticated}
             />
+            <Route path='/createPost'>
+              <CreatePostForm/>
+            </Route>
+            
             <Route path='/mainPage'>
               <MainPagePostInt />
               </Route>
