@@ -26,9 +26,9 @@
     width: 100%; /* Full width of the sidebar */
   display: flex; /* Displays items in a row */
   flex-direction: row; /* Items are arranged horizontally */
-  padding: 10px; /* Padding between rows */
+  
   font-size: 1em;
-  margin-bottom: 10px; 
+  
   }
 
   .sidebar-header{
