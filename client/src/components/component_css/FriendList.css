@@ -1,3 +1,7 @@
+.FriendListsContainer {
+    max-height: 100%; /* Adjust this value as needed */
+    overflow-y: auto;
+  }
     .FriendLists {
     display: flex;
     position: relative;
@@ -17,9 +21,8 @@
     width: 100%; /* Full width of the sidebar */
     display: flex; /* Displays items in a row */
     flex-direction: row; /* Items are arranged horizontally */
-    padding: 10px; /* Padding between rows */
+    padding: 1px; /* Padding between rows */
     font-size: 1.2em;
-    margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
    }
   
   .FriendLists ul {
@@ -32,33 +35,49 @@
     font-size: 1.2rem;
   }
 
-  .nav-link{
-    width: 100%; /* Full width of the sidebar */
+  .nav-link {
     display: flex; /* Displays items in a row */
     flex-direction: row; /* Items are arranged horizontally */
-    padding: 10px; /* Padding between rows */
-    margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
+    padding: 2px; /* Padding between rows */
     text-decoration: none; /* Removes the underline */
     color: inherit; /* Makes the text color the same as the parent element */
+    align-items: center; /* Add this line */
   }
 
-
-
-  .row:hover{
-    width: 100%;
+  .row:hover {
     border-radius: 32px;
     cursor: pointer;
-    background-color: #DDD;
     background-color: rgba(23, 23, 23, 0.3);
-   }
-   .profilePicture{
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+   #profilePicture{
       padding-right: 10px;
+      height: 40px;
+      width: 40px;
    }
-    .username{
-      margin-left: 10px;
-      padding-left: 10px;
+   #profilePicture img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+    #username{
     }
+    ::-webkit-scrollbar {
+        width: 10px; /* Width of the scrollbar */
+      }
+      
+      /* Track or progress bar */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Color of the track */
+      }
+      
+      /* Handle or slider */
+      ::-webkit-scrollbar-thumb {
+        background: #888; /* Color of the slider */
+      }
+      
+      /* Handle or slider on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color of the slider on hover */
+      }
