@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom'; // Import Redirect here
 import './component_css/LogInForm.css';
 import logo from '../unnamed.png';
 import toggleVisi from '../OIP.jpg';
-
+import { useUser } from '../userContext';
 function LogInForm() {
   
 
@@ -13,7 +13,7 @@ function LogInForm() {
   const [password, setPassword] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
-
+  const { setUsername: setGlobalUsername } = useUser(); // Destructure and rename to avoid name conflict
   const handleLogIn = async (event) => {
     event.preventDefault();
 
@@ -25,11 +25,13 @@ function LogInForm() {
         },
         body: JSON.stringify({ username, password }),
       });
-
+      
       const data = await response.json();
 
       if (response.ok) {
         console.log('Login successful:', data);
+        console.log(username)
+        setGlobalUsername(username); // Update global username
         localStorage.setItem('token', data.token);
         setIsLoggedIn(true); // Update state to indicate user is logged in
       } else {

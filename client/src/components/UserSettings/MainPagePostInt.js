@@ -56,13 +56,14 @@ const MainPagePostInt = () => {
         </button>
       </div>
       <textarea
-        ref={textareaRef}
-        value={newComment}
-        onChange={handleCommentChange}
-        onKeyPress={handleKeyPress}
-        placeholder="Add a comment and press Enter..."
-        rows="1" // Start with a single row
-      ></textarea>
+  ref={textareaRef}
+  value={newComment}
+  onChange={handleCommentChange}
+  onKeyPress={handleKeyPress}
+  placeholder="Add a comment and press Enter..."
+  rows="1" // Start with a single row
+  style={{ resize: 'none' }} // Prevent manual resizing
+></textarea>
       <div className="comments">
         {comments.map((comment, index) => (
           <div key={index} className="comment">{comment}</div>

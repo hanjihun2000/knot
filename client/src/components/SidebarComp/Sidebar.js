@@ -1,23 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../component_css/Sidebar.css';
-import {sideBarItem} from './sideBarItem';
+import { sideBarItem } from './sideBarItem'; // Ensure this path is correct
 import { useHistory } from 'react-router-dom';
-import { SignOut, List, XCircle} from "@phosphor-icons/react";
-import logo from './unnamed.png' 
-import { useSideBarContext } from './SideBarContext';
-/*import {ReactComponent as icon} from '../assets/knotlogo.svg';*/
+import { SignOut, XCircle } from "@phosphor-icons/react"; // Removed unused import List
+import logo from './unnamed.png'; // Ensure this path is correct
+import { useSideBarContext } from './SideBarContext'; // Ensure this path is correct
+import { useUser } from '../../userContext';
+const Sidebar = () => {
+  const { isOpen, setIsOpen } = useSideBarContext();
+  const history = useHistory();
+  const [profile, setProfile] = useState({ name: "Loading...", picture: "https://via.placeholder.com/150" });
+  const { username, setUsername } = useUser();
+  
+  useEffect(() => {
+    
+    
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+        try {
+          const response = await fetch(`http://localhost:8000/api/userapi/fetchUser?username=${username}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setProfile({ name: data.username, picture: data.picture || "https://via.placeholder.com/150" });
+          }
+        } catch (error) {
+          console.error('Failed to fetch profile:', error);
+        }
+      }
+    };
 
-
-const Sidebar =  () => {
-  const { isOpen, setIsOpen } = useSideBarContext(); // Use context to get state and updater
-  const history = useHistory(); // Use the useHistory hook to programmatically navigate
+    if (isOpen && username) {
+      fetchProfile();
+      console.log(username);
+    }
+  }, [isOpen,username]);
 
   const handleLogout = () => {
-    // Clear the authentication token
     localStorage.removeItem('token');
-
-    // Redirect to the login page
     history.push('/login');
+    setUsername('');
   };
 
   return (
@@ -25,35 +53,34 @@ const Sidebar =  () => {
       <div className="sidebar-header">
         {isOpen && <img src={logo} alt="Knot" className="knot-logo" />}
         <button onClick={() => setIsOpen(prevIsOpen => !prevIsOpen)} className="List-icon-button">
-          <XCircle className="List-icon" />
+          <XCircle size={24} className="List-icon" /> {/* Ensure your icon supports size prop */}
         </button>
       </div>
       <div className="sidebar-content">
         {isOpen && (
           <>
-            <button className="menu-item-button-create" onClick={() => history.push("/create")}>create</button>
+            <button className="menu-item-button-create" onClick={() => history.push("/create")}>Create</button>
             <ul className="sidebar-list">
               {sideBarItem.map((item, index) => (
-                  <li 
+                <li 
                   key={index} 
                   className="row"
                   id={window.location.pathname === item.link ? "active" : ""}
                   onClick={() => history.push(item.link)}>
-                    <div id="menu-item-icon">{item.icon}</div>
-                    <div id="menu-item-text">{item.title}</div>
-                  </li>
+                    <div id="icon">{item.icon}</div>
+                    <div id="title">{item.title}</div>
+                </li>
               ))}
             </ul>
             <div className="menu-bottom-part">
               <div className="profile-section" onClick={() => history.push("/profile")}>
-                  <img src="https://via.placeholder.com/150" alt="Profile" className="profile-pic" />
-                  <div className="profile-name">Profile Name</div> {/* Ideally, replace with the actual profile name */}
+                <img src={profile.picture} alt="Profile" className="profile-pic" />
+                <div className="profile-name">{profile.name}</div>
               </div>
               <hr className="separator" />
               <button className="logout" onClick={handleLogout}>
-                <SignOut className="logout-svg"/>
-                Logout
-              </button> 
+                <SignOut size={24} className="logout-svg" /> {/* Ensure your icon supports size prop */}
+              </button>
             </div>
           </>
         )}

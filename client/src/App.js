@@ -7,7 +7,8 @@ import MainPageEdit from './components/UserSettings/MainPageEdit';
 import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
 import MainPagePost from './components/UserSettings/MainPagePost';
-import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Adjust the path as necessary
+import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
+import { UserProvider } from './userContext'; // Adjust the import path as necessary
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -15,36 +16,37 @@ function App() {
 
   return (
     <Router>
-      <SideBarProvider>
-      <Switch>
-        <Route exact path='/'>
-          <SignUpForm />
-        </Route>
-        <Route path='/login'>
-          <LogInForm />
-        </Route>
-        
-        <ProtectedRoute
-          exact
-          path='/home'
-          component={MainPageEdit}
-          auth={isAuthenticated}
-        />
-        <ProtectedRoute
-          exact
-          path='/privacy-settings'
-          component={MainPagePrivacy}
-          auth={isAuthenticated}
-        />
-        <ProtectedRoute
-          exact
-          path='/post'
-          component={MainPagePost}
-          auth={isAuthenticated}
-        />
-        
-      </Switch>
-      </SideBarProvider>
+      <UserProvider> {/* Wrap the entire application or the relevant part with UserProvider */}
+        <SideBarProvider>
+          <Switch>
+            <Route exact path='/'>
+              <SignUpForm />
+            </Route>
+            <Route path='/login'>
+              <LogInForm />
+            </Route>
+            
+            <ProtectedRoute
+              exact
+              path='/home'
+              component={MainPageEdit}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/privacy-settings'
+              component={MainPagePrivacy}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/post'
+              component={MainPagePost}
+              auth={isAuthenticated}
+            />
+          </Switch>
+        </SideBarProvider>
+      </UserProvider>
     </Router>
   );
 }
