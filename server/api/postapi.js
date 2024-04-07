@@ -258,21 +258,23 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
 
 });
 
-router.post("/reportPost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
+router.put("/reportPost", upload.none(), async (req, res) => {
+    const {postId} = req.query;
     const post = await Post.findOne({ postId: postId });
 
-    if (!post) {
-        return res.status(404).json({ status: "error", message: "Post does not exist!" });
-    }
+    try {
+        if (!post) {
+            return res.status(404).json({ status: "error", message: "Post does not exist!" });
+        }
 
-    // if the post exists, set the IsReported attribute to true
-    post.IsReported = true;
-    post.save().then(() => {
-        res.status(200).json({ status: "success", message: "Post reported successfully!" });
-    }).catch((err) => {
-        res.status(500).json({ status: "error", message: "Post report failed!" });
-    });
+        // if the post exists, set the IsReported attribute to true
+        post.IsReported = true;
+        post.save().then(() => {
+            res.status(200).json({ status: "success", message: "Post reported successfully!" });
+        });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: "An error occurred while reporting the post!" });
+    }
 });
 
 router.get("/searchPosts", upload.none(), async (req, res) => {

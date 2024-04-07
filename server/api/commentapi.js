@@ -81,7 +81,7 @@ router.post("/createComment", upload.none(), async (req, res) => {
 			text: text,
 			likes: [],
 			dislikes: [],
-			isReported: false
+			IsReported: false
 		});
 
 		comment.save();
@@ -178,6 +178,24 @@ router.delete("/deleteComment", upload.none(), async (req, res) => {
 	}
 });
 
+router.put("/reportComment", upload.none(), async (req, res) => {
+	try {
+		const {commentId} = req.query;
+		const comment = await Comment.findOne({ commentId: commentId });
+
+        if (!comment) {
+            return res.status(404).json({ status: "error", message: "Comment does not exist!" });
+        }
+
+        // if the comment exists, set the IsReported attribute to true
+        comment.IsReported = true;
+        comment.save().then(() => {
+            res.status(200).json({ status: "success", message: "Comment reported successfully!" });
+        });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: "An error occurred while reporting the comment!" });
+    }
+});
 
 
 module.exports = router;
