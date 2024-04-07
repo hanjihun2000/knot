@@ -44,7 +44,7 @@ function App() {
             </Route>
             <Route path='/mainPage'>
               <MainPagePostInt />
-              </Route>
+            </Route>
             <ProtectedRoute
               exact
               path='/privacy-settings'
@@ -54,6 +54,12 @@ function App() {
             <ProtectedRoute
               exact
               path='/theme-settings'
+              component={MainPageThemes}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/profile/:username'
               component={MainPageThemes}
               auth={isAuthenticated}
             />

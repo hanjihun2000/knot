@@ -19,6 +19,14 @@
   transition: opacity 0.5s, transform 0.5s; /* Add transitions */
   transition: all 0.5s ease-in-out;
   }
+  .nav-link-none {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits text color from parent, adjust as needed */
+    width: 100%; /* Full width of the sidebar */
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    font-size: 1em;
+  }
 
   .sidebar-header{
     position: absolute;
@@ -38,6 +46,7 @@
   .List-icon-button{
     display: flex;
     padding: 10px;
+    
     cursor: pointer;
     border-radius: 12px;
     border: none;
@@ -49,6 +58,8 @@
   .List-icon{
     width: 32px;
     height: 32px;
+    
+    
   }
   .sidebar-content {
     margin-top: 50px; /* Adjust this value to the height of your header */
@@ -75,10 +86,8 @@
   height: auto; /* Full height of the sidebar */
  }
  .row{
-  width: 100%; /* Full width of the sidebar */
   display: flex; /* Displays items in a row */
   flex-direction: row; /* Items are arranged horizontally */
-  padding: 10px; /* Padding between rows */
   font-size: 1.2em;
   margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
  }
@@ -104,28 +113,13 @@
  .row #menu-item-icon{
   flex: 30%;
   display: grid;
-  place-items: center;
+  place-items: center; 
  }
 
  .row #menu-item-text{
   flex: 70%;
  }
  
-  
-  .menu-item{
-    background: none;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 1em;
-  transition: background-color 0.3s;
-  text-align: center; /* Text centered within the button */
-  padding: 10px 0; /* Vertical padding only */
-  margin: 5px 0; /* Margin between buttons */
-  width: auto; /* Let the width be automatically determined */
-  min-width: 80%; /* Set a minimum width for the buttons */
-  }
   .menu-item-button-create{
   background-color: #ECA2F9; /* Your button's pink background color */
   border: none; /* No border */
@@ -200,7 +194,6 @@
   .separator {
     box-sizing: border-box; 
     color: Gray;
-    width: 100%;
     border-color: #808080;
     border-top: 0.1px; /* change color as needed */
   }
@@ -229,4 +222,7 @@
     margin-right: 10px;
     background-color: rgba(23, 23, 23, 0.3); /* Gray background on hover */
     width: 90px; /* match the width of the .logout selector */
+  }
+  #icon {
+    margin-right: 10px; /* Adjust this value as needed */
   }

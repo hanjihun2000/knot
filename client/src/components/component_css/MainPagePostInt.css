@@ -1,18 +1,29 @@
 /* MainPagePostInt.css */
-body {
-  background-image: var(--background-image);
-  height: 100vh;
-  overflow:hidden;
-}
+
+
 .post-container {
   max-width: 600px;
   margin: 0 auto;
   background-color: #D3D0B3;
   border: 1px solid #787876;
-  border-radius: 10px; /* Added border-radius */
+  border-radius: 10px;
   margin-bottom: 60px;
-  overflow: hidden; /* Added overflow property */
+  overflow: hidden; /* This can stay as is if you want the post container to not scroll internally */
 }
+
+.comments-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+
+
 
 .post-header {
   display: flex;
@@ -57,7 +68,7 @@ body {
 
 .post-image img {
   width: 100%;
-  height: auto;
+  max-height: 60vh;
   border: 1px solid #e6e6e6;
 }
 
@@ -96,10 +107,14 @@ body {
   margin-right: 4px;
 }
 
+<<<<<<< HEAD
 .comments-container {
   padding: 16px;
   border-top: 1px solid #e6e6e6;
 }
+=======
+
+>>>>>>> abe9ea8a1bdde4d5ad7098ad2c5a77cb6a443748
 
 .comment-info {
   font-weight: bold;
@@ -124,4 +139,115 @@ body {
 
 .comment {
   margin-bottom: 8px;
+<<<<<<< HEAD
 }
+=======
+}
+
+/* MainPagePostInt.css */
+/* ... (other styles) */
+
+.popup {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 800px;
+  position: relative;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.popup-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.popup-comments {
+  margin-top: 20px;
+}
+
+.popup-comments h3 {
+  margin-bottom: 10px;
+}
+/* Existing styles... */
+
+.post-image {
+  /* Existing styles... */
+  cursor: pointer; /* To indicate the image is clickable */
+  transition: transform 0.3s ease; /* Smooth transition for zoom effect */
+}
+
+.post-image img.active {
+  transform: scale(2); /* Adjust scale as needed */
+  z-index: 2; /* Ensure the image is above other content */
+}
+
+.comments-overlay {
+  display: none; /* Hidden by default */
+  position: fixed; /* Overlay the entire viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent backdrop */
+  z-index: 1; /* Under the zoomed image, above other content */
+  overflow-y: auto; /* Allow scrolling for comments */
+}
+
+.comments-overlay.active {
+  display: block; /* Show comments when active */
+}
+
+/* New styles for positioning and showing comments */
+.comments-container.active {
+  position: fixed; /* Fixed position for overlay effect */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3; /* Above the image and the backdrop */
+  max-height: 80vh; /* Limit height and allow scrolling */
+  overflow-y: auto; /* Enable scroll if content is too long */
+  background: white; /* Background for comments */
+  border-radius: 10px; /* Optional: style as needed */
+  padding: 20px; /* Spacing around content */
+}
+
+/* Adjust this to ensure the close button is visible and clickable */
+.close-comments {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 4; /* Above everything to be clickable */
+}
+>>>>>>> abe9ea8a1bdde4d5ad7098ad2c5a77cb6a443748

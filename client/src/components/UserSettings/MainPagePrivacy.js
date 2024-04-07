@@ -37,7 +37,7 @@ const MainPagePrivacy = () => {
   <div className="main-content">
     <div className="profile-edit-container">
     <ProfileSideBarPrivacy/>
-          <MainPagePrivacyDets/>
+      <MainPagePrivacyDets/>
     </div>
   </div>
 </div>

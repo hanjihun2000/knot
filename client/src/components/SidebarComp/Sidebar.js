@@ -1,54 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import '../component_css/Sidebar.css';
-import { sideBarItem } from './sideBarItem'; // Ensure this path is correct
+import { sideBarItem } from './sideBarItem';
 import { useHistory } from 'react-router-dom';
-import { SignOut, XCircle } from "@phosphor-icons/react"; // Removed unused import List
-import logo from './unnamed.png'; // Ensure this path is correct
-import { useSideBarContext } from './SideBarContext'; // Ensure this path is correct
+import { SignOut, XCircle } from "@phosphor-icons/react";
+import logo from './unnamed.png';
+import { useSideBarContext } from './SideBarContext';
 import { useUser } from '../../userContext';
+import { NavLink } from 'react-router-dom';
+
 const Sidebar = () => {
   const { isOpen, setIsOpen } = useSideBarContext();
   const history = useHistory();
-  const [profile, setProfile] = useState({ name: "Loading...", picture: "https://via.placeholder.com/150" });
-  const { username, setUsername } = useUser();
-  
-  useEffect(() => {
-    
-   
-    const fetchProfile = async () => {
-       if (profile.name !== "Loading...") {
-      return;
-    }
-      const token = localStorage.getItem('token');
-      
-      if (token) {
-        try {
-          const response = await fetch(`http://localhost:8000/api/userapi/fetchUser?username=${username}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setProfile({ name: data.username, picture: data.picture || "https://via.placeholder.com/150" });
-          }
-        } catch (error) {
-          console.error('Failed to fetch profile:', error);
-        }
-      }
-    };
-
-    if (isOpen && username) {
-      fetchProfile();
-      console.log(username);
-    }
-  }, [isOpen,username]);
+  const { user, logout } = useUser(); 
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    logout();
     history.push('/login');
-    setUsername('');
   };
 
   return (
@@ -56,7 +23,7 @@ const Sidebar = () => {
       <div className="sidebar-header">
         {isOpen && <img src={logo} alt="Knot" className="knot-logo" />}
         <button onClick={() => setIsOpen(prevIsOpen => !prevIsOpen)} className="List-icon-button">
-          <XCircle size={24} className="List-icon" /> {/* Ensure your icon supports size prop */}
+          <XCircle size={24} className="List-icon" />
         </button>
       </div>
       <div className="sidebar-content">
@@ -69,20 +36,22 @@ const Sidebar = () => {
                   key={index} 
                   className="row"
                   id={window.location.pathname === item.link ? "active" : ""}
-                  onClick={() => history.push(item.link)}>
-                    <div id="icon">{item.icon}</div>
-                    <div id="title">{item.title}</div>
+                  >
+                    <NavLink to={item.link} className="nav-link-none" >
+                      <div id="icon">{item.icon}</div>
+                      <div id="title">{item.title}</div>
+                    </NavLink>
                 </li>
               ))}
             </ul>
             <div className="menu-bottom-part">
               <div className="profile-section" onClick={() => history.push("/profile")}>
-                <img src={profile.picture} alt="Profile" className="profile-pic" />
-                <div className="profile-name">{profile.name}</div>
+                <img src={user.profilePicture} alt="Profile" className="profile-pic" />
+                <div className="profile-name">{user.username || "Loading..."}</div>
               </div>
               <hr className="separator" />
               <button className="logout" onClick={handleLogout}>
-                <SignOut size={24} className="logout-svg" /> {/* Ensure your icon supports size prop */}
+                <SignOut size={24} className="logout-svg" /> logout
               </button>
             </div>
           </>

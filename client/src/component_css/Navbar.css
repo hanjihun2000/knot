@@ -3,17 +3,17 @@
   justify-content: space-between; /* This will push the search bar to the right */
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: var(--navbackgroundcolor);
+  background-color: #f2e9e4; 
   height: 60px;
-  font-family: "Inika";
   }
   
   .search-bar {
     margin-left: auto; /* This pushes the search bar to the right */
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: "Inika";
   }
 
   .List-icon-button{
@@ -31,8 +31,9 @@
     width: 28px;
     height: 28px;
   }
-  .navbar-title{
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 8px;
+
+  #navbar .navbar-title {
+    font-size: 1.5rem !important;
+    padding: 10px !important;
+    font-family: "Inika" !important;
   }

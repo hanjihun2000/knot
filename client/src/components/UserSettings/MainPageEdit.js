@@ -4,10 +4,9 @@ import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
 import ProfileEdit from './ProfileEdit';
 import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
+import FriendLists from '../friendlist';
 
 import '../component_css/MainPage.css';
-
-
 
 
 
@@ -38,7 +37,9 @@ const MainPageEdit = () => {
             <ProfileSideBarEdit/>
             <ProfileEdit/>
           </div>
+          
         </div>
+          <FriendLists className="friend-list"/>
       </div>
     </div>
   );
