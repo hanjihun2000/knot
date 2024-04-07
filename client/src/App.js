@@ -11,6 +11,7 @@ import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // En
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePostInt from './components/UserSettings/MainPagePostInt';
 import CreatePostForm from './components/UserSettings/CreatePostForm';
+import UserProfile from './components/UserSettings/UserProfile';
 
 
 function App() {
@@ -38,7 +39,9 @@ function App() {
             <Route path='/createPost'>
               <CreatePostForm/>
             </Route>
-            
+            <Route path='/userProfile'>
+              <UserProfile />
+            </Route>
             <Route path='/mainPage'>
               <MainPagePostInt />
             </Route>
