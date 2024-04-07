@@ -7,9 +7,10 @@ const  FriendLists =  () => {
   const [imageList, setImageList] = useState([]);
   const { user, logout } = useUser(); 
   useEffect( () => {
-    
+    console.log(user);
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
       .then(async response => {
+        console.log(response.status);
         const data = await response.json();
         console.log(data);
        

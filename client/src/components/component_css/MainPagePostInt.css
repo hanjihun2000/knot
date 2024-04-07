@@ -113,7 +113,7 @@ body {
   resize: none;
   padding: 8px;
   border-radius: 3px;
-  background-color: #fafafa;
+  background-color: #fafafa; /*might need to change the color here*/
   margin-bottom: 16px;
 }
 
