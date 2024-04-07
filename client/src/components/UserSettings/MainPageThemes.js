@@ -4,7 +4,7 @@ import Navbar from '../Navbar';
 import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import '../component_css/MainPage.css';
 import ThemeSelector from './ThemeSelector';
-
+import FriendLists from '../friendlist';
 
 
 
@@ -38,6 +38,7 @@ const MainPageThemes = () => {
           <ThemeSelector/>
         </div>
       </div>
+      <FriendLists className="friend-list"/>
     </div>
   </div>
 

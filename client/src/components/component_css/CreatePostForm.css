@@ -1,11 +1,12 @@
 .create-post-container {
     width: 400px;
     margin: 0 auto;
+    margin-top: 35px;
     padding: 20px;
     flex-direction: column;
     display: flex;
-  justify-content: center; /* Horizontally centers the child in the container */
-  align-items: center;
+    justify-content: center; /* Horizontally centers the child in the container */
+    align-items: center;
     
     background-color: #D3D0B3;
     border: 1px solid #787876;

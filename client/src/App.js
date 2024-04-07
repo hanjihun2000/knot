@@ -10,7 +10,7 @@ import MainPageThemes from './components/UserSettings/MainPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePostInt from './components/UserSettings/MainPagePostInt';
-import CreatePostForm from './components/UserSettings/CreatePostForm';
+import MainPagePost from './components/UserSettings/MainPagePost';
 import UserProfile from './components/UserSettings/UserProfile';
 
 
@@ -36,15 +36,12 @@ function App() {
               component={MainPageEdit}
               auth={isAuthenticated}
             />
-            <Route path='/createPost'>
-              <CreatePostForm/>
-            </Route>
-            <Route path='/userProfile'>
-              <UserProfile />
-            </Route>
-            <Route path='/mainPage'>
-              <MainPagePostInt />
-            </Route>
+            <ProtectedRoute  
+            exact path='/createPost'
+            component={MainPagePost}
+            auth={isAuthenticated}
+            />
+           
             <ProtectedRoute
               exact
               path='/privacy-settings'

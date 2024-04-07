@@ -2,49 +2,55 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../components/component_css/FriendList.css';
 import { useUser } from '../userContext';
-const  FriendLists =  () => {
+
+const FriendLists = () => {
   const [friendList, setFriendList] = useState([]);
-  const [imageList, setImageList] = useState([]);
-  const { user, logout } = useUser(); 
-  useEffect( () => {
-    
+  const { user } = useUser();
+  const [fetchTrigger, setFetchTrigger] = useState(false);
+
+  const fetchFriendList = () => {
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
-      .then(async response => {
-        const data = await response.json();
-        console.log(data);
-       
-        
+      .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        setFriendList(data); 
+        return response.json();
       })
-       
+      .then(data => {
+        console.log(data);
+        setFriendList(data);
+      })
+      .catch(error => console.error('Fetching error:', error));
+  };
+
+  // Fetch data only once when the component mounts
+  useEffect(() => {
+    fetchFriendList();
   }, []);
 
-  function createImageObjectURL(user) {
-    // Assuming user.profilePicture contains the necessary buffer and mimetype
-    if (!user.profilePicture || !user.profilePicture.buffer) return null; // Fallback if no picture
+  function createImageObjectURL(userProfile) {
+    if (!userProfile.profilePicture || !userProfile.profilePicture.buffer) {
+      return 'path/to/default/image.png'; // Fallback if no picture
+    }
     
-    const byteArray = new Uint8Array(user.profilePicture.buffer.data);
-    const blob = new Blob([byteArray], { type: user.profilePicture.mimetype });
+    const byteArray = new Uint8Array(userProfile.profilePicture.buffer.data);
+    const blob = new Blob([byteArray], { type: userProfile.profilePicture.mimetype });
     const imageObjectURL = URL.createObjectURL(blob);
     return imageObjectURL;
-  } 
+  }
 
   return (
     <nav className="FriendListsContainer">
-      <ul className = "FriendLists">
-        {friendList.map((user, index) => (
-
       
+      <ul className="FriendLists">
+        <li key = 'refresh className = "row'><button onClick={fetchFriendList}>Refresh Friends List</button></li>
+        {friendList.map((friend, index) => (
           <li key={index} className="row">
-            <NavLink to={`/profile/${user.username}`} className="nav-link">
+            <NavLink to={`/profile/${friend.username}`} className="nav-link">
               <div id="profilePicture">
-                <div>{user.username}</div>
-                <img src={createImageObjectURL(user) || 'path/to/default/image.png'} alt={user.username}/>
+                <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend.username}/>
               </div>
-              <div id="username">{user.name}</div>
+              <div id="username">{friend.username}</div>
             </NavLink>
           </li>
         ))}

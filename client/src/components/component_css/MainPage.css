@@ -9,7 +9,8 @@
 
   .content-container {
     display: flex;
-    flex-grow: 1; /* Take up remaining space after Navbar */
+    flex-grow: 1;
+    flex-direction: row; /* Explicitly define direction if not default */
   }
 
   .navBar {
@@ -22,10 +23,12 @@
 
   .main-content {
     flex-grow: 1; /* To fill the remaining space */
-    overflow: hidden; /* In case the content overflows */
+     /* Adjust this value as needed */
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     font-family: "Inika";
+    padding-bottom: 2000px;
   }
   
   .profile-edit-container{

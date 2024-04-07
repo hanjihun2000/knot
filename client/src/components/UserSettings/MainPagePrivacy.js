@@ -4,7 +4,7 @@ import Navbar from '../Navbar';
 import MainPagePrivacyDets from './MainPagePrivacyDets';
 import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBar';
 import '../component_css/MainPage.css';
-
+import FriendLists from '../friendlist';
 
 
 
@@ -40,6 +40,7 @@ const MainPagePrivacy = () => {
       <MainPagePrivacyDets/>
     </div>
   </div>
+  <FriendLists className="friend-list"/>
 </div>
 </div>
 

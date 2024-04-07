@@ -24,7 +24,7 @@ const ProfileEdit = () => {
 
     // Use FormData to handle file uploads
     const formData = new FormData();
-    formData.append('username', username);
+    formData.append('username', user.username);
     formData.append('password', password);
     formData.append('bio', bio);
     if (profilePic) {
@@ -76,7 +76,7 @@ const ProfileEdit = () => {
       <form className="edit-form" onSubmit={handleEditSignUp}>
         <div className="profile-container">
           
-          <img src={profilePic ? URL.createObjectURL(profilePic) : "path_to_default_image"} alt="Profile" />
+          <img src={user.profilePicture } alt="Profile" />
           <label htmlFor="profile-pic-input" className="file-input-button">Choose a Photo</label>
           <input 
             id="profile-pic-input"

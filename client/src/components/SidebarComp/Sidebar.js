@@ -29,7 +29,10 @@ const Sidebar = () => {
       <div className="sidebar-content">
         {isOpen && (
           <>
+
+           <NavLink to="/createPost" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">         
             <button className="menu-item-button-create" onClick={() => history.push("/create")}>Create</button>
+            </NavLink>
             <ul className="sidebar-list">
               {sideBarItem.map((item, index) => (
                 <li 
