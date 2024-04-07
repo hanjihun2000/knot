@@ -10,4 +10,4 @@ const commentSchema = new Schema({
     isReported: { type: Boolean, required: true },
 });
 
-module.exports = mongoose.model("comment", postSchema);
+module.exports = mongoose.model("comment", commentSchema);

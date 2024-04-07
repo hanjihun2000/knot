@@ -10,11 +10,6 @@ app.use(cors());
 const User = require("../models/user");
 const Post = require("../models/post");
 
-router.get("/test", upload.none(), async (req, res) => {
-    console.log(req.body.test);
-    res.send("Hello World!");
-});
-
 router.post("/createPost", upload.single('file'), async (req, res) => {
     // const username = req.body.username;
     // const title = req.body.title;
@@ -123,8 +118,14 @@ router.post("/sharePost",  async (req, res) => {
     // create a new post with the same information as the original post
 });
 
+router.get("/fetchAllPostIds", upload.none(), async (req, res) => {
+    const posts = await Post.find().select("postId");
+    res.status(200).json({ status: "success", message: "All post IDs fetched!", postIds: posts });
+});
+
 router.get("/fetchPost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
+    console.log(req.query)
+    const postId = req.query.postId;
     const post = await Post.findOne({ postId: postId });
 
     if (!post) {

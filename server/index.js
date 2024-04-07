@@ -39,6 +39,7 @@ module.exports = mongoose;
 const userapiRouter = require("./api/userapi");
 const followapiRouter = require("./api/followapi");
 const postapiRouter = require("./api/postapi");
+const commentapiRouter = require("./api/commentapi");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,6 +47,7 @@ app.use(express.static("public"));
 
 app.use("/api/userapi", userapiRouter);
 app.use("/api/postapi", postapiRouter);
+app.use("/api/commentapi", commentapiRouter);
 app.use("/api/followapi", followapiRouter);
 
 app.listen(PORT, () => {
