@@ -189,19 +189,18 @@ router.get("/recommendPosts", upload.none(), async (req, res) => {
             return res.status(404).json({ status: "error", message: "Username does not exist!" });
         }
 
-        const followingPosts = await Post.find({ username: { $in: following } });
-        recommendedPosts = followingPosts.slice(0, 3);
-        remainingPosts = await Post.find({ username: { $nin: recommendedPosts} });
+        followingPosts = await Post.find({ username: { $in: following } });
+        //random pick 3 posts from followingPosts
 
         //shuffle
-        remainingPosts.sort(() => Math.random() - 0.5);
+        recommendedPosts = followingPosts.sort(() => Math.random() - 0.5).slice(0, 3);
+        remainingPosts = await Post.find({ username: { $nin: recommendedPosts} });
 
-        while (recommendedPosts.length < 6 && remainingPosts.length > 0) {
-            recommendedPosts.push(remainingPosts.shift());
-        }
+        recommendedPosts.push(...(remainingPosts.sort(() => Math.random() - 0.5).slice(0, 6 - recommendedPosts.length)));
 
         res.status(200).json({ status: "success", message: "Recommended posts fetched!", posts: recommendedPosts });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ status: "error", message: "An error occurred while fetching recommended posts!" });
     }
 });
