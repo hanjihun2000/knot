@@ -8,12 +8,7 @@ const MainPagePrivacyDets = () => {
     setIsPrivate(e.target.checked);
     // Here you might also want to persist the change to the user's profile in your database
   };
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
-
+  
 
   return (
     <div className="profile-edit">

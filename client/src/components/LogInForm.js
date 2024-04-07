@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Redirect, Link } from 'react-router-dom'; // Import Redirect here
 import './component_css/LogInForm.css';
 import logo from '../unnamed.png';
@@ -13,34 +13,20 @@ function LogInForm() {
   const [password, setPassword] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
-  const { setUsername: setGlobalUsername } = useUser(); // Destructure and rename to avoid name conflict
+  const { user, login, logout } = useUser();
+  useEffect(() => {
+    console.log('Login state changed:', isLoggedIn);
+    if (isLoggedIn) {
+      // Your redirection logic
+    }
+  }, [isLoggedIn]);
   const handleLogIn = async (event) => {
     event.preventDefault();
-
-    try {
-      const response = await fetch('http://localhost:8000/api/userapi/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-      
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log('Login successful:', data);
-        console.log(username)
-        setGlobalUsername(username); // Update global username
-        localStorage.setItem('token', data.token);
-        setIsLoggedIn(true); // Update state to indicate user is logged in
-      } else {
-        console.error('Login failed:', data.message);
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-    }
+    const loggedIn = await login(username, password); // Use login from UserContext
+    setIsLoggedIn(!loggedIn); // Update state based on the result of the login attempt
+    console.log(loggedIn); //
   };
+
 
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);

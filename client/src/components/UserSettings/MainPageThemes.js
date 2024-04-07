@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
-
 import Navbar from '../Navbar';
-
 import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
-
-
 import '../component_css/MainPage.css';
 import ThemeSelector from './ThemeSelector';
 

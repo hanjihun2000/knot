@@ -12,8 +12,6 @@ import '../component_css/MainPage.css';
 
 
 
-
-
 const MainPageEdit = () => {
 
   const [password, setPassword] = useState('');
