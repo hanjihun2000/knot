@@ -1,7 +1,7 @@
 import '../component_css/ProfileEdit.css';
 import React, { useState } from 'react';
 import toggleVisi from './OIP.jpg';
-
+import { useUser } from '../../userContext';
 const ProfileEdit = () => {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
@@ -10,7 +10,8 @@ const ProfileEdit = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
-
+  const { user, logout } = useUser(); 
+  
   const handleEditSignUp = async (event) => {
     event.preventDefault();
     
@@ -70,8 +71,11 @@ const ProfileEdit = () => {
   return (
     <div className="profile-edit">
       <h2>Edit Profile</h2>
+
+      <div>{user.username}</div>
       <form className="edit-form" onSubmit={handleEditSignUp}>
         <div className="profile-container">
+          
           <img src={profilePic ? URL.createObjectURL(profilePic) : "path_to_default_image"} alt="Profile" />
           <label htmlFor="profile-pic-input" className="file-input-button">Choose a Photo</label>
           <input 
@@ -81,14 +85,7 @@ const ProfileEdit = () => {
             onChange={handleProfilePicChange}
           />
         </div>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className='username-input'
-          required
-        />
+        
         <textarea
           placeholder="Bio"
           value={bio}

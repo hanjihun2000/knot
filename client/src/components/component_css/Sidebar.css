@@ -164,7 +164,7 @@
   .menu-bottom-part {
     display: flex;
     flex-direction: column;
-    padding-bottom: 20vh;
+    padding-bottom: 28vh;
     width: 80%;
     text-align: right;
     margin-top: auto; /* Add this line */

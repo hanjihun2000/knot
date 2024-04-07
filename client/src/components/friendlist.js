@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../components/component_css/FriendList.css';
-
+import { useUser } from '../userContext';
 const  FriendLists =  () => {
   const [friendList, setFriendList] = useState([]);
   const [imageList, setImageList] = useState([]);
+  const { user, logout } = useUser(); 
   useEffect( () => {
-    const username = 'followertest'; // replace with the actual username
-    fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${username}`)
+    
+    fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
       .then(async response => {
         const data = await response.json();
         console.log(data);
