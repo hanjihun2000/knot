@@ -9,6 +9,7 @@ app.use(cors());
 
 const User = require("../models/user");
 const Post = require("../models/post");
+const follow = require("../models/follow");
 
 router.post("/createPost", upload.single('file'), async (req, res) => {
     // const username = req.body.username;
@@ -118,8 +119,14 @@ router.post("/sharePost",  async (req, res) => {
 });
 
 router.get("/fetchAllPostIds", upload.none(), async (req, res) => {
-    const posts = await Post.find().select("postId");
+    const postQuery = await Post.find().select('postId');
+    const posts = postQuery.map(post => post.postId);
     res.status(200).json({ status: "success", message: "All post IDs fetched!", postIds: posts });
+});
+
+router.get("/fetchAllPosts", upload.none(), async (req, res) => {
+    const posts = await Post.find();
+    res.status(200).json({ status: "success", message: "All posts fetched!", postIds: posts });
 });
 
 router.get("/fetchPost", upload.none(), async (req, res) => {
@@ -147,16 +154,64 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
     res.status(200).json(postInfo);
 });
 
-function addUsername(array, username) {
-    array.push(username);
-}
+router.get("/fetchUserPosts", upload.none(), async (req, res) => {
 
-function removeUsername(array, username) {
-    const index = array.indexOf(username);
-    if (index > -1) {
-        array.splice(index, 1);
+    const username = req.query.username;
+    const sender = req.query.sender;
+    
+    const user = await User.findOne({ username: username }).select("accountType follower");
+    if (!user) {
+        return res.status(404).json({ status: "error", message: "Username does not exist!" });
     }
-}
+
+    //if user accountType is private, and the sender is not a follower of user, return an error
+    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender))) {
+        return res.status(403).json({ status: "error", message: "User account is private!" });
+    }
+
+    const posts = await Post.find({ username: username });
+
+    if (!posts) {
+        return res.status(404).json({ status: "error", message: "User has no posts!" });
+    }
+
+    res.status(200).json({ status: "success", message: "User posts fetched!", posts: posts });
+});
+
+router.get("/recommendPosts", upload.none(), async (req, res) => {
+    try {
+        const username = req.query.username;
+        const user = await User.findOne({ username: username }).select("following");
+
+        const {following} = user;
+
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "Username does not exist!" });
+        }
+
+        const followingPosts = await Post.find({ username: { $in: following } });
+        recommendedPosts = followingPosts.slice(0, 3);
+        remainingPosts = await Post.find({ username: { $nin: recommendedPosts} });
+
+        //shuffle
+        remainingPosts.sort(() => Math.random() - 0.5);
+
+        while (recommendedPosts.length < 6 && remainingPosts.length > 0) {
+            recommendedPosts.push(remainingPosts.shift());
+        }
+
+        res.status(200).json({ status: "success", message: "Recommended posts fetched!", posts: recommendedPosts });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: "An error occurred while fetching recommended posts!" });
+    }
+});
+
+
+
+
+
+
+
 
 router.put("/likeDislikePost", upload.none(), async (req, res) => {
     try {

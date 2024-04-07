@@ -71,7 +71,18 @@ router.get("/fetchUser", upload.none(), async (req, res) => {
 			return res.status(404).json({ message: "User not found!" });
 		}
 
-		res.json(user);
+		const userInfo = {
+			username: user.username,
+			email: user.email,
+			accountType: user.accountType,
+			profilePicture: user.profilePicture,
+			bio: user.bio,
+			theme: user.theme,
+			followers: user.followers,
+			following: user.following
+		};
+
+		res.json(userInfo);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
