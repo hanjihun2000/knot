@@ -48,10 +48,9 @@ router.post("/createPost", upload.single('file'), async (req, res) => {
         username: username,
         title: title,
         text: text,
-        // add file, if no file return empty buffer and empty string mimetype
         media: buffer && mimetype ? { buffer: buffer, mimetype: mimetype } : null,
-        likeDislike: [[], []], // [[username who likes a post], [username who dislikes a post]]
-        comments: [],
+        likes: [],
+        dislikes: [],
         IsReported: false
     });
 
@@ -90,8 +89,8 @@ router.post("/editPost", upload.none(), async (req, res) => {
     res.status(201).json({ status: "success", message: "Post updated successfully!" });
 });
 
-router.post("/deletePost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
+router.delete("/deletePost", upload.none(), async (req, res) => {
+    const postId = req.query.postId;
     const post = await Post.findOne({ postId: postId });
 
     if (!post) {
@@ -132,48 +131,84 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
         return res.status(404).json({ status: "error", message: "Post does not exist!" });
     }
 
+
+
     // send the post information back to the client
     const postInfo = {
-        postId: post.postId,
+        //postId: post.postId,
         username: post.username,
         title: post.title,
         text: post.text,
         media: post.media,
-        likeDislike: post.likeDislike,
-        comments: post.comments,
-        IsReported: post.IsReported
+        likes: post.likes,
+        dislikes: post.dislikes,
+        //IsReported: post.IsReported
     };
-    res.status(200).json(postInfo);
+    res.status(200).json(post);
 });
 
-router.post("/likeDislikePost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
-    const username = req.body.username;
-    const action = req.body.action;
-    const post = await Post.findOne({ postId: postId });
+function addUsername(array, username) {
+    array.push(username);
+}
 
-    if (!post) {
-        return res.status(404).json({ status: "error", message: "Post does not exist!" });
+function removeUsername(array, username) {
+    const index = array.indexOf(username);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+}
+
+router.put("/likeDislikePost", upload.none(), async (req, res) => {
+    try {
+        const {postId, username, isLike, isUndo} = req.body;
+
+        if (!postId || !username || !isLike || !isUndo) {
+            return res.status(400).json({ status: "error", message: "Please provide all required fields!" });
+        }
+
+        const userExists = await User.exists({ username: username });
+        if (!userExists) {
+            return res.status(404).json({ status: "error", message: "Username does not exist!" });
+        }
+
+        const like = isLike === "true";
+        const undo = isUndo === "true";
+
+        let update = {};
+        let message = "";
+
+        if (like && !undo) {
+            update = {
+                $pull: { dislikes: username },
+                $addToSet: { likes: username }
+            };
+            message = "Post liked!";
+        } else if (!like && !undo) {
+            update = {
+                $pull: { likes: username },
+                $addToSet: { dislikes: username }
+            };
+            message = "Post disliked!";
+        } else if (undo) {
+            update = {
+                $pull: { likes: username, dislikes: username }
+            };
+            message = "Post like/dislike removed!";
+        }
+
+        const result = await Post.updateOne({postId: postId}, update);
+
+        if (result.nModified === 0) {
+            return res.status(404).json({ status: "error", message: "Post does not exist!" });
+        }
+        
+        return res.status(200).json({ status: "success", message: message });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ status: "error", message: "Internal Server Error!" });
     }
 
-    // if the post exists, update the likeDislike array with the username
-    // likeDislike[0] is the array of usernames who liked the post
-    // likeDislike[1] is the array of usernames who disliked the post
-    if (action == "like") {
-        post.likeDislike[0].push(username);
-        post.save().then(() => {
-            res.status(200).json({ status: "success", message: "Post liked successfully!" });
-        }).catch((err) => {
-            res.status(500).json({ status: "error", message: "Post like failed!" });
-        });
-    } else if (postExists && action == "dislike") {
-        post.likeDislike[1].push(username);
-        post.save().then(() => {
-            res.status(200).json({ status: "success", message: "Post disliked successfully!" });
-        }).catch((err) => {
-            res.status(500).json({ status: "error", message: "Post dislike failed!" });
-        });
-    }
 });
 
 router.post("/reportPost", upload.none(), async (req, res) => {

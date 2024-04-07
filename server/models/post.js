@@ -11,8 +11,8 @@ const postSchema = new Schema({
         buffer: { type: Buffer, required: false },
         mimetype: { type: String, required: false}
     },
-    likeDislike: { type: Array, required: false },
-    comments: { type: Array, required: false },
+    likes: { type: Array, required: false },
+    dislikes: { type: Array, required: false },
     IsReported: { type: Boolean, required: false },
 });
 

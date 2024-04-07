@@ -154,6 +154,30 @@ router.put('/likeDislikeComment', upload.none(), async (req, res) => {
 
 });
 
+router.delete("/deleteComment", upload.none(), async (req, res) => {
+	try {
+		const {commentId} = req.query;
+		if (!commentId) {
+			return res.status(400).send({ status: "error", message: "Please provide all required fields!" });
+		}
+
+		// fetch comment by commentID
+		const comment = await Comment.findOne({ commentId: commentId });
+		if (!comment) {
+			return res.status(404).send({ status: "error", message: "Comment does not exist!" });
+		}
+
+		await Comment.deleteOne({ commentId: commentId });
+
+		console.log(await Comment.findOne({ commentId: commentId }));
+
+		return res.status(200).send({ status: "success", message: "Comment deleted!" });
+	} catch (err) {
+		console.error(err);
+		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
+	}
+});
+
 
 
 module.exports = router;
