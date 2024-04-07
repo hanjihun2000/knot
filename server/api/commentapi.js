@@ -13,19 +13,41 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 router.get("/fetchComments", upload.none(), async (req, res) => {
 	try {
-		// console.log(req.query)
-		const postId = req.query.postId;
+		const {postId} = req.query;
 		if (!postId) {
-			return res.status(400).send({ status: "error", message: "Post ID not found!" });
+			return res.status(400).send({ status: "error", message: "Please provide all required fields!" });
 		}
-		const commentsQuery = await Post.findOne({ postId: postId }).select("comments");
-		const comments = commentsQuery.comments;
+
+		// if post exists fetch post comments
+		const postExists = await Post.exists({ postId: postId });
+		if (!postExists) {
+			return res.status(404).send({ status: "error", message: "Post does not exist!" });
+		}
+
+		//query comment database
+		const comments = await Comment.find({ postId: postId });
+		
 		return res.status(200).send({ status: "success", message: comments });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
 	}
 });
+
+router.get("/fetchAllCommentIds", upload.none(), async (req, res) => {
+	try {
+
+		//query comment database
+		const commentQuery = await Comment.find().select('commentId');
+		const commentIds = commentQuery.map(comment => comment.commentId);
+		
+		return res.status(200).send({ status: "success", message: commentIds });
+	} catch (err) {
+		console.error(err);
+		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
+	}
+});
+
 
 router.post("/createComment", upload.none(), async (req, res) => {
 	try {
@@ -46,65 +68,92 @@ router.post("/createComment", upload.none(), async (req, res) => {
 			return res.status(404).send({ status: "error", message: "Post does not exist!" });
 		}
 
-		const postComments = await Post.findOne({ postId:
-			postId }).select("comments");
-		const comments = postComments.comments;
-
 		// generate comment ID
 		let id;
 		do {
 			id = Math.floor(Math.random() * 1000000000);
-		} while (comments.some(comment => comment.commentId === id));
+		} while (await Comment.exists({ commentId: id }));
 
 		const comment = new Comment({
 			postId: postId,
 			commentId: id,
 			username: username,
 			text: text,
-			likeDislike: [[], []],
+			likes: [],
+			dislikes: [],
 			isReported: false
 		});
 
-		//push to array on database
-		await Post.updateOne({ postId: postId }, { $push: { comments: comment } });
-
-		return res.status(200).send({ status: "success", message: "Comment created!" });
+		comment.save();
+		return res.status(200).send({ status: "success", message: "Comment created successfully! ID: " + id });
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
 	}
 });
 
-// router.put("/likeDislikeComment", upload.none(), async (req, res) => {
-// 	try {
-// 	  const { postId, commentId, username, isLike, isUndo} = req.body;
-// 	  const like = isLike === "true";
-// 	  const undo = isUndo === "true";
+function addUsername(array, username) {
+    array.push(username);
+}
 
-// 	  console.log(postId, commentId, username, isLike, isUndo)
+function removeUsername(array, username) {
+    const index = array.indexOf(username);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+}
+
+router.put('/likeDislikeComment', upload.none(), async (req, res) => {
+	try {
+		const {postId, commentId, username, isLike, isUndo} = req.body;
+		like = isLike === "true";
+		undo = isUndo === "true";
+
+		if (!postId || !commentId || !username || !isLike || !isUndo) {
+			return res.status(400).send({ status: "error", message: "Please fill in all fields!" });
+		}
+
+		// if username does not exist in the database, return an error
+		if (!await User.exists({ username: username })) {
+			return res.status(404).send({ status: "error", message: "Username does not exist!" });
+		}
+
+		// fetch comment by commentID
+		const comment = await Comment.findOne({ commentId: commentId });
+		if (!comment) {
+			return res.status(404).send({ status: "error", message: "Comment does not exist!" });
+		}
+
+		console.log(comment)
+
+		let message = "";
+		// process like/dislike
+		if (like && !undo) {
+			removeUsername(comment.dislikes, username);
+			addUsername(comment.likes, username);
+			message = "Comment liked!";
+		} else if (!like && !undo) {
+			removeUsername(comment.likes, username);
+			addUsername(comment.dislikes, username);
+			message = "Comment disliked!";
+		} else if (undo) {
+			removeUsername(comment.likes, username);
+			removeUsername(comment.dislikes, username);
+			message = "Comment like/dislike removed!";
+		}
+
+		console.log(comment)
+
+		comment.save();
+
+		return res.status(200).send({ status: "success", message: message });
+	} catch (err) {
+		console.error(err);
+		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
+	}
+
+});
 
 
-// 	  if (!postId || !commentId || !username || !isLike || !isUndo) {
-// 		return res.status(400).send({ status: "error", message: "Please provide all required fields!" });
-// 	  }
-  
-// 	  // Check if the user exists in the database
-// 	  if (!await User.exists({ username: username })) {
-// 		return res.status(404).send({ status: "error", message: "User does not exist!" });
-// 	  }
-  
-// 	  // get post
-// 	  const post = await Post.findOne({
-// 		postId: postId
-// 	  });
-
-
-  
-// 	  return res.status(200).send({ status: "success", message: "Comment like/dislike updated successfully!" });
-// 	} catch (err) {
-// 	  console.error(err);
-// 	  return res.status(500).send({ status: "error", message: "Internal Server Error!" });
-// 	}
-//   });
 
 module.exports = router;
