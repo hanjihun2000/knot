@@ -236,29 +236,21 @@ router.get("/recommendPosts", upload.none(), async (req, res) => {
             return res.status(404).json({ status: "error", message: "Username does not exist!" });
         }
 
-        const followingPosts = await Post.find({ username: { $in: following } });
-        recommendedPosts = followingPosts.slice(0, 3);
-        remainingPosts = await Post.find({ username: { $nin: recommendedPosts} });
+        followingPosts = await Post.find({ username: { $in: following } });
+        //random pick 3 posts from followingPosts
 
         //shuffle
-        remainingPosts.sort(() => Math.random() - 0.5);
+        recommendedPosts = followingPosts.sort(() => Math.random() - 0.5).slice(0, 3);
+        remainingPosts = await Post.find({ username: { $nin: recommendedPosts} });
 
-        while (recommendedPosts.length < 6 && remainingPosts.length > 0) {
-            recommendedPosts.push(remainingPosts.shift());
-        }
+        recommendedPosts.push(...(remainingPosts.sort(() => Math.random() - 0.5).slice(0, 6 - recommendedPosts.length)));
 
         res.status(200).json({ status: "success", message: "Recommended posts fetched!", posts: recommendedPosts });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ status: "error", message: "An error occurred while fetching recommended posts!" });
     }
 });
-
-
-
-
-
-
-
 
 router.put("/likeDislikePost", upload.none(), async (req, res) => {
     try {
@@ -313,44 +305,51 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
 
 });
 
-router.post("/reportPost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
+router.put("/reportPost", upload.none(), async (req, res) => {
+    const {postId} = req.query;
     const post = await Post.findOne({ postId: postId });
 
-    if (!post) {
-        return res.status(404).json({ status: "error", message: "Post does not exist!" });
-    }
+    try {
+        if (!post) {
+            return res.status(404).json({ status: "error", message: "Post does not exist!" });
+        }
 
-    // if the post exists, set the IsReported attribute to true
-    post.IsReported = true;
-    post.save().then(() => {
-        res.status(200).json({ status: "success", message: "Post reported successfully!" });
-    }).catch((err) => {
-        res.status(500).json({ status: "error", message: "Post report failed!" });
-    });
+        // if the post exists, set the IsReported attribute to true
+        post.IsReported = true;
+        post.save().then(() => {
+            res.status(200).json({ status: "success", message: "Post reported successfully!" });
+        });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: "An error occurred while reporting the post!" });
+    }
 });
 
 router.get("/searchPosts", upload.none(), async (req, res) => {
     // return a list of postIds that contain the keyword in the title
-    const keyword = req.body.keyword;
-    const postsSearchedByTitle = await Post.find({ title: { "$regex": keyword, "$options": "i" } });
-    const postsSearchedByText = await Post.find({ text: { "$regex": keyword, "$options": "i" } });
-    // *** need to implement this logic ***
-    const postIds = [];
+    try {
+        const keyword = req.query.keyword;
+        const postsSearchedByTitle = await Post.find({ title: { "$regex": keyword, "$options": "i" } });
+        const postsSearchedByText = await Post.find({ text: { "$regex": keyword, "$options": "i" } });
 
-    if (!postsSearchedByTitle && !postsSearchedByText) {
-        return res.status(404).json({ status: "error", message: "No post found!" });
+        const postIds = [];
+
+        if (!postsSearchedByTitle && !postsSearchedByText) {
+            return res.status(404).json({ status: "error", message: "No post found!" });
+        }
+
+        // send a list of postIds back to the client
+        // post searched by title will be displayed first, followed by posts searched by text
+        postsSearchedByTitle.forEach(element => {
+            postIds.push(element.postId);
+        });
+        postsSearchedByText.forEach(element => {
+            postIds.push(element.postId);
+        });
+        res.status(200).json({ status: "success", message: "Posts found!", postIds: postIds });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ status: "error", message: "Internal Server Error!" });
     }
-
-    // send a list of postIds back to the client
-    // post searched by title will be displayed first, followed by posts searched by text
-    postsSearchedByTitle.forEach(element => {
-        postIds.push(element.postId);
-    });
-    postsSearchedByText.forEach(element => {
-        postIds.push(element.postId);
-    });
-    res.status(200).json({ status: "success", message: "Posts found!", postIds: postIds });
 });
 
 module.exports = router;

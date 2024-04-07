@@ -88,11 +88,44 @@ router.get("/fetchUser", upload.none(), async (req, res) => {
 	}
 });
 
+router.get("/fetchAllUsers", async (req, res) => {
+	const users = await User.find();
+	res.status(200).json(users);
+})
+
 router.get("/fetchAllUsernames", async (req, res) => {
 	const users = await User.find();
 	const usernames = users.map(user => user.username);
-	res.send(usernames);
+	res.status(200).json(usernames);
 })
+
+router.delete("/deleteUser", upload.none(), async (req, res) => {
+	try {
+		const username = req.query.username;
+		const user = await User.findOne({
+			username: username
+		});
+		if (!user) {
+			return res.status(404).json({
+				message: "User not found!"
+			});
+		}
+		if (user.accountType === "admin") {
+			return res.status(403).json({
+				message: "Cannot delete admin account!"
+			});
+		}
+		await User.deleteOne({ username: username });
+		res.status(200).json({
+			message: "User deleted!"
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+
 
 router.post("/login", upload.none(), async (req, res) => {
 	console.log(req.body)
