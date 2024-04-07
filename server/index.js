@@ -4,7 +4,6 @@ const cors = require('cors');
 const app = express();
 const PORT = 8000;
 const mongoose = require("mongoose");
-require('dotenv').config()
 const uri = process.env.ATLAS_URI;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 async function checkDBConnection() {
@@ -39,11 +38,16 @@ db.once("open", () => console.log("Connected to Database"));
 module.exports = mongoose;
 const userapiRouter = require("./api/userapi");
 const followapiRouter = require("./api/followapi");
+const postapiRouter = require("./api/postapi");
+const commentapiRouter = require("./api/commentapi");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
 app.use("/api/userapi", userapiRouter);
+app.use("/api/postapi", postapiRouter);
+app.use("/api/commentapi", commentapiRouter);
 app.use("/api/followapi", followapiRouter);
 
 app.listen(PORT, () => {
