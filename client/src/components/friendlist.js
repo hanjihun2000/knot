@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../components/component_css/FriendList.css';
 import { useUser } from '../userContext';
+import { ArrowsClockwise } from "@phosphor-icons/react";
 
 const FriendLists = () => {
   const [friendList, setFriendList] = useState([]);
@@ -43,7 +44,7 @@ const FriendLists = () => {
     <nav className="FriendListsContainer">
       
       <ul className="FriendLists">
-        <li key = 'refresh className = "row'><button onClick={fetchFriendList}>Refresh Friends List</button></li>
+        <li key = 'refresh className = "row' className="refresh-border"><button onClick={fetchFriendList} className="refresh-button"><ArrowsClockwise className="reload-icon" /></button></li>
         {friendList.map((friend, index) => (
           <li key={index} className="row">
             <NavLink to={`/profile/${friend.username}`} className="nav-link">

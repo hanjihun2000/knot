@@ -47,6 +47,13 @@
     align-items: center; /* Add this line */
   }
 
+  .refresh-border{
+    list-style-type: none;
+    width: 100%; /* Full width of the sidebar */
+    height: auto; /* Full height of the sidebar */
+    text-align: right;
+  }
+
   .row:hover {
     border-radius: 32px;
     cursor: pointer;
@@ -86,4 +93,17 @@
       /* Handle or slider on hover */
       ::-webkit-scrollbar-thumb:hover {
         background: #555; /* Color of the slider on hover */
+      }
+      .reload-icon{
+        width: 32px;
+        height: 32px;
+      }
+      .refresh-button{
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        background-color: transparent; /* Add this line */
+      }
+      .refresh-button:hover{
+        background-color: rgba(23, 23, 23, 0.3);
       }

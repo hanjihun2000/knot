@@ -32,7 +32,7 @@ function ThemeSelector() {
   
   return (
     <div className="theme-selector">
-      <h2>Theme setting</h2>
+      <h2 classname =" theme-setting-title">Theme setting</h2>
       <p>Let’s change up the theme</p>
       <div className="theme-buttons">
         <button className="theme-button white" onClick={() => setTheme('white')}>White</button>

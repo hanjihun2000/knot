@@ -141,6 +141,10 @@
     
   }
   
-  .Username{
-    margin-top: 20px;
+  .username{
+    border-radius: 20px;
+    margin: 20px;
+    font-size: 1.2em;
+    text-align: center;
+    background-color: var(--hoverbackground);
   }
