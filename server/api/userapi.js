@@ -88,10 +88,15 @@ router.get("/fetchUser", upload.none(), async (req, res) => {
 	}
 });
 
+router.get("/fetchAllUsers", async (req, res) => {
+	const users = await User.find();
+	res.status(200).json(users);
+})
+
 router.get("/fetchAllUsernames", async (req, res) => {
 	const users = await User.find();
 	const usernames = users.map(user => user.username);
-	res.send(usernames);
+	res.status(200).json(usernames);
 })
 
 router.post("/login", upload.none(), async (req, res) => {

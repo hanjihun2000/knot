@@ -205,13 +205,6 @@ router.get("/recommendPosts", upload.none(), async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
 router.put("/likeDislikePost", upload.none(), async (req, res) => {
     try {
         const {postId, username, isLike, isUndo} = req.body;
@@ -284,25 +277,30 @@ router.post("/reportPost", upload.none(), async (req, res) => {
 
 router.get("/searchPosts", upload.none(), async (req, res) => {
     // return a list of postIds that contain the keyword in the title
-    const keyword = req.body.keyword;
-    const postsSearchedByTitle = await Post.find({ title: { "$regex": keyword, "$options": "i" } });
-    const postsSearchedByText = await Post.find({ text: { "$regex": keyword, "$options": "i" } });
-    // *** need to implement this logic ***
-    const postIds = [];
+    try {
+        const keyword = req.query.keyword;
+        const postsSearchedByTitle = await Post.find({ title: { "$regex": keyword, "$options": "i" } });
+        const postsSearchedByText = await Post.find({ text: { "$regex": keyword, "$options": "i" } });
 
-    if (!postsSearchedByTitle && !postsSearchedByText) {
-        return res.status(404).json({ status: "error", message: "No post found!" });
+        const postIds = [];
+
+        if (!postsSearchedByTitle && !postsSearchedByText) {
+            return res.status(404).json({ status: "error", message: "No post found!" });
+        }
+
+        // send a list of postIds back to the client
+        // post searched by title will be displayed first, followed by posts searched by text
+        postsSearchedByTitle.forEach(element => {
+            postIds.push(element.postId);
+        });
+        postsSearchedByText.forEach(element => {
+            postIds.push(element.postId);
+        });
+        res.status(200).json({ status: "success", message: "Posts found!", postIds: postIds });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ status: "error", message: "Internal Server Error!" });
     }
-
-    // send a list of postIds back to the client
-    // post searched by title will be displayed first, followed by posts searched by text
-    postsSearchedByTitle.forEach(element => {
-        postIds.push(element.postId);
-    });
-    postsSearchedByText.forEach(element => {
-        postIds.push(element.postId);
-    });
-    res.status(200).json({ status: "success", message: "Posts found!", postIds: postIds });
 });
 
 module.exports = router;
