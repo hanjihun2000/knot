@@ -59,4 +59,12 @@
   .theme-button.summer:hover {
     background-color: #ffc069;
   }
+
+  .theme-button.spring {
+    background-color: #FFC7C7;
+  }
+  
+  .theme-button.spring:hover {
+    background-color: #FFE2E2;
+  }
   

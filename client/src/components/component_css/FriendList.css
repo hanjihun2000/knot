@@ -10,7 +10,7 @@
     width: 20vw;
     height: 100vh;
     overflow: auto;
-    background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+    background-image: var(--background-image);
     padding: 1rem;
     flex-direction: column;
     align-items: center; /* Aligns items horizontally */
