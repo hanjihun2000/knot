@@ -205,7 +205,7 @@ router.get("/viewFollowers", async (req, res) => {
 		const followers = user.followers;
 		const followerUsers = await Promise.all(
 			followers.map(async (followerUsername) => {
-			  const followerUser = await User.findOne({ username: followerUsername });
+			  const followerUser = await User.findOne({ username: followerUsername }).select("username profilePicture");
 			  return followerUser;
 			})
 		  );
@@ -225,7 +225,7 @@ router.get("/viewFollowing", async (req, res) => {
 		const following = user.following;
 		const followingUsers = await Promise.all(
 		  following.map(async (followingUsername) => {
-			const followingUser = await User.findOne({ username: followingUsername });
+			const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
 			return followingUser;
 		  })
 		);
