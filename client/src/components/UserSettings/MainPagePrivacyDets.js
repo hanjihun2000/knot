@@ -8,6 +8,7 @@ const MainPagePrivacyDets = () => {
     setIsPrivate(e.target.checked);
     // Here you might also want to persist the change to the user's profile in your database
   };
+  
 
   return (
     <div className="profile-edit">

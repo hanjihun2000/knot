@@ -1,6 +1,6 @@
 .profile-sidebar {
     width: 250px; /* Adjust the width as necessary */
-    background-color: #D3D0B3; /* Background color of the sidebar */
+    background-color: var(--profile-sidebar); /* Background color of the sidebar */
     height: 75vh;
     padding: 20px;
     box-sizing: border-box;
