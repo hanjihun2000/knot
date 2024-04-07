@@ -2,16 +2,23 @@ import '../component_css/ProfileEdit.css';
 import React, { useState } from 'react';
 import toggleVisi from './OIP.jpg';
 import { useUser } from '../../userContext';
+
 const ProfileEdit = () => {
   const [username, setUsername] = useState('');
-  const [bio, setBio] = useState('');
+  
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
-  const [profilePic, setProfilePic] = useState(null);
-  const { user, logout } = useUser(); 
   
+  const { user, logout,setUser } = useUser(); 
+  const [bio, setBio] = useState(user.bio || '');
+  // For profilePic, since it's initially a URL, introduce a new state to track changes
+  const [profilePicFile, setProfilePicFile] = useState(null); // Track file changes
+  const [profilePic, setProfilePic] = useState(user.profilePic || null);
+  
+  console.log(bio);
+  console.log(profilePic);
   const handleEditSignUp = async (event) => {
     event.preventDefault();
     
@@ -26,10 +33,8 @@ const ProfileEdit = () => {
     const formData = new FormData();
     formData.append('username', user.username);
     formData.append('password', password);
-    formData.append('bio', bio);
-    if (profilePic) {
-      formData.append('profilePicture', profilePic);
-    }
+    if (bio !== user.bio) formData.append('bio', bio); // Only append if changed
+    if (profilePicFile) formData.append('profilePicture', profilePicFile); // Append new file if selected
 
     try {
       const response = await fetch(apiUrl, {
@@ -42,6 +47,12 @@ const ProfileEdit = () => {
       if (response.ok) {
         console.log(data);
         alert(data.message || 'Profile Edit Successful!');
+        console.log(profilePic);
+        setUser((currentUser) => ({
+          ...currentUser,
+          bio: bio,
+          profilePicture: URL.createObjectURL(profilePic)
+        }));
       } else {
         alert(data.message || 'An error occurred during edit');
       }
@@ -53,8 +64,10 @@ const ProfileEdit = () => {
 
   const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
+    console.log(file);
     if (file && file.size <= 5242880) { // 5 MB in bytes
       setProfilePic(file);
+      setProfilePicFile(file);
     } else {
       alert('File size should be less than 5MB');
     }
@@ -76,7 +89,8 @@ const ProfileEdit = () => {
       <form className="edit-form" onSubmit={handleEditSignUp}>
         <div className="profile-container">
           
-          <img src={user.profilePicture } alt="Profile" />
+        <img src={profilePic == null ? user.profilePicture: URL.createObjectURL(profilePic)} alt="Profile" />
+
           <label htmlFor="profile-pic-input" className="file-input-button">Choose a Photo</label>
           <input 
             id="profile-pic-input"
@@ -87,8 +101,8 @@ const ProfileEdit = () => {
         </div>
         
         <textarea
-          placeholder="Bio"
-          value={bio}
+          placeholder={user.bio}
+          value={bio }
           onChange={(e) => setBio(e.target.value)}
           className='bio-input'
         />

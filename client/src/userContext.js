@@ -43,9 +43,15 @@ export const UserProvider = ({ children }) => {
       if (!response.ok) throw new Error(await response.text());
 
       const data = await response.json();
+      let profilePictureURL = "https://via.placeholder.com/150"; // Default/fallback image URL
+      if (data.profilePicture && data.profilePicture.buffer) {
+        const byteArray = new Uint8Array(data.profilePicture.buffer.data);
+        const blob = new Blob([byteArray], { type: data.profilePicture.mimetype });
+        profilePictureURL = URL.createObjectURL(blob);
+      }
       setUser({
         username,
-        profilePicture: data.profilePicture || "https://via.placeholder.com/150",
+        profilePicture: profilePictureURL,
         bio: data.bio || '',
         followers: data.followers || [],
         following: data.following || [],
@@ -85,9 +91,15 @@ export const UserProvider = ({ children }) => {
         if (!response.ok) throw new Error('Failed to fetch user profile.');
 
         const data = await response.json();
+        let profilePictureURL = "https://via.placeholder.com/150"; // Default/fallback image URL
+        if (data.profilePicture && data.profilePicture.buffer) {
+          const byteArray = new Uint8Array(data.profilePicture.buffer.data);
+          const blob = new Blob([byteArray], { type: data.profilePicture.mimetype });
+          profilePictureURL = URL.createObjectURL(blob);
+        }
         setUser((currentUser) => ({
           ...currentUser,
-          profilePicture: data.profilePicture ? URL.createObjectURL(new Blob([new Uint8Array(data.profilePicture.buffer.data)], { type: data.profilePicture.mimetype })) : "https://via.placeholder.com/150",
+          profilePicture: profilePictureURL,
           bio: data.bio || '',
           followers: data.followers || [],
           following: data.following || [],
