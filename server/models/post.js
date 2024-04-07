@@ -1,4 +1,5 @@
 const mongoose = require("../index");
+const uri = process.env.ATLAS_URI;
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
@@ -7,8 +8,8 @@ const postSchema = new Schema({
     title: { type: String, required: true },
     text: { type: String, required: false },
     media: {
-        buffer: { type: Buffer, required: true },
-        mimetype: { type: String, required: true }
+        buffer: { type: Buffer, required: false },
+        mimetype: { type: String, required: false}
     },
     likeDislike: { type: Array, required: false },
     comments: { type: Array, required: false },

@@ -1,8 +1,12 @@
 const express = require("express");
 const multer = require("multer");
+const cors = require('cors');
 const router = express.Router();
 const User = require("../models/user");
 const Follow = require("../models/follow");
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 const upload = multer({ storage: multer.memoryStorage() });
 

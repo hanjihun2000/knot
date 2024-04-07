@@ -38,12 +38,14 @@ db.once("open", () => console.log("Connected to Database"));
 module.exports = mongoose;
 const userapiRouter = require("./api/userapi");
 const followapiRouter = require("./api/followapi");
+const postapiRouter = require("./api/postapi");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use("/api/userapi", userapiRouter);
+app.use("/api/postapi", postapiRouter);
 app.use("/api/followapi", followapiRouter);
 
 app.listen(PORT, () => {

@@ -7,37 +7,67 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const User = require("../models/user");
 const Post = require("../models/post");
 
+router.get("/test", upload.none(), async (req, res) => {
+    console.log(req.body.test);
+    res.send("Hello World!");
+});
+
 router.post("/createPost", upload.single('file'), async (req, res) => {
-    const username = req.body.username;
-    const title = req.body.title;
-    const text = req.body.text;
-    const buffer = req.file.buffer;
-    const mimetype = req.file.mimetype;
+    // const username = req.body.username;
+    // const title = req.body.title;
+    // const text = req.body.text;
+    // const buffer = req.file.buffer;
+    // const mimetype = req.file.mimetype;
+
+    const {username, title, text, buffer, mimetype} = req.body;
     
-    let postId;
+    let id;
     // generate a postId that is unique
     do {
-        postId = Math.floor(Math.random() * 1000000000);
-    } while (await Post.exists({ postId: postId }));
+        id = Math.floor(Math.random() * 1000000000);
+    } while (await Post.exists({ postId: id }));
+
+    const postId = id;
 
     // do some data type checking here if needed
+
+    if (username === "") {
+        return res.status(400).json({ status: "error", message: "Username is required!" });
+    }
+
+    // if username does not exist in the database, return an error
+    if (!await User.exists({ username: username })) {
+        return res.status(404).json({ status: "error", message: "Username does not exist!" });
+    }
+
+    if (title === "") {
+        return res.status(400).json({ status: "error", message: "Title is required!" });
+    }
+
 
     const post = new Post({
         postId: postId,
         username: username,
         title: title,
         text: text,
-        media: { buffer: buffer, mimetype: mimetype },
+        // add file, if no file return empty buffer and empty string mimetype
+        media: buffer && mimetype ? { buffer: buffer, mimetype: mimetype } : null,
         likeDislike: [[], []], // [[username who likes a post], [username who dislikes a post]]
         comments: [],
         IsReported: false
     });
+
+
+    console.log(post)
+
+
     post.save().then(savedPost => {
-        const postId = savedPost.postId;
-        res.status(201).json({ status: "success", message: "Post created successfully!", postId: postId });
+        res.status(201).json({ status: "success", message: "Post created successfully!", postId: savedPost.postId });
     }).catch((err) => {
+        console.log(err);
         res.status(500).json({ status: "error", message: "Post creation failed!" });
     });
 })
