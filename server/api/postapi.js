@@ -144,7 +144,7 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
         dislikes: post.dislikes,
         //IsReported: post.IsReported
     };
-    res.status(200).json(post);
+    res.status(200).json(postInfo);
 });
 
 function addUsername(array, username) {
