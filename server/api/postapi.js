@@ -10,12 +10,17 @@ app.use(cors());
 const Post = require("../models/post");
 
 router.post("/createPost", upload.single('file'), async (req, res) => {
-    const postId = req.body.postId;
     const username = req.body.username;
     const title = req.body.title;
     const text = req.body.text;
     const buffer = req.file.buffer;
     const mimetype = req.file.mimetype;
+    
+    let postId;
+    // generate a postId that is unique
+    do {
+        postId = Math.floor(Math.random() * 1000000000);
+    } while (await Post.exists({ postId: postId }));
 
     // do some data type checking here if needed
 
