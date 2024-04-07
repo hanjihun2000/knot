@@ -1,23 +1,19 @@
 /* ThemeSelector.css */
 
 .theme-selector {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    padding: 20px;
+    --background: var(--background-color);; /* Adjust color to match your design */
     border-radius: 10px;
+    padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 300px;
-    margin: auto;
+    width: 40vw;
+    min-width: 10vw;
+    margin-right: auto;
+    height: 75vh;
+    display: flex; /* Add this line */
+    flex-direction: column;
   }
-  
-  .theme-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
+
+
   .theme-button {
     border: none;
     padding: 10px 20px;
@@ -25,6 +21,7 @@
     color: white;
     border-radius: 20px;
     transition: background-color 0.3s ease;
+    margin: 5px;
   }
   
   .theme-button.white {

@@ -72,7 +72,7 @@ const ProfileEdit = () => {
     <div className="profile-edit">
       <h2>Edit Profile</h2>
 
-      <div>{user.username}</div>
+      
       <form className="edit-form" onSubmit={handleEditSignUp}>
         <div className="profile-container">
           
@@ -85,7 +85,7 @@ const ProfileEdit = () => {
             onChange={handleProfilePicChange}
           />
         </div>
-        
+        <div className="username">{user.username}</div>
         <textarea
           placeholder="Bio"
           value={bio}
