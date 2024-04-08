@@ -11,6 +11,8 @@ const postSchema = new Schema({
         buffer: { type: Buffer, required: false },
         mimetype: { type: String, required: false}
     },
+    originalUsername: { type: String, required: false },
+    originalPostId: { type: Number, required: false },
     likes: { type: Array, required: false },
     dislikes: { type: Array, required: false },
     IsReported: { type: Boolean, required: false },
