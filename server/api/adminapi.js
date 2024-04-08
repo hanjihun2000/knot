@@ -50,6 +50,10 @@ router.delete("/deleteUser", upload.none(), async (req, res) => {
 				message: "Cannot delete admin account!"
 			});
 		}
+        //delete all posts made by user
+        await Post.deleteMany({ username: username});
+        //delete all comments made by user
+        await Comment.deleteMany({ username: username});
 		await User.deleteOne({ username: username });
 		res.status(200).json({
 			message: "User deleted!"

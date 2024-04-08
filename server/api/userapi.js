@@ -212,19 +212,25 @@ router.get("/viewFollowers", async (req, res) => {
 router.get("/viewFollowing", async (req, res) => {
 	try {
 		const usernameParam = req.query.username;
-		const user = await User.findOne({ username: usernameParam });
+		const user = await User.findOne({ username: usernameParam }).select("following");
 		if (!user) {
 			return res.status(404).json({ message: "User not found!" });
 		}
-		const following = user.following;
-		const followingUsers = await Promise.all(
-		  following.map(async (followingUsername) => {
-			const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
-			return followingUser;
-		  })
+
+		const updatedFollowing = await Promise.all(
+			user.following.map(async (followingUsername) => {
+			  const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
+			  return followingUser ? followingUsername : null;
+			})
 		);
+		  
+		// Filter out any null values (i.e., usernames not found in the database)
+		const filteredFollowing = updatedFollowing.filter(username => username !== null);
+
+		user.following = filteredFollowing;
+		await user.save();
 	
-		res.json(followingUsers);
+		res.status(200).json(user.following);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
