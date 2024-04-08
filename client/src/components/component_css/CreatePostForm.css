@@ -15,6 +15,7 @@
     overflow: hidden; /* Added overflow property */
     position: relative; 
     font-family: "Inika";
+    border-color: transparent;
   }
   .photo-container {
     margin:8px;
@@ -88,7 +89,6 @@
   }
   
   .attach-photo-button {
-    top: 36%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
