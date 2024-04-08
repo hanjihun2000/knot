@@ -74,6 +74,7 @@ router.get('/viewAllFollowRequests', upload.none(), async (req, res) => {
 	}
 });
 
+<<<<<<< HEAD
 router.get("/viewFollowing", async (req, res) => {
     try {
         const usernameParam = req.query.username;
@@ -81,6 +82,20 @@ router.get("/viewFollowing", async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "User not found!" });
         }
+=======
+router.get('/viewFollowRequests', upload.none(), async (req, res) => {
+	try {
+		const receiver = req.query.username;
+		console.log(receiver);
+		// check if a user
+		const userExists = await User.exists({ username: receiver });
+		if (!userExists) {
+			return res.status(400).send({ status: "error", message: "User does not exist!" });
+		}
+		const followRequests = await Follow.find({ receiver: receiver });
+		// //get usernames of senders
+		// const senders = followRequests.map((followRequest) => followRequest.sender);
+>>>>>>> 3d8621c0002505c99b5562606d2d47d55e02865a
 
         const updatedFollowing = await Promise.all(
             user.following.map(async (followingUsername) => {
