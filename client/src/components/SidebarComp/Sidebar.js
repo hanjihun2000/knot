@@ -45,10 +45,13 @@ const Sidebar = () => {
               ))}
             </ul>
             <div className="menu-bottom-part">
-              <div className="profile-section" onClick={() => history.push("/profile")}>
+            <NavLink to={`/profile/${user.username}`} id = "nav-none" >
+
+              <div className="profile-section" >
                 <img src={user.profilePicture} alt="Profile" className="profile-pic" />
                 <div className="profile-name">{user.username || "Loading..."}</div>
               </div>
+              </NavLink>
               <hr className="separator" />
               <button className="logout" onClick={handleLogout}>
                 <SignOut size={24} className="logout-svg" /> logout

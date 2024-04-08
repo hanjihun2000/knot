@@ -235,6 +235,7 @@ router.get("/viewFollowers", async (req, res) => {
 	}
 });
 
+/*
 router.get("/viewFollowing", async (req, res) => {
 	try {
 		const usernameParam = req.query.username;
@@ -250,7 +251,7 @@ router.get("/viewFollowing", async (req, res) => {
 			})
 		);
 		  
-		// Filter out any null values (i.e., usernames not found in the database)
+		
 		const filteredFollowing = updatedFollowing.filter(username => username !== null);
 
 		user.following = filteredFollowing;
@@ -260,6 +261,21 @@ router.get("/viewFollowing", async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
+});
+*/
+router.get("/viewFollowing", async (req, res) => {
+    try {
+        const usernameParam = req.query.username;
+        const user = await User.findOne({ username: usernameParam })
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found!" });
+        }
+
+        res.status(200).json(user.following);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 // router.get("/test", upload.none(), async (req, res) => {

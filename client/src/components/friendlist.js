@@ -10,6 +10,7 @@ const FriendLists = () => {
   const [fetchTrigger, setFetchTrigger] = useState(false);
 
   const fetchFriendList = () => {
+    console.log(user.username);
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
       .then(response => {
         if (!response.ok) {
