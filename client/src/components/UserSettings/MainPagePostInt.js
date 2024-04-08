@@ -12,6 +12,7 @@ const MainPagePostInt = () => {
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
   const { username } = useUser(); // setUsername removed since it wasn't used
+  const { posts } = useState([]);
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -43,6 +44,23 @@ const MainPagePostInt = () => {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [newComment]);
+
+  //fetch posts
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/postapi/recommendPosts?username=${username}`) // Fetch posts for the user
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 'success') {
+          posts = data.posts;
+        } else {
+          alert(data.message);
+        }
+      }).catch((error) => {
+        console.error('There was an error!', error);
+      });
+  }, [username]);
+
+  console.log(posts);
 
   const handleLike = () => {
     setLikes(likes + 1);
