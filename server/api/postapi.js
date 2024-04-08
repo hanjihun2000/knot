@@ -11,6 +11,15 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const follow = require("../models/follow");
 
+async function generateUniquePostId() {
+    let id;
+    // generate a postId that is unique
+    do {
+        id = Math.floor(Math.random() * 1000000000);
+    } while (await Post.exists({ postId: id }));
+
+    return id;
+}
 
 router.post("/createPost", upload.single('file'), async (req, res) => {
     // const username = req.body.username;
@@ -20,14 +29,8 @@ router.post("/createPost", upload.single('file'), async (req, res) => {
     // const mimetype = req.file.mimetype;
 
     const {username, title, text, buffer, mimetype} = req.body;
-    
-    let id;
-    // generate a postId that is unique
-    do {
-        id = Math.floor(Math.random() * 1000000000);
-    } while (await Post.exists({ postId: id }));
 
-    const postId = id;
+    const postId = await generateUniquePostId();
 
     // do some data type checking here if needed
 
@@ -68,7 +71,7 @@ router.post("/createPost", upload.single('file'), async (req, res) => {
     });
 })
 
-router.post("/editPost", upload.none(), async (req, res) => {
+router.put("/editPost", upload.none(), async (req, res) => {
     const { postId, attribute, value } = req.body;
 
     try 
@@ -104,7 +107,7 @@ router.post("/editPost", upload.none(), async (req, res) => {
 });
 
 router.delete("/deletePost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
+    const {postId} = req.body;
     
     try 
     {
@@ -124,13 +127,12 @@ router.delete("/deletePost", upload.none(), async (req, res) => {
     }
 });
 
-// need to decision how to handle sharing posts
-// Backend API will just be responsible for fetching original post and sending it to the client
-// Client will handle the rest
-// 1. Do not allow user to edit the content + change the username to the user's username
-// 2. Allow user to edit the content, but add a tag to the post that it is a shared post + original postId and username
+
+// Post is immediately added to the database with the original post's information
 router.post("/sharePost",  async (req, res) => {
     const { postId, username } = req.body;
+
+    console.log(req.body)
     
     try 
     {
@@ -148,23 +150,27 @@ router.post("/sharePost",  async (req, res) => {
         }
 
         // generate a postId that is unique
+        const newPostId = await generateUniquePostId();
 
-
-        return res.status(200).json({ 
-            status: "success", 
-            message: "Original post fetched!",
-            postInfo: {
-                username: originalPost.username,
-                title: originalPost.title,
-                text: originalPost.text,
-                media: originalPost.media,
-                likes: originalPost.likes,
-                dislikes: originalPost.dislikes
-            } 
+        const sharedPost = new Post({
+            postId: newPostId,
+            username: username,
+            originalPostId: originalPost.originalPostId ? originalPost.originalPostId : originalPost.postId,
+            originalUsername: originalPost.originalUsername ? originalPost.originalUsername : originalPost.username,
+            title: originalPost.title,
+            text: originalPost.text,
+            media: originalPost.media,
+            likes: [],
+            dislikes: [],
+            IsReported: false
         });
-    }
-    catch (error) 
-    {
+
+        //return new post in response
+        sharedPost.save().then(savedPost => {
+            res.status(201).json({ status: "success", message: "Post shared successfully!", postId: savedPost.postId });
+        })
+    } catch (error) {
+        console.log(error);
         res.status(500).json({ status: "error", message: "Internal server error!" });
     }
 });
