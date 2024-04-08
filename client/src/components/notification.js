@@ -19,7 +19,7 @@ const RequestList = () => {
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        
         
           setRequestFollower(data.message);
         
@@ -27,26 +27,36 @@ const RequestList = () => {
       .catch(error => console.error('Fetching error:', error));
   };
 
-  const handleFollowRequest = (sender, receiver, accept) => {
-    fetch('http://localhost:8000/api/followapi/handleFollowRequest', {
-      method: 'POST',
+  const handleFollowRequest = async (sender, receiver, accept) => {
+  const queryParams = new URLSearchParams({ sender, receiver, accept: accept.toString() }).toString();
+  const url = `http://localhost:8000/api/handleFollowRequest?${queryParams}`;
+  
+  
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      
       headers: {
         'Content-Type': 'application/json',
+        // Include any other headers like Authorization if needed
       },
-      body: JSON.stringify({
-        sender: receiver,
-        receiver: sender,
-        accept: accept,
-      }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+      
+      
     });
-  };
+
+    const result = await response.json();
+    console.log(result);
+
+    // Handle success or error based on the response
+    if (response.ok) {
+      console.log("Success:", result.message);
+    } else {
+      console.error("Error:", result.message);
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+};
 
   // Fetch data only once when the component mounts
   useEffect(() => {
@@ -82,8 +92,8 @@ const RequestList = () => {
                     <div id="username" className="notification-user">{requestedUser.username}</div>
                 </NavLink>
                 <div id="notification-button-container">
-                    <button className="acceptAndReject-button accept-button" onClick={() => handleFollowRequest(user.username, requestedUser.username, true)}>accept</button>
-                    <button className="acceptAndReject-button reject-button" onClick={() => handleFollowRequest(user.username, requestedUser.username, false)}>reject</button>
+                    <button className="acceptAndReject-button accept-button" onClick={() => handleFollowRequest(requestedUser.username, user.username , true)}>accept</button>
+                    <button className="acceptAndReject-button reject-button" onClick={() => handleFollowRequest(requestedUser.username, user.username, false)}>reject</button>
                 </div> 
                 </li>
             );
