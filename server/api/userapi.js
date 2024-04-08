@@ -8,6 +8,7 @@ app.use(cors());
 const multer = require("multer");
 const router = express.Router();
 const User = require("../models/user");
+const Post = require("../models/post");
 const jwt = require('jsonwebtoken');
 const upload = multer({ storage: multer.memoryStorage() });
 
