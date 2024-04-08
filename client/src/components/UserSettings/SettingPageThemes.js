@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
 import Navbar from '../Navbar';
-import MainPagePrivacyDets from './MainPagePrivacyDets';
-import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBar';
+import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import '../component_css/MainPage.css';
+import ThemeSelector from './ThemeSelector';
+import FriendLists from '../friendlist';
 
 
 
 
 
 
-
-const MainPagePrivacy = () => {
+const MainPageThemes = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
-
 
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
@@ -28,23 +27,23 @@ const MainPagePrivacy = () => {
   };
 
   return (
-    
 
-<div className="main-container">
-<Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-<div className="content-container">
-  <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-  <div className="main-content">
-    <div className="profile-edit-container">
-    <ProfileSideBarPrivacy/>
-      <MainPagePrivacyDets/>
+    <div className="main-container">
+    <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div className="content-container">
+      <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div className="main-content">
+        <div className="profile-edit-container">
+        <ProfileSideBarEdit/>
+          <ThemeSelector/>
+        </div>
+      </div>
+      <FriendLists className="friend-list"/>
     </div>
   </div>
-</div>
-</div>
 
     
   );
 };
 
-export default MainPagePrivacy;
+export default MainPageThemes;

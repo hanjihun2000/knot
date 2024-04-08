@@ -3,16 +3,15 @@ import React from 'react';
 import SignUpForm from './components/SignUpForm';
 import LogInForm from './components/LogInForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import MainPageEdit from './components/UserSettings/MainPageEdit';
-import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
+import SettingPageEdit from './components/UserSettings/SettingPageEdit';
+import SettingPagePrivacy from './components/UserSettings/SettingPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
-import MainPageThemes from './components/UserSettings/MainPageThemes';
+import SettingPageThemes from './components/UserSettings/SettingPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
-import MainPagePostInt from './components/UserSettings/MainPagePostInt';
-import CreatePostForm from './components/UserSettings/CreatePostForm';
+import MainPagePost from './components/UserSettings/MainPagePost';
+import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
 import UserProfile from './components/UserSettings/UserProfile';
-
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -29,38 +28,49 @@ function App() {
             <Route path='/login'>
               <LogInForm />
             </Route>
-            
+            <Route path='/userprofile'>
+              <UserProfile/>
+            </Route>
             <ProtectedRoute
               exact
               path='/home'
-              component={MainPageEdit}
-              auth={isAuthenticated}
-            />
-            <Route path='/createPost'>
-              <CreatePostForm/>
-            </Route>
-            <Route path='/userProfile'>
-              <UserProfile />
-            </Route>
-            <Route path='/mainPage'>
-              <MainPagePostInt />
-            </Route>
-            <ProtectedRoute
-              exact
-              path='/privacy-settings'
-              component={MainPagePrivacy}
+              component={MainPageHomePage}
               auth={isAuthenticated}
             />
             <ProtectedRoute
               exact
-              path='/theme-settings'
-              component={MainPageThemes}
+              path='/create-post'
+              component={MainPagePost}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute  
+            exact path='/settings/profile-edit'
+            component={SettingPageEdit}
+            auth={isAuthenticated}
+            />
+           
+            <ProtectedRoute
+              exact
+              path='/settings/privacy-settings'
+              component={SettingPagePrivacy}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/settings/theme-settings'
+              component={SettingPageThemes}
               auth={isAuthenticated}
             />
             <ProtectedRoute
               exact
               path='/profile/:username'
-              component={MainPageThemes}
+              component={UserProfile}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/notification/:username'
+              component={SettingPageThemes}
               auth={isAuthenticated}
             />
           </Switch>
@@ -68,6 +78,7 @@ function App() {
       </UserProvider>
     </Router>
   );
+
 }
 
 export default App;

@@ -12,7 +12,7 @@ import '../component_css/MainPage.css';
 
 
 
-const MainPageEdit = () => {
+const SettingPageEdit = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -45,4 +45,4 @@ const MainPageEdit = () => {
   );
 }
 
-export default MainPageEdit;
+export default SettingPageEdit;

@@ -15,7 +15,7 @@ export const sideBarItem = [
   {
     title: "Settings",
     icon: <Gear />,
-    link: "/settings"
+    link: "/settings/profile-edit"
   },
   {
     title: "Notification",

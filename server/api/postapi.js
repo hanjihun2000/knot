@@ -29,8 +29,14 @@ router.post("/createPost", upload.single('file'), async (req, res) => {
     // const mimetype = req.file.mimetype;
 
     const {username, title, text, buffer, mimetype} = req.body;
+    
+    let id;
+    // generate a postId that is unique
+    do {
+        id = Math.floor(Math.random() * 1000000000);
+    } while (await Post.exists({ postId: id }));
 
-    const postId = await generateUniquePostId();
+    const postId = id;
 
     // do some data type checking here if needed
 
