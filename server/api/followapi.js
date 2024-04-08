@@ -74,15 +74,6 @@ router.get('/viewAllFollowRequests', upload.none(), async (req, res) => {
 	}
 });
 
-<<<<<<< HEAD
-router.get("/viewFollowing", async (req, res) => {
-    try {
-        const usernameParam = req.query.username;
-        const user = await User.findOne({ username: usernameParam }).select("following");
-        if (!user) {
-            return res.status(404).json({ message: "User not found!" });
-        }
-=======
 router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 	try {
 		const receiver = req.query.username;
@@ -95,30 +86,20 @@ router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 		const followRequests = await Follow.find({ receiver: receiver });
 		// //get usernames of senders
 		// const senders = followRequests.map((followRequest) => followRequest.sender);
->>>>>>> 3d8621c0002505c99b5562606d2d47d55e02865a
 
-        const updatedFollowing = await Promise.all(
-            user.following.map(async (followingUsername) => {
-                const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
-                if (!followingUser) {
-                    return null;
-                }
-                // Assuming profilePicture is stored in a way that can be directly sent to the client
-                // Adjust the structure as needed based on how you store profile pictures
-                return {
-                    username: followingUser.username,
-                    profilePicture: followingUser.profilePicture ? followingUser.profilePicture : 'path/to/default/image.png'
-                };
-            })
-        );
-
-        const filteredFollowing = updatedFollowing.filter(user => user !== null);
-
-        // No need to save the user document here as you're not modifying the user itself, just querying related data
-        res.status(200).json(filteredFollowing);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+		//get username and profile picture of senders
+		const senders = await Promise.all(
+			followRequests.map(async (followRequest) => {
+				const sender = await User.findOne({ username: followRequest.sender }).select('username profilePicture');
+				return sender;
+			}
+		));
+		
+		return res.status(200).send({ status: "success", message: senders });
+	} catch (err) {
+		console.error(err);
+		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
+	}
 });
 
 router.delete('/handleFollowRequest', upload.none(), async (req, res) => {
