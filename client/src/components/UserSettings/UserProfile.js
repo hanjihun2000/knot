@@ -4,8 +4,9 @@ import profilePicture from './profile-picture.jpg';
 import editIcon from './edit-icon.png';
 import trashIcon from './trash-icon.png';
 
+import { useParams } from 'react-router-dom';
 const UserProfile = () => {
-  const username = 'johndoe';
+  let { username } = useParams();
   const userDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
   const posts = [
     {
@@ -54,5 +55,12 @@ const UserProfile = () => {
     </div>
   );
 };
+
+
+
+
+
+
+
 
 export default UserProfile;
