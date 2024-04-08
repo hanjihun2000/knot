@@ -45,7 +45,10 @@ router.post("/register", upload.none(), async (req, res) => {
 			password: password,
 			email: email,
 			accountType: "user",
-			profilePicture: null,
+			profilePicture: {
+				buffer: null,
+				mimetype: null
+			},
 			bio: null,
 			theme: null,
 			followers: [],

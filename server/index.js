@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const uri = process.env.ATLAS_URI;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
+console.log(uri);
+
 async function checkDBConnection() {
 	try {
 		const client = new MongoClient(uri, {
