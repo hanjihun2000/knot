@@ -76,6 +76,12 @@ function App() {
               component={NotificationPage}
               auth={isAuthenticated}
             />
+            <ProtectedRoute
+              exact
+              path='/post'
+              component={NotificationPage}
+              auth={isAuthenticated}
+            />
           </Switch>
         </SideBarProvider>
       </UserProvider>
