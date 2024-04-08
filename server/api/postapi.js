@@ -11,6 +11,16 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const follow = require("../models/follow");
 
+async function generateUniquePostId() {
+    let id;
+    // generate a postId that is unique
+    do {
+        id = Math.floor(Math.random() * 1000000000);
+    } while (await Post.exists({ postId: id }));
+
+    return id;
+}
+
 router.post("/createPost", upload.single('media'), async (req, res) => {
     // const username = req.body.username;
     // const title = req.body.title;
@@ -18,18 +28,9 @@ router.post("/createPost", upload.single('media'), async (req, res) => {
     // const buffer = req.file.buffer;
     // const mimetype = req.file.mimetype;
 
-    const { username, title, text } = req.body;
-    // Access the file information through req.file
-    const buffer = req.file ? req.file.buffer : null;
-    const mimetype = req.file ? req.file.mimetype : null;
-    
-    let id;
-    // generate a postId that is unique
-    do {
-        id = Math.floor(Math.random() * 1000000000);
-    } while (await Post.exists({ postId: id }));
+    const {username, title, text, buffer, mimetype} = req.body;
 
-    const postId = id;
+    const postId = await generateUniquePostId();
 
     // do some data type checking here if needed
 
@@ -70,31 +71,22 @@ router.post("/createPost", upload.single('media'), async (req, res) => {
     });
 })
 
-router.post("/editPost", upload.none(), async (req, res) => {
-    const { postId, attribute, value } = req.body;
+router.put("/editPost", upload.none(), async (req, res) => {
+    const {postId, title, media, text} = req.body;
 
     try 
     {
-        let updatedField;
 
-        if (attribute === "title") 
-        {
-            updatedField = { title: value };
-        } 
-        else if (attribute === "text") 
-        {
-            updatedField = { text: value };
-        }
-        else 
-        {
-            return res.status(400).json({ status: "error", message: "Invalid attribute!" });
-        }
+        //push updates directly to the database
+        const updatedField = {};
+        if (title) updatedField.title = title;
+        if (media) updatedField.media = media;
+        if (text) updatedField.text = text;
 
-        const updatedPost = await Post.findOneAndUpdate({ postId: postId }, updatedField, { new: true });
+        const updatedPost = await Post.findOneAndUpdate({ postId: postId }, updatedField);
 
-        if (!updatedPost) 
-        {
-        return res.status(404).json({ status: "error", message: "Post does not exist!" });
+        if (!updatedPost) {
+            return res.status(404).json({ status: "error", message: "Post does not exist!" });
         }
 
         res.status(200).json({ status: "success", message: "Post updated successfully!" });
@@ -106,7 +98,7 @@ router.post("/editPost", upload.none(), async (req, res) => {
 });
 
 router.delete("/deletePost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
+    const {postId} = req.body;
     
     try 
     {
@@ -126,13 +118,12 @@ router.delete("/deletePost", upload.none(), async (req, res) => {
     }
 });
 
-// need to decision how to handle sharing posts
-// Backend API will just be responsible for fetching original post and sending it to the client
-// Client will handle the rest
-// 1. Do not allow user to edit the content + change the username to the user's username
-// 2. Allow user to edit the content, but add a tag to the post that it is a shared post + original postId and username
-router.post("/sharePost",  async (req, res) => {
+
+// Post is immediately added to the database with the original post's information
+router.post("/sharePost", upload.none(), async (req, res) => {
     const { postId, username } = req.body;
+
+    console.log(req.body)
     
     try 
     {
@@ -149,21 +140,32 @@ router.post("/sharePost",  async (req, res) => {
             return res.status(403).json({ status: "error", message: "Post is reported!" });
         }
 
-        return res.status(200).json({ 
-            status: "success", 
-            message: "Original post fetched!",
-            postInfo: {
-                username: originalPost.username,
-                title: originalPost.title,
-                text: originalPost.text,
-                media: originalPost.media,
-                likes: originalPost.likes,
-                dislikes: originalPost.dislikes
-            } 
+        // generate a postId that is unique
+        const newPostId = await generateUniquePostId();
+
+        //get media of original post
+
+        const sharedMedia = originalPost.media ? { buffer: originalPost.media.buffer, mimetype: originalPost.media.mimetype } : null;
+
+        const sharedPost = new Post({
+            postId: newPostId,
+            username: username,
+            originalPostId: originalPost.originalPostId ? originalPost.originalPostId : originalPost.postId,
+            originalUsername: originalPost.originalUsername ? originalPost.originalUsername : originalPost.username,
+            title: originalPost.title,
+            text: originalPost.text,
+            media: sharedMedia,
+            likes: [],
+            dislikes: [],
+            IsReported: false
         });
-    }
-    catch (error) 
-    {
+
+        //return new post in response
+        sharedPost.save().then(savedPost => {
+            res.status(201).json({ status: "success", message: "Post shared successfully!", postId: savedPost.postId });
+        })
+    } catch (error) {
+        console.log(error);
         res.status(500).json({ status: "error", message: "Internal server error!" });
     }
 });
@@ -191,41 +193,19 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
 
 
     // send the post information back to the client
-    const postInfo = {
-        //postId: post.postId,
-        username: post.username,
-        title: post.title,
-        text: post.text,
-        media: post.media,
-        likes: post.likes,
-        dislikes: post.dislikes,
-        //IsReported: post.IsReported
-    };
-    res.status(200).json(postInfo);
-});
-
-router.get("/fetchUserPosts", upload.none(), async (req, res) => {
-
-    const username = req.query.username;
-    const sender = req.query.sender;
-    
-    const user = await User.findOne({ username: username }).select("accountType follower");
-    if (!user) {
-        return res.status(404).json({ status: "error", message: "Username does not exist!" });
-    }
-
-    //if user accountType is private, and the sender is not a follower of user, return an error
-    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender))) {
-        return res.status(403).json({ status: "error", message: "User account is private!" });
-    }
-
-    const posts = await Post.find({ username: username });
-
-    if (!posts) {
-        return res.status(404).json({ status: "error", message: "User has no posts!" });
-    }
-
-    res.status(200).json({ status: "success", message: "User posts fetched!", posts: posts });
+    // const postInfo = {
+    //     postId: post.postId,
+    //     originalPostId: post.originalPostId,
+    //     originalUsername: post.originalUsername,
+    //     username: post.username,
+    //     title: post.title,
+    //     text: post.text,
+    //     media: post.media,
+    //     likes: post.likes,
+    //     dislikes: post.dislikes,
+    //     IsReported: post.IsReported
+    // };
+    res.status(200).json(post);
 });
 
 router.get("/recommendPosts", upload.none(), async (req, res) => {
@@ -309,7 +289,7 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
 });
 
 router.put("/reportPost", upload.none(), async (req, res) => {
-    const {postId} = req.query;
+    const {postId} = req.body;
     const post = await Post.findOne({ postId: postId });
 
     try {

@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
     postId: { type: Number, required: true, unique: true },
     username: { type: String, required: true, ref:"user" },
+    originalPostId: { type: Number, required: false },
+    originalUsername: { type: String, required: false },
     title: { type: String, required: true },
     text: { type: String, required: false },
     media: {

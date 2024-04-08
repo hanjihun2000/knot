@@ -23,7 +23,8 @@ const RequestList = () => {
         if (Array.isArray(data)) {
           setRequestFollower(data);
         } else {
-          console.error('There is no data:', data);
+          console.error('There is no data:', data); //useless
+          setRequestFollower(data);
         }
       })
       .catch(error => console.error('Fetching error:', error));

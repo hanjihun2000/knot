@@ -84,8 +84,17 @@ router.get('/viewFollowRequests', upload.none(), async (req, res) => {
 			return res.status(400).send({ status: "error", message: "User does not exist!" });
 		}
 		const followRequests = await Follow.find({ receiver: receiver });
-		//get usernames of senders
-		const senders = followRequests.map((followRequest) => followRequest.sender);
+		// //get usernames of senders
+		// const senders = followRequests.map((followRequest) => followRequest.sender);
+
+		//get username and profile picture of senders
+		const senders = await Promise.all(
+			followRequests.map(async (followRequest) => {
+				const sender = await User.findOne({ username: followRequest.sender }).select('username profilePicture');
+				return sender;
+			}
+		));
+		
 		return res.status(200).send({ status: "success", message: senders });
 	} catch (err) {
 		console.error(err);
@@ -102,17 +111,21 @@ router.delete('/handleFollowRequest', upload.none(), async (req, res) => {
 		if (!followExists) {
 			return res.status(400).send({ status: "error", message: "Follow request does not exist!" });
 		}
+
 		await Follow.deleteOne({ sender: sender, receiver: receiver });
-		if (acceptBool) {
-			const senderUser = await User.findOne({ username: sender });
-			const receiverUser = await User.findOne({ username: receiver });
-			senderUser.following.push(receiver);
-			receiverUser.followers.push(sender);
-			await senderUser.save();
-			await receiverUser.save();
-			return res.status(200).send({ status: "success", message: "Follow request accepted!" });
+
+		if (!acceptBool) {
+			return res.status(200).send({ status: "success", message: "Follow request deleted!" });
 		}
-		return res.status(200).send({ status: "success", message: "Follow request deleted!" });
+		
+		const senderUser = await User.findOne({ username: sender });
+		const receiverUser = await User.findOne({ username: receiver });
+		senderUser.following.push(receiver);
+		receiverUser.followers.push(sender);
+		await senderUser.save();
+		await receiverUser.save();
+		return res.status(200).send({ status: "success", message: "Follow request accepted!" });
+
 	} catch (err) {
 		console.error(err);
 		return res.status(400).send({ status: "error", message: "Internal Server Error!" });
