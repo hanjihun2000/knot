@@ -8,6 +8,7 @@ const FriendLists = () => {
   const [friendList, setFriendList] = useState([]);
   const { user } = useUser();
   const [fetchTrigger, setFetchTrigger] = useState(false);
+  
 
   const fetchFriendList = () => {
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
@@ -44,7 +45,11 @@ const FriendLists = () => {
     <nav className="FriendListsContainer">
       
       <ul className="FriendLists">
-        <li key = 'refresh className = "row' className="refresh-border"><button onClick={fetchFriendList} className="refresh-button"><ArrowsClockwise className="reload-icon" /></button></li>
+        <li key = 'refresh className = "row' className="refresh-border">
+          <button onClick={fetchFriendList} className="refresh-button">
+            <ArrowsClockwise className="reload-icon" />
+          </button>
+        </li>
         {friendList.map((friend, index) => (
           <li key={index} className="row">
             <NavLink to={`/profile/${friend.username}`} className="nav-link">

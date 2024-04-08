@@ -10,6 +10,7 @@ import SettingPageThemes from './components/UserSettings/SettingPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePost from './components/UserSettings/MainPagePost';
+import NotificationPage from './components/notificationPage';
 
 
 
@@ -61,8 +62,8 @@ function App() {
             />
             <ProtectedRoute
               exact
-              path='/notification/:username'
-              component={SettingPageThemes}
+              path='/notification'
+              component={NotificationPage}
               auth={isAuthenticated}
             />
           </Switch>
