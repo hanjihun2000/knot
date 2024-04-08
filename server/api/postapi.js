@@ -120,7 +120,7 @@ router.delete("/deletePost", upload.none(), async (req, res) => {
 
 
 // Post is immediately added to the database with the original post's information
-router.post("/sharePost",  async (req, res) => {
+router.post("/sharePost", upload.none(), async (req, res) => {
     const { postId, username } = req.body;
 
     console.log(req.body)
@@ -143,6 +143,12 @@ router.post("/sharePost",  async (req, res) => {
         // generate a postId that is unique
         const newPostId = await generateUniquePostId();
 
+        //get media of original post
+
+        const sharedMedia = originalPost.media ? { buffer: originalPost.media.buffer, mimetype: originalPost.media.mimetype } : null;
+
+
+
         const sharedPost = new Post({
             postId: newPostId,
             username: username,
@@ -150,11 +156,13 @@ router.post("/sharePost",  async (req, res) => {
             originalUsername: originalPost.originalUsername ? originalPost.originalUsername : originalPost.username,
             title: originalPost.title,
             text: originalPost.text,
-            media: originalPost.media,
+            media: sharedMedia,
             likes: [],
             dislikes: [],
             IsReported: false
         });
+
+
 
         //return new post in response
         sharedPost.save().then(savedPost => {
@@ -189,17 +197,19 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
 
 
     // send the post information back to the client
-    const postInfo = {
-        //postId: post.postId,
-        username: post.username,
-        title: post.title,
-        text: post.text,
-        media: post.media,
-        likes: post.likes,
-        dislikes: post.dislikes,
-        //IsReported: post.IsReported
-    };
-    res.status(200).json(postInfo);
+    // const postInfo = {
+    //     postId: post.postId,
+    //     originalPostId: post.originalPostId,
+    //     originalUsername: post.originalUsername,
+    //     username: post.username,
+    //     title: post.title,
+    //     text: post.text,
+    //     media: post.media,
+    //     likes: post.likes,
+    //     dislikes: post.dislikes,
+    //     IsReported: post.IsReported
+    // };
+    res.status(200).json(post);
 });
 
 router.get("/recommendPosts", upload.none(), async (req, res) => {
