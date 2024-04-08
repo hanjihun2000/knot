@@ -1,7 +1,7 @@
 import '../component_css/ProfileEdit.css';
 import React, { useState } from 'react';
 
-const MainPagePrivacyDets = () => {
+const SettingPagePrivacyDets = () => {
   const [isPrivate, setIsPrivate] = useState(false);
 
   const handlePrivacyToggle = (e) => {
@@ -31,4 +31,4 @@ const MainPagePrivacyDets = () => {
   );
 };
 
-export default MainPagePrivacyDets;
+export default SettingPagePrivacyDets;

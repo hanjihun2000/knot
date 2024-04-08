@@ -34,7 +34,7 @@ function LogInForm() {
 
   // If login is successful, redirect to the home page
   if (isLoggedIn) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/settings/profile-edit" />;
   }
 
   return (

@@ -3,15 +3,14 @@ import React from 'react';
 import SignUpForm from './components/SignUpForm';
 import LogInForm from './components/LogInForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import MainPageEdit from './components/UserSettings/MainPageEdit';
-import MainPagePrivacy from './components/UserSettings/MainPagePrivacy';
+import SettingPageEdit from './components/UserSettings/SettingPageEdit';
+import SettingPagePrivacy from './components/UserSettings/SettingPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
-import MainPageThemes from './components/UserSettings/MainPageThemes';
+import SettingPageThemes from './components/UserSettings/SettingPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
-import MainPagePostInt from './components/UserSettings/MainPagePostInt';
 import MainPagePost from './components/UserSettings/MainPagePost';
-import UserProfile from './components/UserSettings/UserProfile';
+
 
 
 function App() {
@@ -33,31 +32,31 @@ function App() {
             <ProtectedRoute
               exact
               path='/home'
-              component={MainPageEdit}
+              component={MainPagePost}
               auth={isAuthenticated}
             />
             <ProtectedRoute  
-            exact path='/createPost'
-            component={MainPagePost}
+            exact path='/settings/profile-edit'
+            component={SettingPageEdit}
             auth={isAuthenticated}
             />
            
             <ProtectedRoute
               exact
-              path='/privacy-settings'
-              component={MainPagePrivacy}
+              path='/settings/privacy-settings'
+              component={SettingPagePrivacy}
               auth={isAuthenticated}
             />
             <ProtectedRoute
               exact
-              path='/theme-settings'
-              component={MainPageThemes}
+              path='/settings/theme-settings'
+              component={SettingPageThemes}
               auth={isAuthenticated}
             />
             <ProtectedRoute
               exact
               path='/profile/:username'
-              component={MainPageThemes}
+              component={SettingPageThemes}
               auth={isAuthenticated}
             />
           </Switch>
@@ -65,6 +64,7 @@ function App() {
       </UserProvider>
     </Router>
   );
+
 }
 
 export default App;

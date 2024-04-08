@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
 import Navbar from '../Navbar';
-import MainPagePrivacyDets from './MainPagePrivacyDets';
+import SettingPagePrivacyDets from './SettingPagePrivacyDets';
 import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBar';
 import '../component_css/MainPage.css';
 import FriendLists from '../friendlist';
@@ -11,7 +11,7 @@ import FriendLists from '../friendlist';
 
 
 
-const MainPagePrivacy = () => {
+const SettingPagePrivacy = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -37,7 +37,7 @@ const MainPagePrivacy = () => {
   <div className="main-content">
     <div className="profile-edit-container">
     <ProfileSideBarPrivacy/>
-      <MainPagePrivacyDets/>
+      <SettingPagePrivacyDets/>
     </div>
   </div>
   <FriendLists className="friend-list"/>
@@ -48,4 +48,4 @@ const MainPagePrivacy = () => {
   );
 };
 
-export default MainPagePrivacy;
+export default SettingPagePrivacy;
