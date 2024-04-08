@@ -11,6 +11,7 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const follow = require("../models/follow");
 
+
 router.post("/createPost", upload.single('file'), async (req, res) => {
     // const username = req.body.username;
     // const title = req.body.title;
@@ -146,6 +147,9 @@ router.post("/sharePost",  async (req, res) => {
             return res.status(403).json({ status: "error", message: "Post is reported!" });
         }
 
+        // generate a postId that is unique
+
+
         return res.status(200).json({ 
             status: "success", 
             message: "Original post fetched!",
@@ -199,30 +203,6 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
         //IsReported: post.IsReported
     };
     res.status(200).json(postInfo);
-});
-
-router.get("/fetchUserPosts", upload.none(), async (req, res) => {
-
-    const username = req.query.username;
-    const sender = req.query.sender;
-    
-    const user = await User.findOne({ username: username }).select("accountType follower");
-    if (!user) {
-        return res.status(404).json({ status: "error", message: "Username does not exist!" });
-    }
-
-    //if user accountType is private, and the sender is not a follower of user, return an error
-    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender))) {
-        return res.status(403).json({ status: "error", message: "User account is private!" });
-    }
-
-    const posts = await Post.find({ username: username });
-
-    if (!posts) {
-        return res.status(404).json({ status: "error", message: "User has no posts!" });
-    }
-
-    res.status(200).json({ status: "success", message: "User posts fetched!", posts: posts });
 });
 
 router.get("/recommendPosts", upload.none(), async (req, res) => {
