@@ -3,7 +3,7 @@ import '../component_css/Sidebar.css';
 import { sideBarItem } from './sideBarItem';
 import { useHistory } from 'react-router-dom';
 import { SignOut, XCircle } from "@phosphor-icons/react";
-import logo from './unnamed.png';
+import logo from './knotlogo.png';
 import { useSideBarContext } from './SideBarContext';
 import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
@@ -22,9 +22,6 @@ const Sidebar = () => {
     <nav className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
         {isOpen && <img src={logo} alt="Knot" className="knot-logo" />}
-        <button onClick={() => setIsOpen(prevIsOpen => !prevIsOpen)} className="List-icon-button">
-          <XCircle size={24} className="List-icon" />
-        </button>
       </div>
       <div className="sidebar-content">
         {isOpen && (

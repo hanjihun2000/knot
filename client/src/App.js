@@ -59,6 +59,12 @@ function App() {
               component={SettingPageThemes}
               auth={isAuthenticated}
             />
+            <ProtectedRoute
+              exact
+              path='/notification/:username'
+              component={SettingPageThemes}
+              auth={isAuthenticated}
+            />
           </Switch>
         </SideBarProvider>
       </UserProvider>
