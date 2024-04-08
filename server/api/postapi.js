@@ -289,7 +289,7 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
 });
 
 router.put("/reportPost", upload.none(), async (req, res) => {
-    const {postId} = req.query;
+    const {postId} = req.body;
     const post = await Post.findOne({ postId: postId });
 
     try {
