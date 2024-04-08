@@ -34,8 +34,8 @@ const RequestList = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        sender: sender,
-        receiver: receiver,
+        sender: receiver,
+        receiver: sender,
         accept: accept,
       }),
     })

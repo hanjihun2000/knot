@@ -98,14 +98,15 @@ const CreatePostForm = () => {
           name="media" 
         />
       </div>
-      <div><button onClick={handleAttachPhotoClick} className="attach-photo-button">Attach Photo</button>   </div>
-      <textarea
-        placeholder="What's on your mind?"
-        value={postDescription}
-        onChange={handlePostDescriptionChange}
-        className="post-description-input"
-      />
-      <button onClick={handleSubmit} className="create-post-button">
+      <div className="photo-container">
+        <button onClick={handleAttachPhotoClick} className="attach-photo-button">Attach Photo</button>   </div>
+        <textarea
+          placeholder="What's on your mind?"
+          value={postDescription}
+          onChange={handlePostDescriptionChange}
+          className="post-description-input"
+        />
+        <button onClick={handleSubmit} className="create-post-button">
         Create Post
       </button>
     </div>
