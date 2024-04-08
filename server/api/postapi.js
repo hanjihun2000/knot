@@ -68,54 +68,101 @@ router.post("/createPost", upload.single('file'), async (req, res) => {
 })
 
 router.post("/editPost", upload.none(), async (req, res) => {
-    const postId = req.body.postId;
-    const attribute = req.body.attribute;
-    const value = req.body.value;
-    const post = await Post.findOne({ postId: postId });
+    const { postId, attribute, value } = req.body;
 
-    if (!post) {
+    try 
+    {
+        let updatedField;
+
+        if (attribute === "title") 
+        {
+            updatedField = { title: value };
+        } 
+        else if (attribute === "text") 
+        {
+            updatedField = { text: value };
+        }
+        else 
+        {
+            return res.status(400).json({ status: "error", message: "Invalid attribute!" });
+        }
+
+        const updatedPost = await Post.findOneAndUpdate({ postId: postId }, updatedField, { new: true });
+
+        if (!updatedPost) 
+        {
         return res.status(404).json({ status: "error", message: "Post does not exist!" });
-    }
+        }
 
-    // if the post exists, update the attribute with the new value
-    if (attribute === "title") {
-        post.title = value;
-        await post.save();
-    } else if (attribute === "text") {
-        post.text = value;
-        await post.save();
-    } else {
-        return res.status(400).json({ status: "error", message: "Invalid attribute!" });
+        res.status(200).json({ status: "success", message: "Post updated successfully!" });
+    } 
+    catch (error)
+    {
+        res.status(500).json({ status: "error", message: "Internal server error!" });
     }
-    res.status(201).json({ status: "success", message: "Post updated successfully!" });
 });
 
 router.delete("/deletePost", upload.none(), async (req, res) => {
-    const postId = req.query.postId;
-    const post = await Post.findOne({ postId: postId });
-
-    if (!post) {
-        return res.status(404).json({ status: "error", message: "Post does not exist!" });
-    }
-
-    // if the post exists, delete the post
-    post.deleteOne().then(() => {
+    const postId = req.body.postId;
+    
+    try 
+    {
+        const deletedPost = await Post.findOneAndDelete({ postId: postId });
+    
+        if (!deletedPost) 
+        {
+            return res.status(404).json({ status: "error", message: "Post does not exist!" });
+        }
+    
         res.status(200).json({ status: "success", message: "Post deleted successfully!" });
-    }).catch((err) => {
+    }
+    catch (error)
+    {
+        console.log(error);
         res.status(500).json({ status: "error", message: "Post deletion failed!" });
-    });
+    }
 });
 
+// need to decision how to handle sharing posts
+// Backend API will just be responsible for fetching original post and sending it to the client
+// Client will handle the rest
+// 1. Do not allow user to edit the content + change the username to the user's username
+// 2. Allow user to edit the content, but add a tag to the post that it is a shared post + original postId and username
 router.post("/sharePost",  async (req, res) => {
-    const postId = req.body.postId;
-    const username = req.body.username;
-    const post = await Post.findOne({ postId: postId });
-
-    if (!post) {
-        return res.status(404).json({ status: "error", message: "Post does not exist!" });
-    }
+    const { postId, username } = req.body;
     
-    // create a new post with the same information as the original post
+    try 
+    {
+        const originalPost = await Post.findOne({ postId: postId });
+
+        if (!originalPost) 
+        {
+            return res.status(404).json({ status: "error", message: "Post does not exist!" });
+        }
+
+        // if the original post is reported, do not allow the user to share it
+        if (originalPost.IsReported) 
+        {
+            return res.status(403).json({ status: "error", message: "Post is reported!" });
+        }
+
+        return res.status(200).json({ 
+            status: "success", 
+            message: "Original post fetched!",
+            postInfo: {
+                username: originalPost.username,
+                title: originalPost.title,
+                text: originalPost.text,
+                media: originalPost.media,
+                likes: originalPost.likes,
+                dislikes: originalPost.dislikes
+            } 
+        });
+    }
+    catch (error) 
+    {
+        res.status(500).json({ status: "error", message: "Internal server error!" });
+    }
 });
 
 router.get("/fetchAllPostIds", upload.none(), async (req, res) => {

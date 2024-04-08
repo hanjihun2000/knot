@@ -1,0 +1,62 @@
+/* ThemeSelector.css */
+
+.theme-selector {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 300px;
+    margin: auto;
+  }
+  
+  .theme-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .theme-button {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: white;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .theme-button.white {
+    background-color: #f0f0f0;
+    color: black;
+  }
+  
+  .theme-button.white:hover {
+    background-color: #e1e1e1;
+  }
+  
+  .theme-button.dark {
+    background-color: #333333;
+  }
+  
+  .theme-button.dark:hover {
+    background-color: #4f4f4f;
+  }
+  
+  .theme-button.retro {
+    background-color: #836953;
+  }
+  
+  .theme-button.retro:hover {
+    background-color: #9c7f68;
+  }
+  
+  .theme-button.summer {
+    background-color: #ffd384;
+  }
+  
+  .theme-button.summer:hover {
+    background-color: #ffc069;
+  }
+  

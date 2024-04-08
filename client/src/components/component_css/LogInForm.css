@@ -1,9 +1,15 @@
 .root{
-    background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+    background-image: var(--background-image);
     height: 100vh;
     overflow:hidden;
     
 }
+
+
+
+
+
+
 .header{
   height: 15vh;
   
@@ -118,6 +124,8 @@
     text-decoration: underline;
   }
   
-  
+  .body{
+    background-image: var(--background-image);
+  }
  
     

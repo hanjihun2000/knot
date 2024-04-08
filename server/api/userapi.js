@@ -8,7 +8,7 @@ app.use(cors());
 const multer = require("multer");
 const router = express.Router();
 const User = require("../models/user");
-
+const jwt = require('jsonwebtoken');
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/register", upload.none(), async (req, res) => {

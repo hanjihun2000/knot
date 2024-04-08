@@ -1,11 +1,13 @@
 .profile-edit {
-    background: #f9f3ee; /* Adjust color to match your design */
+    --background: #f9f3ee; /* Adjust color to match your design */
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
      /* Or adjust to fit under your navbar */
-    max-width: 550px; /* Adjust to your preference */
+    
+     /* Adjust to your preference */
     width: 40vw;
+    min-width: 10vw;
     margin-right: auto;
     height: 75vh;
   }
@@ -58,4 +60,87 @@
   }
   .password-input {
     width: 100%;
+  }
+  .profile-picture {
+    display: flex; /* Aligns children inline */
+    align-items: center; /* Centers children vertically */
+    justify-content: space-between; /* Puts maximum space between children */
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #333;
+    margin-bottom: 10px;
+    
+  }
+  
+  /* Style the File Input and the Button */
+  .file-input-container {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  
+  
+  .file-input-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Hide the default file input */
+  .file-input-container input[type='file'] {
+    display: none;
+  }
+  
+  .profile-container {
+    display: flex; /* Aligns children inline */
+    align-items: center; /* Centers children vertically */
+    justify-content: start; /* Align items to the start of the container */
+    gap: 10px; /* Add some space between your elements */
+    margin-bottom: 20px;
+  }
+  
+  .profile-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid yellow;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .file-input-button {
+    /* Button style */
+    border: none;
+    color: white;
+    background-color: #007bff;
+    padding: 10px 20px;
+    
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    
+  }
+  
+  .file-input-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Hide the default file input but allow it to be clickable */
+  #profile-pic-input {
+    display: none;
+    
+    
+  }
+  
+  .Username{
+    margin-top: 20px;
   }

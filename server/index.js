@@ -1,11 +1,12 @@
 const express = require("express");
 const cors = require('cors');
-
+require('dotenv').config();
 const app = express();
 const PORT = 8000;
 const mongoose = require("mongoose");
 const uri = process.env.ATLAS_URI;
 const { MongoClient, ServerApiVersion } = require('mongodb');
+
 async function checkDBConnection() {
 	try {
 		const client = new MongoClient(uri, {
