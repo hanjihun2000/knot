@@ -11,6 +11,7 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const follow = require("../models/follow");
 
+
 router.post("/createPost", upload.single('media'), async (req, res) => {
     // const username = req.body.username;
     // const title = req.body.title;

@@ -1,51 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../component_css/UserProfile.css';
 import profilePicture from './profile-picture.jpg';
 import editIcon from './edit-icon.png';
 import trashIcon from './trash-icon.png';
-import postImage from './post-image.jpg'; // Import your post image
 
 import { useParams } from 'react-router-dom';
-const UserProfile = () => {
-  const username = 'johndoe';
-  const userDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
-  const posts = [
-    {
-      title: 'Title of post/repost',
-      author: 'postauthor',
-      comment: 'Looking good!',
-    },
-    {
-      title: 'Title of post/repost',
-      author: 'postauthor',
-      comment: 'I want to go there!',
-    },
-  ];
 
-  const toggleView = () => {
-    setShowPosts(!showPosts);
+const UserProfile = () => {
+  const { username } = useParams();
+  const [userPosts, setUserPosts] = useState([]);
+  const [userBio, setUserBio] = useState('');
+  const [showPosts, setShowPosts] = useState(true);
+
+  useEffect(() => {
+    const fetchUrl = `http://localhost:8000/api/userapi/fetchUserPosts?username=${username}`;
+    fetch(fetchUrl)
+      .then(response => response.json())
+      .then(data => {
+        if (data.posts) {
+          setUserPosts(data.posts);
+          if (data.posts.length > 0) {
+            setUserBio(data.posts[0].text);
+          }
+        }
+      })
+      .catch(error => console.error('Error fetching user posts:', error));
+  }, [username]);
+
+  const renderMedia = (media) => {
+    console.log(media);
+    if (!media || !media.buffer|| !media.mimetype) {
+      return null; // or some placeholder for missing media
+    }
+  
+    const blob = new Blob([new Uint8Array(media.buffer.data)], { type: media.mimetype });
+  
+    // Create an object URL for the blob
+    const blobUrl = URL.createObjectURL(blob);
+    if (media.mimetype.startsWith('image/')) {
+      return <img  className = "picture" src={blobUrl} alt="Post" />;
+    } else if (media.mimetype.startsWith('video/')) {
+      return (
+        <video controls className = "picture" >
+          <source src={blobUrl} type={media.mimetype} />
+          Your browser does not support the video tag.
+        </video>
+      );
+    } else {
+      return null; // or some placeholder for unsupported media types
+    }
   };
+  
 
   return (
     <div className="user-profile-container">
       <div className="user-info">
-        <img src={profilePicture} alt="Profile" className="profile-picture" />
+        <img  src={profilePicture} alt="Profile" className="profile-picture" />
         <div className="user-details">
           <h2>{username}</h2>
-          <p>{userDescription}</p>
+          <p>{userBio}</p>
         </div>
       </div>
       <div className="view-toggle">
-        <button onClick={toggleView} className={showPosts ? '' : 'active'}>
+        <button onClick={() => setShowPosts(true)} className={showPosts ? 'active' : ''}>
           Posts
         </button>
-        <button onClick={toggleView} className={showPosts ? 'active' : ''}>
+        <button onClick={() => setShowPosts(false)} className={!showPosts ? 'active' : ''}>
           Comments
         </button>
       </div>
       {showPosts ? (
         <div className="posts-container">
-          {posts.map((post, index) => (
+          {userPosts.map((post, index) => (
+           
             <div key={index} className="post">
               <div className="post-header">
                 <h4>{post.title}</h4>
@@ -55,45 +82,24 @@ const UserProfile = () => {
                 </div>
               </div>
               <p>{post.author}</p>
-              <div className="post-image">
-                <img src={postImage} alt="Post" />
+              <div className="post-media">
+                
+                {renderMedia(post.media)}
               </div>
+              <p>
+                <span className="username">{username}</span>'s comment: {post.comment}
+              </p>
             </div>
           ))}
         </div>
       ) : (
-        <div className="user-activity">
-          <div className="posts">
-            <h3>Posts</h3>
-            {posts.map((post, index) => (
-              <div key={index} className="post">
-                <h4>{post.title}</h4>
-                <p>{post.author}</p>
-                <p>
-                  <span className="username">{username}</span>'s comment: {post.comment}
-                </p>
-                <div className="post-actions">
-                  <img src={editIcon} alt="Edit" className="action-icon" />
-                  <img src={trashIcon} alt="Delete" className="action-icon" />
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="comments">
-            <h3>Comments</h3>
-            {/* Add comments component or placeholder */}
-          </div>
+        <div className="comments">
+          <h3>Comments</h3>
+          {/* Render comments or placeholder if comments functionality is not implemented */}
         </div>
       )}
     </div>
   );
 };
-
-
-
-
-
-
-
 
 export default UserProfile;
