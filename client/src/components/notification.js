@@ -67,28 +67,27 @@ const RequestList = () => {
   return (
     <nav className="Notification-container">
       <ul className="request-list">
-        <li key = 'refresh className = "row' className="refresh-border">
-          <button onClick={fetchRequestFollower} className="refresh-button">
+        <li key='refresh' className="row-refresh-border">
+          <button onClick={fetchRequestFollower} className="refresh-button-notification">
+            <ArrowsClockwise className='refresh-icon'/>
           </button>
         </li>
         {requestFollower.map((requestedUser, index) => {
-    // Add your console.log statements here
-    console.log(`Rendering user: ${requestedUser.username}, Index: ${index}`);
-    
-    // Now, continue with your return statement as usual
-    return (
-      <li key={index} className="row">
-        <NavLink to={`/profile/${requestedUser.username}`} className="nav-link">
-          <div id="profilePicture">
-              <img src={createImageObjectURL(requestedUser) || 'path/to/default/image.png'} alt={requestedUser.username}/>
-          </div>
-          <div id="username">{requestedUser.username}</div>
-        </NavLink>
-        <button className="accept-button" onClick={() => handleFollowRequest(user.username, requestedUser.username, true)}>accept</button>
-        <button className="reject-button" onClick={() => handleFollowRequest(user.username, requestedUser.username, false)}>reject</button>
-      </li>
-    );
-  })}
+            return (
+                <li key={index} className="notification-row">
+                <NavLink to={`/profile/${requestedUser.username}`} className="notification-nav-link">
+                    <div id="notification-profilePicture-container">
+                    <img className="notification-profilePicture" src={createImageObjectURL(requestedUser) || 'path/to/default/image.png'} alt={requestedUser.username}/>
+                    </div>
+                    <div id="username" className="notification-user">{requestedUser.username}</div>
+                </NavLink>
+                <div id="notification-button-container">
+                    <button className="acceptAndReject-button accept-button" onClick={() => handleFollowRequest(user.username, requestedUser.username, true)}>accept</button>
+                    <button className="acceptAndReject-button reject-button" onClick={() => handleFollowRequest(user.username, requestedUser.username, false)}>reject</button>
+                </div> 
+                </li>
+            );
+            })}
       </ul>
       
     </nav>
