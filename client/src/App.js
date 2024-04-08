@@ -10,8 +10,8 @@ import SettingPageThemes from './components/UserSettings/SettingPageThemes';
 import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePost from './components/UserSettings/MainPagePost';
-
-
+import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
+import UserProfile from './components/UserSettings/UserProfile';
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -28,10 +28,18 @@ function App() {
             <Route path='/login'>
               <LogInForm />
             </Route>
-            
+            <Route path='/userprofile'>
+              <UserProfile/>
+            </Route>
             <ProtectedRoute
               exact
               path='/home'
+              component={MainPageHomePage}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/create-post'
               component={MainPagePost}
               auth={isAuthenticated}
             />
@@ -56,7 +64,7 @@ function App() {
             <ProtectedRoute
               exact
               path='/profile/:username'
-              component={SettingPageThemes}
+              component={UserProfile}
               auth={isAuthenticated}
             />
             <ProtectedRoute

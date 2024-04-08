@@ -27,7 +27,7 @@ const Sidebar = () => {
         {isOpen && (
           <>
 
-           <NavLink to="/home">         
+           <NavLink to="/create-post">         
             <button className="menu-item-button-create" >Create</button>
             </NavLink>
             <ul className="sidebar-list">
