@@ -10,14 +10,17 @@ app.use(cors());
 const User = require("../models/user");
 const Post = require("../models/post");
 
-router.post("/createPost", upload.single('file'), async (req, res) => {
+router.post("/createPost", upload.single('media'), async (req, res) => {
     // const username = req.body.username;
     // const title = req.body.title;
     // const text = req.body.text;
     // const buffer = req.file.buffer;
     // const mimetype = req.file.mimetype;
 
-    const {username, title, text, buffer, mimetype} = req.body;
+    const { username, title, text } = req.body;
+    // Access the file information through req.file
+    const buffer = req.file ? req.file.buffer : null;
+    const mimetype = req.file ? req.file.mimetype : null;
     
     let id;
     // generate a postId that is unique
