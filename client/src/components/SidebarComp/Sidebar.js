@@ -3,7 +3,7 @@ import '../component_css/Sidebar.css';
 import { sideBarItem } from './sideBarItem';
 import { useHistory } from 'react-router-dom';
 import { SignOut, XCircle } from "@phosphor-icons/react";
-import logo from './unnamed.png';
+import logo from './knotlogo.png';
 import { useSideBarContext } from './SideBarContext';
 import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
@@ -22,14 +22,14 @@ const Sidebar = () => {
     <nav className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
         {isOpen && <img src={logo} alt="Knot" className="knot-logo" />}
-        <button onClick={() => setIsOpen(prevIsOpen => !prevIsOpen)} className="List-icon-button">
-          <XCircle size={24} className="List-icon" />
-        </button>
       </div>
       <div className="sidebar-content">
         {isOpen && (
           <>
-            <button className="menu-item-button-create" onClick={() => history.push("/create")}>Create</button>
+
+           <NavLink to="/create-post">         
+            <button className="menu-item-button-create" >Create</button>
+            </NavLink>
             <ul className="sidebar-list">
               {sideBarItem.map((item, index) => (
                 <li 
@@ -45,10 +45,13 @@ const Sidebar = () => {
               ))}
             </ul>
             <div className="menu-bottom-part">
-              <div className="profile-section" onClick={() => history.push("/profile")}>
+            <NavLink to={`/profile/${user.username}`} id = "nav-none" >
+
+              <div className="profile-section" >
                 <img src={user.profilePicture} alt="Profile" className="profile-pic" />
                 <div className="profile-name">{user.username || "Loading..."}</div>
               </div>
+              </NavLink>
               <hr className="separator" />
               <button className="logout" onClick={handleLogout}>
                 <SignOut size={24} className="logout-svg" /> logout

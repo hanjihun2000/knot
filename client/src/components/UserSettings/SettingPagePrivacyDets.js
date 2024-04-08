@@ -1,7 +1,7 @@
 import '../component_css/ProfileEdit.css';
 import React, { useState } from 'react';
 
-const MainPagePrivacyDets = () => {
+const SettingPagePrivacyDets = () => {
   const [isPrivate, setIsPrivate] = useState(false);
 
   const handlePrivacyToggle = (e) => {
@@ -25,10 +25,10 @@ const MainPagePrivacyDets = () => {
         <p>On the other hand, if your account is private, only the followers you have approved will have access to your shared posts, follower list and following list."
     
         </p>
-        <p>If your account is set to public, anyone can view your profile and posts, whether they have a Knot account or not.y</p>
+        <p>If your account is set to public, anyone can view your profile and posts, whether they have a Knot account or not.</p>
       </form>
     </div>
   );
 };
 
-export default MainPagePrivacyDets;
+export default SettingPagePrivacyDets;

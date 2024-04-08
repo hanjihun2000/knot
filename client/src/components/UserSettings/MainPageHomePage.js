@@ -4,13 +4,13 @@ import Navbar from '../Navbar';
 import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import FriendLists from '../friendlist';
 import '../component_css/MainPage.css';
-import CreatePostForm from './CreatePostForm';
+import MainPagePostInt from './MainPagePostInt';
 
 
 
 
 
-const MainPageEdit = () => {
+const MainPageHomePage= () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,7 +33,7 @@ const MainPageEdit = () => {
         <div className="main-content">
           
            
-            <CreatePostForm/>
+            <MainPagePostInt/>
           
           
         </div>
@@ -43,4 +43,4 @@ const MainPageEdit = () => {
   );
 }
 
-export default MainPageEdit;
+export default MainPageHomePage;

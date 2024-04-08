@@ -21,7 +21,7 @@ async function generateUniquePostId() {
     return id;
 }
 
-router.post("/createPost", upload.single('file'), async (req, res) => {
+router.post("/createPost", upload.single('media'), async (req, res) => {
     // const username = req.body.username;
     // const title = req.body.title;
     // const text = req.body.text;

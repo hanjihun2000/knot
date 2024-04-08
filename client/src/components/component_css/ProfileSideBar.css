@@ -1,6 +1,6 @@
 .profile-sidebar {
     width: 250px; /* Adjust the width as necessary */
-    background-color: var(--profile-sidebar); /* Background color of the sidebar */
+    background-color: var(--background-color); /* Background color of the sidebar */
     height: 75vh;
     padding: 20px;
     box-sizing: border-box;
@@ -30,7 +30,7 @@
   
   .sidebar-nav-link {
     text-decoration: none; /* Remove default underline */
-    color: #333; /* Text color for the links */
+    color: var(--text-color); /* Text color for the links */
     display: block;
     padding: 10px;
     border-radius: 5px; /* Rounded corners for the links */
@@ -39,5 +39,5 @@
   
   .sidebar-nav-link.active,
   .sidebar-nav-link:hover {
-    background-color: #e0e0e0; /* Background color on hover/active */
+    background-color: var(--hoverbackground); /* Background color on hover/active */
   }
