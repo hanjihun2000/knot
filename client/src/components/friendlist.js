@@ -8,9 +8,9 @@ const FriendLists = () => {
   const [friendList, setFriendList] = useState([]);
   const { user } = useUser();
   const [fetchTrigger, setFetchTrigger] = useState(false);
-
+  console.log(friendList);
   const fetchFriendList = () => {
-    console.log(user.username);
+    
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
       .then(response => {
         if (!response.ok) {
@@ -38,6 +38,7 @@ const FriendLists = () => {
     const byteArray = new Uint8Array(userProfile.profilePicture.buffer.data);
     const blob = new Blob([byteArray], { type: userProfile.profilePicture.mimetype });
     const imageObjectURL = URL.createObjectURL(blob);
+    console.log(imageObjectURL);
     return imageObjectURL;
   }
 
@@ -46,16 +47,21 @@ const FriendLists = () => {
       
       <ul className="FriendLists">
         <li key = 'refresh className = "row' className="refresh-border"><button onClick={fetchFriendList} className="refresh-button"><ArrowsClockwise className="reload-icon" /></button></li>
-        {friendList.map((friend, index) => (
-          <li key={index} className="row">
-            <NavLink to={`/profile/${friend.username}`} className="nav-link">
-              <div id="profilePicture">
-                <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend.username}/>
-              </div>
-              <div id="username">{friend.username}</div>
-            </NavLink>
-          </li>
-        ))}
+        {friendList.map((friend, index) => {
+  // Log the current friend and index to the console
+  console.log("Friend: ", friend, "Index: ", index);
+
+  return (
+    <li key={index} className="row">
+      <NavLink to={`/profile/${friend}`} className="nav-link">
+        <div id="profilePicture">
+          <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend}/>
+        </div>
+        <div id="username">{friend}</div>
+      </NavLink>
+    </li>
+  );
+})}
       </ul>
     </nav>
   );
