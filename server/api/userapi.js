@@ -71,17 +71,22 @@ router.get("/fetchUser", upload.none(), async (req, res) => {
 			return res.status(404).json({ message: "User not found!" });
 		}
 
-		res.json(user);
+		const userInfo = {
+			username: user.username,
+			email: user.email,
+			accountType: user.accountType,
+			profilePicture: user.profilePicture,
+			bio: user.bio,
+			theme: user.theme,
+			followers: user.followers,
+			following: user.following
+		};
+
+		res.json(userInfo);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
 });
-
-router.get("/fetchAllUsernames", async (req, res) => {
-	const users = await User.find();
-	const usernames = users.map(user => user.username);
-	res.send(usernames);
-})
 
 router.post("/login", upload.none(), async (req, res) => {
 	console.log(req.body)
@@ -194,7 +199,7 @@ router.get("/viewFollowers", async (req, res) => {
 		const followers = user.followers;
 		const followerUsers = await Promise.all(
 			followers.map(async (followerUsername) => {
-			  const followerUser = await User.findOne({ username: followerUsername });
+			  const followerUser = await User.findOne({ username: followerUsername }).select("username profilePicture");
 			  return followerUser;
 			})
 		  );
@@ -207,19 +212,25 @@ router.get("/viewFollowers", async (req, res) => {
 router.get("/viewFollowing", async (req, res) => {
 	try {
 		const usernameParam = req.query.username;
-		const user = await User.findOne({ username: usernameParam });
+		const user = await User.findOne({ username: usernameParam }).select("following");
 		if (!user) {
 			return res.status(404).json({ message: "User not found!" });
 		}
-		const following = user.following;
-		const followingUsers = await Promise.all(
-		  following.map(async (followingUsername) => {
-			const followingUser = await User.findOne({ username: followingUsername });
-			return followingUser;
-		  })
+
+		const updatedFollowing = await Promise.all(
+			user.following.map(async (followingUsername) => {
+			  const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
+			  return followingUser ? followingUsername : null;
+			})
 		);
+		  
+		// Filter out any null values (i.e., usernames not found in the database)
+		const filteredFollowing = updatedFollowing.filter(username => username !== null);
+
+		user.following = filteredFollowing;
+		await user.save();
 	
-		res.json(followingUsers);
+		res.status(200).json(user.following);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
@@ -268,5 +279,16 @@ router.get('/searchUsers', upload.none(), async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 });
+
+// router.get("/fetchAllUsers", async (req, res) => {
+// 	const users = await User.find();
+// 	res.status(200).json(users);
+// })
+
+// router.get("/fetchAllUsernames", async (req, res) => {
+// 	const users = await User.find();
+// 	const usernames = users.map(user => user.username);
+// 	res.status(200).json(usernames);
+// })
 
 module.exports = router;

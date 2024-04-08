@@ -12,8 +12,6 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
-    environment:
-      - ATLAS_URI=${ATLAS_URI}
   frontend:
     container_name: react-frontend
     build:

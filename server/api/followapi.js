@@ -34,6 +34,18 @@ router.post("/makeFollowRequest", upload.none(), async (req, res) => {
 			return res.status(400).send({ status: "error", message: "Receiver does not exist!" });
 		}
 
+		//check if sender is already following receiver
+		const followingQuery = await User.findOne({ username: sender }).select('following');
+		const following = followingQuery.following;
+		if (following.includes(receiver)) {
+			return res.status(400).send({ status: "error", message: "Already following this user!" });
+		}
+
+		//check if request is already in the database
+		if (await Follow.exists({ sender: sender, receiver: receiver })) {
+			return res.status(400).send({ status: "error", message: "Follow request already exists!" });
+		}
+
 		const follow = new Follow({
 			sender: sender,
 			receiver: receiver
