@@ -147,8 +147,6 @@ router.post("/sharePost", upload.none(), async (req, res) => {
 
         const sharedMedia = originalPost.media ? { buffer: originalPost.media.buffer, mimetype: originalPost.media.mimetype } : null;
 
-
-
         const sharedPost = new Post({
             postId: newPostId,
             username: username,
@@ -161,8 +159,6 @@ router.post("/sharePost", upload.none(), async (req, res) => {
             dislikes: [],
             IsReported: false
         });
-
-
 
         //return new post in response
         sharedPost.save().then(savedPost => {
