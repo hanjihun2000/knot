@@ -217,11 +217,13 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
 router.get("/recommendPosts", upload.none(), async (req, res) => {
     try {
         const username = req.query.username;
-        const user = await User.findOne({ username: username }).select("following");
+        const userFollowingQuery = await User.findOne({ username: username }).select("following");
+        
+        console.log(userFollowingQuery)
 
-        const {following} = user;
+        const {following} = userFollowingQuery;
 
-        if (!user) {
+        if (!following) {
             return res.status(404).json({ status: "error", message: "Username does not exist!" });
         }
 
