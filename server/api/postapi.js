@@ -67,31 +67,33 @@ router.post("/createPost", upload.single('file'), async (req, res) => {
     });
 })
 
-router.post("/editPost", upload.none(), async (req, res) => {
-    const { postId, attribute, value } = req.body;
+router.put("/editPost", upload.none(), async (req, res) => {
+    const { postId, title, text, media } = req.body;
 
     try 
     {
-        let updatedField;
+        let updatedFields = {};
 
-        if (attribute === "title") 
+        if (title !== undefined) 
         {
-            updatedField = { title: value };
+            updatedFields.title = title;
         } 
-        else if (attribute === "text") 
+
+        if (text !== undefined) 
         {
-            updatedField = { text: value };
-        }
-        else 
-        {
-            return res.status(400).json({ status: "error", message: "Invalid attribute!" });
+            updatedFields.text = text;
         }
 
-        const updatedPost = await Post.findOneAndUpdate({ postId: postId }, updatedField, { new: true });
+        if (media !== undefined) 
+        {
+            updatedFields.media = media;
+        }
+
+        const updatedPost = await Post.findOneAndUpdate({ postId: postId }, updatedFields);
 
         if (!updatedPost) 
         {
-        return res.status(404).json({ status: "error", message: "Post does not exist!" });
+            return res.status(404).json({ status: "error", message: "Post does not exist!" });
         }
 
         res.status(200).json({ status: "success", message: "Post updated successfully!" });
@@ -306,7 +308,7 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
 });
 
 router.put("/reportPost", upload.none(), async (req, res) => {
-    const {postId} = req.query;
+    const {postId} = req.body;
     const post = await Post.findOne({ postId: postId });
 
     try {
