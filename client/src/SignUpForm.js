@@ -11,9 +11,56 @@ function SignUpForm() {
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
 
   const handleSignUp = (event) => {
-    event.preventDefault();
-    // Handle the sign-up logic here
-    console.log(email, username, password, confirmPassword);
+    console.log(event);
+    // Check if the passwords entered in both password fields match.
+    // Alert the user and prevent form submission if they do not.
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return; // Stop the function if the passwords don't match.
+    }
+    // Define the API endpoint where the form data should be sent.
+    const apiUrl = 'http://localhost:3000/api/userapi/register';
+
+    // Set up the request options for the fetch call.
+    // This includes the method (POST), headers, and the body,
+    // which contains the JSON stringified form data.
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        email: email
+      })
+    };
+    try {
+      // Execute the fetch call with the defined options.
+      // Await the response from the server before moving on.
+      const response = fetch(apiUrl, requestOptions);
+
+      // Convert the response payload into JSON.
+      // Await the completion of the JSON parsing.
+      const data = response.json();
+
+      if (response.ok) {
+        // The request was successful, process the response data as needed.
+        console.log(data);
+        alert(data.message, 'Signed up successfully!');
+
+        // Here, you would typically redirect the user to a login page
+        // or show some sort of confirmation screen.
+        // window.location.href = '/login';
+      } else {
+        // The request was completed but the server responded with an error status.
+        // Alert the user with the message returned from the server.
+        alert(data.message,  'An error occurred during sign up.');
+      }
+    } catch (error) {
+      // The fetch call failed due to a network error or some other issue.
+      // Log the error to the console and show a user-friendly message.
+      console.error('There was an error!', error);
+      alert('An unexpected error occurred. Please try again later.');
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -34,6 +81,7 @@ function SignUpForm() {
       <form className="signup-form" onSubmit={handleSignUp}>
         <input
           type="email"
+          name='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
@@ -41,6 +89,7 @@ function SignUpForm() {
         />
         <input
           type="text"
+          name='username'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Username"
@@ -49,6 +98,7 @@ function SignUpForm() {
         <div className = "password-container">
         <input
           type={passwordShown ? "text" : "password"}
+          name='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
@@ -59,6 +109,7 @@ function SignUpForm() {
         <div className = "password-container">
         <input
           type={confirmPasswordShown ? "text" : "password"}
+          name='confirmPassword'
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Confirm Password"

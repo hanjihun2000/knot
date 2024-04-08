@@ -1,0 +1,131 @@
+.root{
+    background-image: var(--background-image);
+    height: 100vh;
+    overflow:hidden;
+    
+}
+
+
+
+
+
+
+.header{
+  height: 15vh;
+  
+}
+
+.knot-logo{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  border:0;
+}
+.login-form-container {
+    background-color: #D3D0B3;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    margin: auto;
+    font-family: "Inika" ,Arial, sans-serif;
+  }
+  .password-container {
+    position: relative;
+    display: flex;
+  }
+  
+ 
+  .password-container img {
+    position: absolute;
+    top: 1.2em;
+    right: 0.5em;
+    height: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .login-form-header {
+    position: relative; /* Makes the header a reference point for absolute positioning */
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 1.5em;
+  }
+ 
+  .login-form-header .back-arrow {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 2.5em;
+    
+    
+  }
+  
+  .login-form-header h1 {
+    margin: 0;
+  }
+  
+  .login-form-header p {
+    
+    font-size: 0.9em;
+    font-family: "Inknut Antiqua";
+    margin-top: -0.5em;
+    color: black;
+  }
+  
+  .login-form input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #D9D9D9;
+    color: black;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-top: 10px;
+    box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.1)
+  }
+  
+  
+  .signin-redirect {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+    font-family: "Inika";
+    font-size: 0.8em;
+    background-color: #C6D3B3;
+    width: 390px;
+    height: 35px;
+    margin: auto;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    
+  }
+  
+  
+  .signin-redirect a {
+    color: #6a5acd;
+    text-decoration: none;
+  }
+  
+  
+  .signin-redirect a:hover {
+    text-decoration: underline;
+  }
+  
+  .body{
+    background-image: var(--background-image);
+  }
+ 
+    

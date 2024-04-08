@@ -1,0 +1,217 @@
+.sidebar {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+   /* Centers items vertically */
+  align-items: center; /* Aligns items horizontally */
+  height: 100vh; /* Full height of the viewport */
+  width: 20vw; /* Width of the sidebar */
+  max-width: 200px;
+  background-color: #F2E9E4;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  
+  padding: 20px;
+  padding-right: 40px;
+  padding-top: 100px; /* Padding for the sidebar */
+  font-family: "Inika";
+  transform: translateX(-100%); /* Move the element out of its normal position */
+  transition: opacity 0.5s, transform 0.5s; /* Add transitions */
+  transition: all 0.5s ease-in-out;
+  z-index: 2;
+  overflow: auto;
+  }
+  .nav-link-none {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits text color from parent, adjust as needed */
+    width: 100%; /* Full width of the sidebar */
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    font-size: 1em;
+  }
+
+  .sidebar-header{
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 10px;
+    gap: 80px;
+  }
+
+  .knot-logo{
+    width: 80px;
+    height: 80px;
+  }
+  .List-icon-button{
+    display: flex;
+    padding: 10px;
+    
+    cursor: pointer;
+    border-radius: 12px;
+    border: none;
+    background-color: transparent; /* Add this line */
+  }
+  .List-icon-button:hover{
+    background-color: rgba(23, 23, 23, 0.3);
+  }
+  .List-icon{
+    width: 32px;
+    height: 32px;
+    
+    
+  }
+  .sidebar-content {
+    margin-top: 50px; /* Adjust this value to the height of your header */
+  }
+  
+  .sidebar.open {
+    width: 20vw;
+    opacity: 1; /* Make the element visible when the sidebar is open */
+    transform: translateX(0); /* Move the element into place when the sidebar is open */
+    transition-delay: 0s; /* No delay when the sidebar is open */
+    /* Other styles for open sidebar */
+  }
+  
+  .sidebar.closed {
+    width: 0;
+    /* Other styles for closed sidebar */
+  }
+
+
+ .sidebar-list{
+  list-style-type: none; /* Removes default bullet points */
+  padding: 0; /* Removes default padding */
+  width: 100%; /* Full width of the sidebar */
+  height: auto; /* Full height of the sidebar */
+ }
+ .row{
+  display: flex; /* Displays items in a row */
+  flex-direction: row; /* Items are arranged horizontally */
+  font-size: 1.2em;
+  margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
+ }
+ .sidebar-list #active{
+  background-color: #ddd; /* Gray background on hover */
+  width: 100%;
+  border-radius: 32px;
+  background-color: rgba(23, 23, 23, 0.1);
+ }
+ .sidebar-list #active:hover{
+  background-color: #ddd; /* Gray background on hover */
+  width: 100%;
+  border-radius: 32px;
+  background-color: rgba(23, 23, 23, 0.3);
+ }
+ .sidebar-list .row:hover{
+  width: 100%;
+  border-radius: 32px;
+  cursor: pointer;
+  background-color: #DDD;
+  background-color: rgba(23, 23, 23, 0.3);
+ }
+ .row #menu-item-icon{
+  flex: 30%;
+  display: grid;
+  place-items: center; 
+ }
+
+ .row #menu-item-text{
+  flex: 70%;
+ }
+ 
+  .menu-item-button-create{
+  background-color: #ECA2F9; /* Your button's pink background color */
+  border: none; /* No border */
+  padding: 10px 25px; /* Padding inside the button */
+  font-size: 1.2em; /* Text size */
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  cursor: pointer; /* Cursor changes to pointer when hovering over the button */
+   /* Smooth transition for interactions */
+   width: 100%;
+   font-family: "Inika";
+  }
+  .menu-item-button-create:hover {
+    background-color: rgba(236, 162, 249, 0.5);
+  }
+  
+  .menu-item:hover, .logout:hover {
+    background-color: #ddd; /* Gray background on hover */
+    width: 100%;
+  }
+
+  .profile-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    gap: 10px;
+  } 
+
+  .profile-section:hover{
+    cursor: pointer;
+    color: Gray; /*maybe change to a different color with a css*/
+  }
+  
+  .profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  .menu-bottom-part {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20vh;
+    width: 80%;
+    text-align: right;
+    margin-top: auto; /* Add this line */
+    position: absolute; /* Add this line */
+    bottom: 0; /* Add this line */
+    align-self: center;
+  }
+  
+  .profile-name {
+    font-size: 1em;
+  }
+  
+  .separator {
+    box-sizing: border-box; 
+    color: Gray;
+    border-color: #808080;
+    border-top: 0.1px; /* change color as needed */
+    width: 100%;
+    z-index: 1;
+  }
+
+  .logout {
+    align-self: flex-end; /* Aligns the button to the right */
+    display: flex; /* Changes display to flex */
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+    width: 100px;
+    bottom: 50px;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-size: 1em;
+    border: none;
+    background-color: transparent;
+    font-family: "Inika";
+  }
+
+  .logout-svg{
+    width: 20px;
+    height: 20px;
+  }
+  .logout:hover {
+    margin-right: 10px;
+    background-color: rgba(23, 23, 23, 0.3); /* Gray background on hover */
+    width: 90px; /* match the width of the .logout selector */
+  }
+  #icon {
+    margin-right: 10px; /* Adjust this value as needed */
+  }

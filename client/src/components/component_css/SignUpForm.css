@@ -1,14 +1,22 @@
 .root{
-    background-color: #D3D0B3;
+    background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+    height: 100vh;
+    overflow:hidden;
     
+}
+.header{
+  height: 15vh;
+  
 }
 
 .signup-form-container {
     background-color: #D3D0B3;
     border-radius: 10px;
     padding: 20px;
+    font-size: 16px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 500px;
+    height: 400px;
     margin: auto;
     font-family: "Inika" ,Arial, sans-serif;
   }
@@ -17,10 +25,7 @@
     display: flex;
   }
   
-  .password-container input {
-     /* Adjust based on image size */
-     
-  }
+ 
   
   .password-container img {
     position: absolute;
@@ -87,13 +92,41 @@
     font-size: 0.8em;
   }
   
-  .terms a,
-  .login-redirect a {
-    color: #6a5acd;
-    text-decoration: none;
+  .terms a{
+
+  }
+  .login-redirect  {
+    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inika";
+  font-size: 0.8em;
+  background-color: #C6D3B3;
+  width: 390px;
+  height: 35px;
+  margin: auto;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
   }
   
-  .terms a:hover,
+  .terms {
+    padding-top: 10px;
+    font-size: 12px;
+    font-family: "Inika";
+  }
+  .terms button{
+    border: none;
+    background-color: transparent;
+    font-family: "Inika";
+    
+  }
+  
+
+  .terms button:hover{
+    text-decoration: underline;
+  }
   .login-redirect a:hover {
     text-decoration: underline;
   }

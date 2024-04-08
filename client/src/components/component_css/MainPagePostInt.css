@@ -1,0 +1,127 @@
+/* MainPagePostInt.css */
+body {
+  background-image: var(--background-image);
+  height: 100vh;
+  overflow:hidden;
+}
+.post-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #D3D0B3;
+  border: 1px solid #787876;
+  border-radius: 10px; /* Added border-radius */
+  margin-bottom: 60px;
+  overflow: hidden; /* Added overflow property */
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.options-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #262626;
+}
+
+.post-content {
+  padding: 16px;
+}
+
+.post-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.post-image img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #e6e6e6;
+}
+
+.post-description-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.post-description {
+  flex-grow: 1;
+}
+
+.post-description span {
+  font-weight: bold;
+  color: #262626;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+.vote-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 16px;
+}
+
+.vote-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+
+.comments-container {
+  padding: 16px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.comment-info {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.comment-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: #fafafa;
+  margin-bottom: 16px;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment {
+  margin-bottom: 8px;
+}
