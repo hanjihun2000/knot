@@ -10,6 +10,7 @@ app.use(cors());
 const User = require("../models/user");
 const Post = require("../models/post");
 const follow = require("../models/follow");
+const user = require("../models/user");
 
 async function generateUniquePostId() {
     let id;
@@ -216,16 +217,26 @@ router.get("/fetchPost", upload.none(), async (req, res) => {
 
 router.get("/recommendPosts", upload.none(), async (req, res) => {
     try {
-        const username = req.query.username;
-        const userFollowingQuery = await User.findOne({ username: username }).select("following");
-        
-        console.log(userFollowingQuery)
 
-        const {following} = userFollowingQuery;
+        // console.log(req.query)
+        const {username} = req.query
+        // console.log(username)
 
-        if (!following) {
+        if (!username) {
+            return res.status(400).json({ status: "error", message: "Please provide a username!" });
+        }
+
+        const userExists = await User.exists({ username: username });
+        if (!userExists) {
             return res.status(404).json({ status: "error", message: "Username does not exist!" });
         }
+
+        const userFollowingQuery = await User.findOne({ username: username }).select({profilePicture: 0});
+
+        // console.log(userFollowingQuery)
+        const {following} = userFollowingQuery;
+
+        // console.log(following)
 
         followingPosts = await Post.find({ username: { $in: following } });
         //random pick 3 posts from followingPosts
@@ -234,7 +245,11 @@ router.get("/recommendPosts", upload.none(), async (req, res) => {
         recommendedPosts = followingPosts.sort(() => Math.random() - 0.5).slice(0, 3);
         remainingPosts = await Post.find({ username: { $nin: recommendedPosts} });
 
+        console.log(remainingPosts.length)
+
         recommendedPosts.push(...(remainingPosts.sort(() => Math.random() - 0.5).slice(0, 6 - recommendedPosts.length)));
+
+        console.log(recommendedPosts.length)
 
         res.status(200).json({ status: "success", message: "Recommended posts fetched!", posts: recommendedPosts });
     } catch (error) {

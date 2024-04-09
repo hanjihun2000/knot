@@ -22,6 +22,8 @@ const UserProfile = () => {
     },
   ];
 
+  const [showPosts, setShowPosts] = useState(true);
+
   const toggleView = () => {
     setShowPosts(!showPosts);
   };

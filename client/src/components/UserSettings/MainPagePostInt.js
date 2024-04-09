@@ -12,7 +12,7 @@ const MainPagePostInt = () => {
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
   const { username } = useUser(); // setUsername removed since it wasn't used
-  const { posts } = useState([]);
+  const [posts, setPosts] = useState([]);
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -47,11 +47,12 @@ const MainPagePostInt = () => {
 
   //fetch posts
   useEffect(() => {
+    const username = localStorage.getItem('username');
     fetch(`http://localhost:8000/api/postapi/recommendPosts?username=${username}`) // Fetch posts for the user
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 'success') {
-          posts = data.posts;
+          setPosts(data.posts);
         } else {
           alert(data.message);
         }
@@ -60,7 +61,7 @@ const MainPagePostInt = () => {
       });
   }, [username]);
 
-  console.log(posts);
+  // console.log("Recommended:", posts)
 
   const handleLike = () => {
     setLikes(likes + 1);
