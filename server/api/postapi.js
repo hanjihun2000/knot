@@ -308,8 +308,14 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
         if (result.nModified === 0) {
             return res.status(404).json({ status: "error", message: "Post does not exist!" });
         }
+
+        //get like dislike count
+        const likeDislikeQuery = await Post.findOne({ postId: postId }).select({ likes: 1, dislikes: 1 });
+
+        const likeCount = likeDislikeQuery.likes.length;
+        const dislikeCount = likeDislikeQuery.dislikes.length;
         
-        return res.status(200).json({ status: "success", message: message });
+        return res.status(200).json({ status: "success", message: message, likeCount: likeCount, dislikeCount: dislikeCount});
 
     } catch (err) {
         console.error(err);

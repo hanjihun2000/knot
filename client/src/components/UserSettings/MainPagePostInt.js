@@ -111,9 +111,13 @@ const MainPagePostInt = ({post}) => {
         throw new Error('Network response was not ok');
       }
       return response.json();
+    }).then(data => {
+      setLike(!like);
+      setDislike(false);
+      setLikeCount(data.likeCount);
+      setDislikeCount(data.dislikeCount);
     }).catch(error => console.error('Fetching error:', error));
-    setLike(!like);
-    setDislike(false);
+
   };
 
   const handleDislike = () => {
@@ -133,15 +137,19 @@ const MainPagePostInt = ({post}) => {
         throw new Error('Network response was not ok');
       }
       return response.json();
+    }).then(data => {
+      setDislike(!dislike);
+      setLike(false);
+      setLikeCount(data.likeCount);
+      setDislikeCount(data.dislikeCount);
     }).catch(error => console.error('Fetching error:', error));
-    setDislike(!dislike);
-    setLike(false);
+
   };
 
-  useEffect( () => {
-    setLikeCount(post.likes.length + (like ? 1 : 0));
-    setDislikeCount(post.dislikes.length + (dislike ? 1 : 0));
-  }, [like, dislike]);
+  // useEffect( () => {
+  //   setLikeCount(post.likes.length + (like ? 1 : 0));
+  //   setDislikeCount(post.dislikes.length + (dislike ? 1 : 0));
+  // }, [like, dislike]);
 
 
   const handleCommentChange = (e) => {
