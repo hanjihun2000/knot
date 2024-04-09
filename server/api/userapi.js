@@ -186,7 +186,9 @@ try {
 		return res.status(404).json({ message: "User not found!" });
 	}
 
-	const {buffer, mimetype} = user.profilePicture;
+	let {buffer, mimetype} = user.profilePicture;
+
+	// console.log(buffer);
 
 
 	// if (!user.profilePicture || !user.profilePicture.buffer) {
@@ -194,6 +196,10 @@ try {
 	// }
 
 	// Set the response headers
+	if (!mimetype) {
+		mimetype = "image/jpeg";
+	}
+
 	res.set("Content-Type", mimetype);
 
 	// Send the profile picture buffer as the response

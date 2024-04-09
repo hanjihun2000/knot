@@ -229,7 +229,9 @@ const MainPagePostInt = ({post}) => {
         <button className="options-button">⋯</button>
       </div>
       <div className="post-content">
-        <div className="post-title">{post.title}</div>
+        <NavLink to={`/posts/${post.postId}`} className = 'no-underline-yep' >
+          <div className="post-title">{post.title}</div>
+        </NavLink>
         <div className='original-username'>{post.originalUsername && <span>Shared from: {post.originalUsername}</span>}</div>
         <div className="post-image" onClick={handleImageClick}>
         {post.media && <img src={mediaURL} alt="Post Media" className="post-image"/>}
