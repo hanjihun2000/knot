@@ -29,7 +29,6 @@ router.post("/createPost", upload.single('media'), async (req, res) => {
     // const buffer = req.file.buffer;
     // const mimetype = req.file.mimetype;
 
-<<<<<<< HEAD
     const {username, title, text, media} = req.body;
 
     const {buffer, mimetype} = req.file;
@@ -39,10 +38,6 @@ router.post("/createPost", upload.single('media'), async (req, res) => {
     do {
         id = Math.floor(Math.random() * 1000000000);
     } while (await Post.exists({ postId: id }));
-=======
-    const {username, title, text} = req.body;
-    const {buffer, mimetype} = req.file;
->>>>>>> origin/backend-dev-tmp
 
     const postId = id;
 
@@ -243,7 +238,7 @@ router.get("/recommendPosts", upload.none(), async (req, res) => {
         // console.log(userFollowingQuery)
         const {following} = userFollowingQuery;
 
-        // console.log(following)
+        console.log(following)
 
         followingPosts = await Post.find({ username: { $in: following } });
         //random pick 3 posts from followingPosts
