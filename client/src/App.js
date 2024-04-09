@@ -3,6 +3,7 @@ import React from 'react';
 import SignUpForm from './components/SignUpForm';
 import LogInForm from './components/LogInForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import SingPage from './components/homepagecomp/singPage';
 import SettingPageEdit from './components/UserSettings/SettingPageEdit';
 import SettingPagePrivacy from './components/UserSettings/SettingPagePrivacy';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -11,10 +12,12 @@ import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // En
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePost from './components/UserSettings/MainPagePost';
 import NotificationPage from './components/notificationPage';
+import singlePageFeed from './components/singlePageFeed';
 
 
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
 import UserProfile from './components/UserSettings/UserProfile';
+
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -31,9 +34,10 @@ function App() {
             <Route path='/login'>
               <LogInForm />
             </Route>
-            <Route path='/userprofile'>
+            <Route exact path='/userprofile'>
               <UserProfile/>
             </Route>
+            <Route exact path="/posts/:postId" component={SingPage} />
             <ProtectedRoute
               exact
               path='/home'
@@ -79,7 +83,7 @@ function App() {
             <ProtectedRoute
               exact
               path='/post'
-              component={NotificationPage}
+              component={singlePageFeed}
               auth={isAuthenticated}
             />
           </Switch>

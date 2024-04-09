@@ -3,9 +3,10 @@ import '../component_css/UserProfile.css';
 import profilePicture from './profile-picture.jpg';
 import editIcon from './edit-icon.png';
 import trashIcon from './trash-icon.png';
-
+import enlargeIcon from './enlarge-icon.png';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
+import { Link } from 'react-router-dom';
 const UserProfile = () => {
   const { username } = useParams();
   const {user} = useUser();
@@ -137,7 +138,8 @@ const UserProfile = () => {
       </div>
       {showPosts ? (
         <div className="posts-container">
-          {userPosts.map((post) => ( // Remove the index key for uniqueness and use post._id if available
+          {userPosts.map((post) => ( 
+            
             <div key={post._id} className="post">
               <div className="post-header">
                 <h4>{post.title}</h4>
@@ -174,10 +176,14 @@ const UserProfile = () => {
                   <>
                     <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
                     <img src={trashIcon} alt="Delete" className="action-icon" />
+                    <Link to={`/posts/${post._id}`} key={post._id} state={{ post }} className="post-link">
+                    <img src={enlargeIcon} alt="Enlarge" className="action-icon" />
+                    </Link>
                   </>
                 )}
               </div>
             </div>
+          
           ))}
         </div>
       ) : (
