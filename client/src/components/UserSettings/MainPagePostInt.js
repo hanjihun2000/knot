@@ -8,15 +8,18 @@ import { set } from 'mongoose';
 
 const MainPagePostInt = ({post}) => {
   // console.log(post)
-  const [likes, setLikes] = useState(post.likes);
-  const [dislikes, setDislikes] = useState(post.dislikes);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
   const {user} = useUser();
   const username = user.username;
   const [userProfilePic, setUserProfilePic] = useState(null)
-  const [mediaURL, setMediaURL] = useState(null)
+  const [mediaURL, setMediaURL] = useState(null);
+
+  const [like, setLike] = useState();
+  const [dislike, setDislike] = useState();
+  const [likeCount, setLikeCount] = useState();
+  const [dislikeCount, setDislikeCount] = useState();
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -69,7 +72,7 @@ const MainPagePostInt = ({post}) => {
   }, [post.username]);
 
 
-
+  //set post media
   useEffect(() => {
     if (post.media) {
       // console.log(post.media.buffer)
@@ -81,19 +84,65 @@ const MainPagePostInt = ({post}) => {
     }
   }, [post.media]);
 
-  // console.log(post.media)
-
-
+  // init likes and dislikes
+  useEffect(() => {
+    setLike(post.likes.includes(user.username));
+    setDislike(post.dislikes.includes(user.username));
+    setLikeCount(post.likes.length);
+    setDislikeCount(post.dislikes.length);
+  }, []);
 
   // console.log("Recommended:", posts)
 
   const handleLike = () => {
-    setLikes(likes + 1);
+    fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+        username: user.username,
+        like: true,
+        undo: like
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+    setLike(!like);
+    setDislike(false);
   };
 
   const handleDislike = () => {
-    setDislikes(dislikes + 1);
+    fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+        username: user.username,
+        like: false,
+        undo: dislike
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+    setDislike(!dislike);
+    setLike(false);
   };
+
+  useEffect( () => {
+    setLikeCount(post.likes.length + (like ? 1 : 0));
+    setDislikeCount(post.dislikes.length + (dislike ? 1 : 0));
+  }, [like, dislike]);
+
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -127,10 +176,10 @@ const MainPagePostInt = ({post}) => {
           </div>
           <div className="action-buttons">
             <button className="vote-button" onClick={handleLike}>
-              <img src={upvoteImg} alt="Upvote" /> Like ({likes})
+              <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
             </button>
             <button className="vote-button" onClick={handleDislike}>
-              <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikes})
+              <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikeCount})
             </button>
           </div>
         </div>

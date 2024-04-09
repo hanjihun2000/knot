@@ -247,11 +247,11 @@ router.get("/recommendPosts", upload.none(), async (req, res) => {
         recommendedPosts = followingPosts.sort(() => Math.random() - 0.5).slice(0, 3);
         remainingPosts = await Post.find({ username: { $nin: recommendedPosts} });
 
-        console.log(remainingPosts.length)
+        // console.log(remainingPosts.length)
 
         recommendedPosts.push(...(remainingPosts.sort(() => Math.random() - 0.5).slice(0, 6 - recommendedPosts.length)));
 
-        console.log(recommendedPosts.length)
+        // console.log(recommendedPosts.length)
 
         res.status(200).json({ status: "success", message: "Recommended posts fetched!", posts: recommendedPosts });
     } catch (error) {
@@ -262,9 +262,11 @@ router.get("/recommendPosts", upload.none(), async (req, res) => {
 
 router.put("/likeDislikePost", upload.none(), async (req, res) => {
     try {
-        const {postId, username, isLike, isUndo} = req.body;
+        const {postId, username, like, undo} = req.body;
 
-        if (!postId || !username || !isLike || !isUndo) {
+        console.log(req.body)
+
+        if (postId === undefined || username === undefined || like === undefined || undo === undefined) {
             return res.status(400).json({ status: "error", message: "Please provide all required fields!" });
         }
 
@@ -273,8 +275,7 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
             return res.status(404).json({ status: "error", message: "Username does not exist!" });
         }
 
-        const like = isLike === "true";
-        const undo = isUndo === "true";
+        console.log(like, undo)
 
         let update = {};
         let message = "";
@@ -298,7 +299,11 @@ router.put("/likeDislikePost", upload.none(), async (req, res) => {
             message = "Post like/dislike removed!";
         }
 
+        console.log(update)
+
         const result = await Post.updateOne({postId: postId}, update);
+
+        console.log(result)
 
         if (result.nModified === 0) {
             return res.status(404).json({ status: "error", message: "Post does not exist!" });
