@@ -63,7 +63,6 @@ const MainPagePostInt = ({post}) => {
       })
       .then(data => {
         setUserProfilePic(URL.createObjectURL(data));
-        post.userProfilePic = data.size? URL.createObjectURL(data): null;
       })
       .catch(error => console.error('Fetching error:', error));
   }, [post.username]);
@@ -109,7 +108,7 @@ const MainPagePostInt = ({post}) => {
     <div className="post-container">
       <div className="post-header">
         <div className="user-info">
-          {post.userProfilePic && <img src={post.userProfilePic} alt="User Profile" className="profile-pic" />}
+          {userProfilePic && <img src={userProfilePic} alt="User Profile" className="profile-pic" />}
           <span className="username">{post.username}</span>
         </div>
         <button className="options-button">⋯</button>
@@ -154,9 +153,9 @@ const MainPagePostInt = ({post}) => {
           )}
         </div>
       </div>
-      {isImageActive && (
+      {isImageActive && post.media && (
         <div className="image-overlay" onClick={() => setIsImageActive(false)}>
-          <img src={post.media} alt="Post Image Enlarged" />
+          <img src={mediaURL} alt="Post Image Enlarged" />
         </div>
       )}
     </div>
