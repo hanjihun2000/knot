@@ -169,11 +169,12 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
 
 router.get("/viewProfilePicture", async (req, res) => {
 try {
-	const username = req.query.username;
+	const {username} = req.query;
 	// console.log(username);
 
 	// Find the user by username
 	const user = await User.findOne({ username: username });
+
 
 	if (!user) {
 		console.log("User not found!")
@@ -181,6 +182,7 @@ try {
 	}
 
 	const {buffer, mimetype} = user.profilePicture;
+
 
 	// if (!user.profilePicture || !user.profilePicture.buffer) {
 	// 	return res.status(404).json({ message: "Profile picture not found!" });

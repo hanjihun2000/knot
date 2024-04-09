@@ -45,6 +45,8 @@ const CreatePostForm = () => {
     if (fileInputRef.current.files[0]) {
       formData.append('media', fileInputRef.current.files[0]);
     }
+
+    console.log(formData)
   
     try {
       const response = await fetch('http://localhost:8000/api/postapi/createPost', {

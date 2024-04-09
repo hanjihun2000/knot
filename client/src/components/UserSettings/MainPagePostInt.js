@@ -15,7 +15,7 @@ const MainPagePostInt = ({post}) => {
   const textareaRef = useRef(null);
   const {user} = useUser();
   const username = user.username;
-  const [userProfilePic, setUserProfilePic] = useState('');
+  const [userProfilePic, setUserProfilePic] = useState(null)
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -53,13 +53,14 @@ const MainPagePostInt = ({post}) => {
     fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${post.username}`)
       .then(response => {
         if (!response.ok) {
+          console.log(response)
           throw new Error('Network response was not ok');
         }
         return response.blob();
       })
       .then(data => {
         setUserProfilePic(URL.createObjectURL(data));
-        // setUserProfilePic(data.profilePicture);
+        post.userProfilePic = data.size? URL.createObjectURL(data): null;
       })
       .catch(error => console.error('Fetching error:', error));
   }, [post.username]);
@@ -92,7 +93,7 @@ const MainPagePostInt = ({post}) => {
     <div className="post-container">
       <div className="post-header">
         <div className="user-info">
-          <img src={userProfilePic} alt="User Profile" className="profile-pic" />
+          {post.userProfilePic && <img src={post.userProfilePic} alt="User Profile" className="profile-pic" />}
           <span className="username">{post.username}</span>
         </div>
         <button className="options-button">⋯</button>
