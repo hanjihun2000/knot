@@ -6,11 +6,6 @@ import '../component_css/MainPage.css';
 import ThemeSelector from './ThemeSelector';
 import FriendLists from '../friendlist';
 
-
-
-
-
-
 const MainPageThemes = () => {
 
   const [password, setPassword] = useState('');

@@ -29,6 +29,10 @@
     flex-direction: row; /* Items are arranged horizontally */
     font-size: 1em;
   }
+  #nav-none{
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits text color from parent, adjust as needed */
+  }
 
   .sidebar-header{
     position: absolute;

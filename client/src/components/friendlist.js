@@ -12,6 +12,7 @@ const FriendLists = () => {
   // console.log(user);
 
   const fetchFriendList = () => {
+    
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
       .then(response => {
         if (!response.ok) {
@@ -39,6 +40,7 @@ const FriendLists = () => {
     const byteArray = new Uint8Array(userProfile.profilePicture.buffer.data);
     const blob = new Blob([byteArray], { type: userProfile.profilePicture.mimetype });
     const imageObjectURL = URL.createObjectURL(blob);
+    
     return imageObjectURL;
   }
 

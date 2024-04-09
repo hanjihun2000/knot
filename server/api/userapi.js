@@ -225,6 +225,7 @@ router.get("/fetchUserPosts", upload.none(), async (req, res) => {
 });
 
 router.get("/viewFollowers", async (req, res) => {
+<<<<<<< HEAD
     try {
         const {username} = req.query;
         const user = await User.findOne({ username: username });
@@ -261,9 +262,30 @@ router.get("/viewFollowers", async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+=======
+	try {
+		const requestedUsername = req.query.username;
+		const user = await User.findOne({ username: requestedUsername });
+		if (!user) {
+			return res.status(404).json({ message: "User not found!" });
+		}
+		const followers = user.followers;
+		const followerUsers = await Promise.all(
+			followers.map(async (followerUsername) => {
+			  const followerUser = await User.findOne({ username: followerUsername }).select("username profilePicture");
+			  return followerUser ? followerUser : null;
+			})
+		  );
+		res.json(followerUsers);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+>>>>>>> origin/backend-dev-tmp
 });
 
+
 router.get("/viewFollowing", async (req, res) => {
+<<<<<<< HEAD
     try {
         const { username } = req.query;
         const user = await User.findOne({ username: username });
@@ -300,7 +322,43 @@ router.get("/viewFollowing", async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+=======
+	try {
+		const {username} = req.query;
+		const user = await User.findOne({ username: username }).select("following");
+		if (!user) {
+			return res.status(404).json({ message: "User not found!" });
+		}
+
+		// console.log(user)
+		const {following} = user;
+
+		console.log(following);
+
+		const updatedFollowing = await Promise.all(
+			following.map(async (followingUser) => {
+				// Find the user by username
+				const newFollowingUser = await User.findOne({ username: followingUser }).select("username profilePicture");
+				console.log(newFollowingUser)
+				return newFollowingUser ? newFollowingUser : null;
+			})
+		);
+		  
+		
+		const filteredFollowing = updatedFollowing.filter(username => username !== null);
+
+		user.following = filteredFollowing;
+		await user.save();
+	
+		res.status(200).json(user.following);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: error.message });
+	}
+>>>>>>> origin/backend-dev-tmp
 });
+
+
 
 // router.get("/test", upload.none(), async (req, res) => {
 // 	console.log(req.body.test);
@@ -352,6 +410,7 @@ router.get('/searchUsers', upload.none(), async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 });
+
 
 // router.get("/fetchAllUsers", async (req, res) => {
 // 	const users = await User.find();

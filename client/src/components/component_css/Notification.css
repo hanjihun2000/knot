@@ -1,0 +1,99 @@
+.Notification-container{
+    --background: var(--background-color);; /* Adjust color to match your design */
+    border-radius: 10px;
+    padding: 20px;
+     /* Or adjust to fit under your navbar */
+    
+     /* Adjust to your preference */
+    width: 52vw;
+    min-width: 10vw;
+    margin-right: auto;
+    height: 75vh;
+}
+.row-refresh-border{
+    list-style-type: none;
+    align-items: right;
+    display: flex;
+    justify-content: flex-end;
+    margin:8px;
+}
+.refresh-button-notification{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border:none;
+}
+.refresh-button-notification:hover{
+    background-color: rgba(23, 23, 23, 0.3);
+    border-radius: 12px;
+}
+.refresh-icon{
+    width: 20px;
+    height: 20px;
+}
+
+.notification-row{
+    list-style-type: none;
+    padding:10px;
+    align-items: center;
+    text-align: center;
+
+}
+.notification-profilePicture{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.notification-nav-link{
+    text-decoration: none;
+    color: inherit;
+    align-items: center;
+    text-align: center;
+}
+.notification-row:hover{
+    background-color: rgba(23, 23, 23, 0.3);
+    border-radius: 12px;
+    padding: 10px;
+
+}
+.notification-user{
+    font-size: 24px;
+}
+.notification-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.acceptAndReject-button{
+    text-align: center;
+    width: 200px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+}
+.accept-button:hover{
+    background-color: #2E8B57;
+}
+
+.reject-button:hover{
+    background-color: #B22222;
+}
+
+.accept-button {
+    /* Styles specific to the accept button */
+    background-color: #3CB371;
+    color:#EEEEEE;
+}
+
+.reject-button {
+    /* Styles specific to the reject button */
+    background-color:#CD5C5C ;
+    color:#EEEEEE;
+}
