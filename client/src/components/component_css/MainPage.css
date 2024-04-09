@@ -39,5 +39,13 @@
     background-color: var(--background-color);
     font-family: "Inika";
   }
-  .friend-list{
+  .notification-list-container{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    width: 60vw;
+    border-radius: 8px;
+    background-color: var(--background-color);
+    font-family: "Inika";
   }

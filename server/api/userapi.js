@@ -238,7 +238,7 @@ router.get("/viewFollowers", async (req, res) => {
 	}
 });
 
-/*
+
 router.get("/viewFollowing", async (req, res) => {
 	try {
 		const {username} = req.query;
@@ -273,22 +273,8 @@ router.get("/viewFollowing", async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 });
-*/
-router.get("/viewFollowing", async (req, res) => {
-    try {
-        const usernameParam = req.query.username;
-		
-        const user = await User.findOne({ username: usernameParam })
-		console.log(user);
-        if (!user) {
-            return res.status(404).json({ message: "User not found!" });
-        }
 
-        res.status(200).json(user.following);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+
 
 // router.get("/test", upload.none(), async (req, res) => {
 // 	console.log(req.body.test);

@@ -17,7 +17,11 @@ const Sidebar = () => {
     logout();
     history.push('/login');
   };
+  useEffect(() => {
+    console.log('User state updated:', user);
+  }, [user]);
 
+  
   return (
     <nav className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">

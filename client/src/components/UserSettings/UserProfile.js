@@ -13,6 +13,40 @@ const UserProfile = () => {
   const [userBio, setUserBio] = useState('');
   const [showPosts, setShowPosts] = useState(true);
   const [userComments, setUserComments] = useState([]);
+  const [editingPost, setEditingPost] = useState(null);
+  const [editingText, setEditingText] = useState("");
+  const handleEditClick = (post) => {
+    setEditingPost(post);
+    setEditingText(post.text);
+  };
+
+  const handleTextChange = (event) => {
+    setEditingText(event.target.value);
+  };
+
+  const handleDiscard = () => {
+    setEditingPost(null);
+    // No need to reset editingText here as it's only used when editingPost is not null
+  };
+  
+
+  const handleConfirm = () => {
+    // Here you would handle the API request to save the edited post
+    // For now, we'll just update it locally
+    setUserPosts((currentPosts) =>
+      currentPosts.map((post) => {
+        if (post._id === editingPost._id) {
+          return { ...post, text: editingText };
+        }
+        return post;
+      })
+    );
+    setEditingPost(null);
+    setEditingText("");
+  };
+  
+
+
 
   useEffect(() => {
     const fetchUrl = `http://localhost:8000/api/userapi/fetchUserPosts?username=${username}`;
@@ -29,7 +63,7 @@ const UserProfile = () => {
       .catch(error => console.error('Error fetching user posts:', error));
   }, [username]);
 
-
+  
 
   const fetchComments = () => {
     const commentsUrl = `http://localhost:8000/api/commentapi/fetchComments?username=${username}`;
@@ -103,20 +137,46 @@ const UserProfile = () => {
       </div>
       {showPosts ? (
         <div className="posts-container">
-          {userPosts.map((post, index) => (
-            <div key={index} className="post">
+          {userPosts.map((post) => ( // Remove the index key for uniqueness and use post._id if available
+            <div key={post._id} className="post">
               <div className="post-header">
                 <h4>{post.title}</h4>
-                <div className="post-actions">
-                  <img src={editIcon} alt="Edit" className="action-icon" />
-                  <img src={trashIcon} alt="Delete" className="action-icon" />
-                </div>
               </div>
-              <p>{post.author}</p>
-              <div className="post-media">
+              
+              {editingPost && editingPost._id === post._id ? (
+                <div>
+                <div className="post-media">
                 {renderMedia(post.media)}
               </div>
-              <p><span className="username">{username}</span>'s comment: {post.comment}</p>
+                <textarea
+                  className='text-description'
+                  value={editingText}
+                  onChange={handleTextChange}
+                />
+                </div>
+              ) : (
+                <div>
+                  
+                  <div className="post-media">
+                    {renderMedia(post.media)}
+                  </div>
+                  <textarea readOnly className = 'text-description' value = {post.text}></textarea>
+                </div>
+              )}
+              {/* Move buttons here, below the textarea or post content */}
+              <div className="post-actions">
+                {editingPost && editingPost._id === post._id ? (
+                  <>
+                    <button onClick={handleConfirm}>Confirm</button>
+                    <button onClick={handleDiscard}>Discard</button>
+                  </>
+                ) : (
+                  <>
+                    <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
+                    <img src={trashIcon} alt="Delete" className="action-icon" />
+                  </>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -126,14 +186,13 @@ const UserProfile = () => {
           {userComments.map((comment, index) => (
             <div key={index} className="comment">
               <p>{comment.text}</p>
-              {/* Render additional comment details here */}
+              {/* Additional comment details here */}
             </div>
           ))}
         </div>
       )}
     </div>
-  );
-};
+  );}
 
 
 export default UserProfile;
