@@ -34,12 +34,11 @@ const RequestList = () => {
       receiver,
       accept: accept.toString(),
     }).toString();
-    const url = `http://localhost:8000/api/handleFollowRequest?${queryParams}`;
-
+    console.log(queryParams);
+    const url = `http://localhost:8000/api/followapi/handleFollowRequest?${queryParams}`;
     try {
       const response = await fetch(url, {
         method: "DELETE",
-
         headers: {
           "Content-Type": "application/json",
           // Include any other headers like Authorization if needed
@@ -52,6 +51,7 @@ const RequestList = () => {
       // Handle success or error based on the response
       if (response.ok) {
         console.log("Success:", result.message);
+        fetchRequestFollower();
       } else {
         console.error("Error:", result.message);
       }

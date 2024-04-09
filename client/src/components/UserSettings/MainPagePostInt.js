@@ -4,12 +4,6 @@ import downvoteImg from "./R.png";
 import "../component_css/MainPagePostInt.css";
 import postImage from "./iphone14promax_dirt_0.5x.jpg";
 import { useUser } from "../../userContext";
-import React, { useState, useEffect, useRef } from "react";
-import upvoteImg from "./U.png";
-import downvoteImg from "./R.png";
-import "../component_css/MainPagePostInt.css";
-import postImage from "./iphone14promax_dirt_0.5x.jpg";
-import { useUser } from "../../userContext";
 
 const MainPagePostInt = ({ post }) => {
   // console.log(post)

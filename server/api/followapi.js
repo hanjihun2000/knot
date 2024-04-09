@@ -135,13 +135,12 @@ router.get("/viewFollowRequests", upload.none(), async (req, res) => {
 
 router.delete("/handleFollowRequest", upload.none(), async (req, res) => {
   try {
-    const { sender, receiver, accept } = req.body;
-    acceptBool = accept === "true";
-    console.log(acceptBool);
+    const { sender, receiver, accept } = req.query;
     const followExists = await Follow.exists({
       sender: sender,
       receiver: receiver,
     });
+
     if (!followExists) {
       return res
         .status(400)
@@ -150,7 +149,7 @@ router.delete("/handleFollowRequest", upload.none(), async (req, res) => {
 
     await Follow.deleteOne({ sender: sender, receiver: receiver });
 
-    if (!acceptBool) {
+    if (accept === "false") {
       return res
         .status(200)
         .send({ status: "success", message: "Follow request deleted!" });
