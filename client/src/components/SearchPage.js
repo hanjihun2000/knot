@@ -20,9 +20,21 @@ const SearchPage = ({ users, onSearch }) => {
       console.error("Error fetching users:", error);
     }
   };
-  return (
-    <div className="search-page">
+    return (
+      <div className="search-page">
       <div className="results-container">
+      <div className="search-container">
+                <input
+                  type="text"
+                  placeholder="Search for usernames..."
+                  value={searchTerm}
+                  onChange={handleSearchTermChange}
+                  className="search-input"
+                />
+                <button onClick={handleSearch} className="search-button">
+                  Search
+                </button>
+              </div>
         {users && users.length > 0 ? (
           users.map((user) => (
             <div key={user.username} className="user-card">
@@ -37,18 +49,6 @@ const SearchPage = ({ users, onSearch }) => {
                 />
                 <span className="username">{user.username}</span>
               </NavLink>
-              <div className="search-container">
-                <input
-                  type="text"
-                  placeholder="Search for usernames..."
-                  value={searchTerm}
-                  onChange={handleSearchTermChange}
-                  className="search-input"
-                />
-                <button onClick={handleSearch} className="search-button">
-                  Search
-                </button>
-              </div>
             </div>
           ))
         ) : (
