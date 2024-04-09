@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../component_css/UserProfile.css';
-import profilePicture from './profile-picture.jpg';
+
 import editIcon from './edit-icon.png';
 import trashIcon from './trash-icon.png';
 import enlargeIcon from './enlarge-icon.png';
@@ -11,16 +11,67 @@ const UserProfile = () => {
   const { username } = useParams();
   const {user} = useUser();
   const [userPosts, setUserPosts] = useState([]);
-  const [userBio, setUserBio] = useState(user.bio);
+  const [userBio, setUserBio] = useState('');
   const [showPosts, setShowPosts] = useState(true);
   const [userComments, setUserComments] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
   const [editingText, setEditingText] = useState("");
+  const [userProfilePic, setUserProfilePic] = useState(null);
+  const [friendList, setFriendList] = useState([]);
   const handleEditClick = (post) => {
     setEditingPost(post);
     setEditingText(post.text);
   };
 
+
+  const fetchFriendList = () => {
+    
+    fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const usernames = data.map(user => user.username);
+        console.log(usernames);
+        console.log(data);
+        setFriendList(usernames);
+        
+      })
+      .catch(error => console.error('Fetching error:', error));
+  };
+
+  // Fetch data only once when the component mounts
+  useEffect(() => {
+    fetchFriendList();
+  }, [user]);
+
+  const sendFollowRequest = async (sender, receiver) => {
+    try {
+      const response = await fetch('http://localhost:8000/api/followapi/makeFollowRequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sender, receiver }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        console.log(data);
+        throw new Error(data.message || 'Failed to send follow request.');
+      }
+  
+      alert(data.message); // Or handle the success response in another way
+    } catch (err) {
+      console.error('Error sending follow request:', err.message);
+      alert(err.message); // Or handle the error in another way
+    }
+  };
+  
   const handleTextChange = (event) => {
     setEditingText(event.target.value);
   };
@@ -46,7 +97,40 @@ const UserProfile = () => {
     setEditingText("");
   };
   
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${username}`)
+      .then(response => {
+        if (!response.ok) {
+          
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(data => {
+        const image = URL.createObjectURL(data);
+        
+        setUserProfilePic(data.size? image : null);
+      })
+      .catch(error => console.error('Fetching error:', error));
+  }, []);
 
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/userapi/fetchUser?username=${username}`)
+      .then(response => {
+        if (!response.ok) {
+          console.log(response)
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        
+        setUserBio(data.bio);
+        
+        
+      })
+      .catch(error => console.error('Fetching error:', error));
+  }, [username]);
 
 
   useEffect(() => {
@@ -55,7 +139,7 @@ const UserProfile = () => {
     fetch(fetchUrl)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        
         if (data.posts) {
           setUserPosts(data.posts);
           
@@ -74,7 +158,7 @@ const UserProfile = () => {
         if (data.comments) {
           setUserComments(data.comments);
         }
-        console.log(data.comments);
+       
       })
       .catch(error => console.error('Error fetching user comments:', error));
   };
@@ -95,7 +179,7 @@ const UserProfile = () => {
   };
 
   const renderMedia = (media) => {
-    console.log(media);
+    
     if (!media || !media.buffer|| !media.mimetype) {
       return null; // or some placeholder for missing media
     }
@@ -122,7 +206,12 @@ const UserProfile = () => {
   return (
     <div className="user-profile-container">
       <div className="user-info">
-        <img src={user.profilePicture || profilePicture} alt="Profile" className="profile-picture" />
+        <img src={userProfilePic } alt="Profile" className="profile-picture" />
+        {user.username !== username && (
+    friendList.includes(username) ? 
+    <span className = "follow-button">Followed</span> : 
+    <button className="follow-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
+  )}
         <div className="user-details">
           <h2>{username}</h2>
           <p>{userBio}</p>

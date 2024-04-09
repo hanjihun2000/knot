@@ -152,3 +152,7 @@ body {
 .comment {
   margin-bottom: 8px;
 }
+.no-underline-yep{
+  text-decoration: none;
+  color: black;
+}

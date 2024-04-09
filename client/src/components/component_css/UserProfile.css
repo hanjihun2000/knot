@@ -1,16 +1,23 @@
 .user-profile-container {
     max-width: 600px;
-    margin: 0 auto;
+    
     padding: 20px;
     background-color: var(--background-color);
     border: 1px solid #787876;
     border-radius: 4px;
+    position: absolute;
+    top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+      
+    width: 50%;
   }
   
   .user-info {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    
   }
   
   .profile-picture {
@@ -158,4 +165,9 @@ textarea[readonly] {
   background-color: #f3f3f3; /* Light grey to indicate it is disabled */
   color: #6c757d; /* Dim text color to indicate non-editability */
   cursor: not-allowed; 
+}
+.follow-button{
+  position: absolute;
+  right:2vw;
+  top:3vh;
 }

@@ -6,7 +6,7 @@ import shareImg from './share.svg';
 
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';
-
+import { NavLink } from 'react-router-dom';
 
 const MainPagePostInt = ({post}) => {
   // console.log(post)
@@ -217,12 +217,15 @@ const MainPagePostInt = ({post}) => {
 
   
   return (
+    
     <div className="post-container">
       <div className="post-header">
-        <div className="user-info">
+      <NavLink to={`/profile/${post.username}`} className = 'no-underline-yep' >
+        <div className="user-info no-underline-yep">
           {userProfilePic && <img src={userProfilePic} alt="User Profile" className="profile-pic" />}
           <span className="username">{post.username}</span>
         </div>
+        </NavLink>
         <button className="options-button">⋯</button>
       </div>
       <div className="post-content">
@@ -278,6 +281,7 @@ const MainPagePostInt = ({post}) => {
         </div>
       )}
     </div>
+    
   );
 };
 
