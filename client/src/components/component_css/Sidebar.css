@@ -2,10 +2,10 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  background-image: linear-gradient(to bottom, #D6B18B,#E5E1D0,#B3B6D3);
+  background-image: var(--background-image);
    /* Centers items vertically */
   align-items: center; /* Aligns items horizontally */
-  height: 100vh; /* Full height of the viewport */
+  height: calc(100vh - 180px); /* Full height of the viewport */
   width: 20vw; /* Width of the sidebar */
   max-width: 200px;
   background-color: #F2E9E4;
@@ -19,7 +19,7 @@
   transition: opacity 0.5s, transform 0.5s; /* Add transitions */
   transition: all 0.5s ease-in-out;
   z-index: 2;
-  overflow: auto;
+  overflow-y: auto;
   }
   .nav-link-none {
     text-decoration: none; /* Removes underline */
@@ -28,6 +28,10 @@
     display: flex; /* Displays items in a row */
     flex-direction: row; /* Items are arranged horizontally */
     font-size: 1em;
+  }
+  #nav-none{
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits text color from parent, adjust as needed */
   }
 
   .sidebar-header{
@@ -44,6 +48,7 @@
   .knot-logo{
     width: 80px;
     height: 80px;
+    
   }
   .List-icon-button{
     display: flex;
@@ -72,11 +77,14 @@
     opacity: 1; /* Make the element visible when the sidebar is open */
     transform: translateX(0); /* Move the element into place when the sidebar is open */
     transition-delay: 0s; /* No delay when the sidebar is open */
+    overflow: hidden;
+    height: auto;
     /* Other styles for open sidebar */
   }
   
   .sidebar.closed {
     width: 0;
+    height: auto;
     /* Other styles for closed sidebar */
   }
 
@@ -94,13 +102,13 @@
   margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
  }
  .sidebar-list #active{
-  background-color: #ddd; /* Gray background on hover */
+  background-color: var(--background-color); /* Gray background on hover */
   width: 100%;
   border-radius: 32px;
   background-color: rgba(23, 23, 23, 0.1);
  }
  .sidebar-list #active:hover{
-  background-color: #ddd; /* Gray background on hover */
+  background-color: var(--background-color); /* Gray background on hover */
   width: 100%;
   border-radius: 32px;
   background-color: rgba(23, 23, 23, 0.3);
@@ -109,7 +117,6 @@
   width: 100%;
   border-radius: 32px;
   cursor: pointer;
-  background-color: #DDD;
   background-color: rgba(23, 23, 23, 0.3);
  }
  .row #menu-item-icon{
@@ -164,11 +171,11 @@
   .menu-bottom-part {
     display: flex;
     flex-direction: column;
-    padding-bottom: 20vh;
+    /* padding-bottom: 28vh; */
     width: 80%;
     text-align: right;
-    margin-top: auto; /* Add this line */
-    position: absolute; /* Add this line */
+    /* margin-top: auto; Add this line */
+    position: bottom; /* Add this line */
     bottom: 0; /* Add this line */
     align-self: center;
   }

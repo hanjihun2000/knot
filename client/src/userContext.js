@@ -1,14 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const UserContext = createContext();
-
-export const useUser = () => useContext(UserContext);
-
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     username: '',
     profilePicture: "https://via.placeholder.com/150",
     bio: '',
+    followers: [],
+    following: [],
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,12 +15,11 @@ export const UserProvider = ({ children }) => {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
       setUser((currentUser) => ({ ...currentUser, username: storedUsername }));
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    // This effect runs when the username changes - such as when logging in
     if (user.username) {
       fetchProfile();
     }
@@ -30,7 +27,6 @@ export const UserProvider = ({ children }) => {
 
   const login = async (username, password) => {
     setIsLoading(true);
-    console.log('yep');
     try {
       const response = await fetch('http://localhost:8000/api/userapi/login', {
         method: 'POST',
@@ -40,23 +36,27 @@ export const UserProvider = ({ children }) => {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
+      if (!response.ok) throw new Error(await response.text());
 
-      if (response.ok) {
-        setUser({
-          username,
-          profilePicture: data.profilePicture || "https://via.placeholder.com/150",
-          bio: data.bio || '',
-        });
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', username);
-        setIsLoading(false);
-      } else {
-        setError(data.message);
-        setIsLoading(false);
+      const data = await response.json();
+      let profilePictureURL = "https://via.placeholder.com/150"; // Default/fallback image URL
+      if (data.profilePicture && data.profilePicture.buffer) {
+        const byteArray = new Uint8Array(data.profilePicture.buffer.data);
+        const blob = new Blob([byteArray], { type: data.profilePicture.mimetype });
+        profilePictureURL = URL.createObjectURL(blob);
       }
+      setUser({
+        username,
+        profilePicture: profilePictureURL,
+        bio: data.bio || '',
+        followers: data.followers || [],
+        following: data.following || [],
+      });
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', username);
     } catch (error) {
       setError(error.message);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -66,6 +66,8 @@ export const UserProvider = ({ children }) => {
       username: '',
       profilePicture: "https://via.placeholder.com/150",
       bio: '',
+      followers: [],
+      following: [],
     });
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -82,19 +84,22 @@ export const UserProvider = ({ children }) => {
           headers: { 'Authorization': `Bearer ${token}` },
         });
 
-        if (response.ok) {
-          const data = await response.json();
+        if (!response.ok) throw new Error('Failed to fetch user profile.');
+
+        const data = await response.json();
+        let profilePictureURL = "https://via.placeholder.com/150"; // Default/fallback image URL
+        if (data.profilePicture && data.profilePicture.buffer) {
           const byteArray = new Uint8Array(data.profilePicture.buffer.data);
           const blob = new Blob([byteArray], { type: data.profilePicture.mimetype });
-          const imageObjectURL = URL.createObjectURL(blob);
-          setUser((currentUser) => ({
-            ...currentUser,
-            profilePicture: imageObjectURL,
-            bio: data.bio,
-          }));
-        } else {
-          setError('Failed to fetch user profile.');
+          profilePictureURL = URL.createObjectURL(blob);
         }
+        setUser((currentUser) => ({
+          ...currentUser,
+          profilePicture: profilePictureURL,
+          bio: data.bio || '',
+          followers: data.followers || [],
+          following: data.following || [],
+        }));
       } catch (e) {
         setError(e.message);
       } finally {
@@ -103,15 +108,18 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Make sure to expose login and logout functions via the value provided to the context
   const value = {
     user,
     setUser,
     isLoading,
     error,
     login,
-    logout
+    logout,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
+
+const UserContext = createContext();
+
+export const useUser = () => useContext(UserContext);

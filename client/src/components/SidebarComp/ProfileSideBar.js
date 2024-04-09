@@ -9,17 +9,17 @@ const ProfileSidebar = () => {
       <nav className="sidebar-nav">
       <ul className="sidebar-nav-list">
           <li className="sidebar-nav-item">
-            <NavLink to="/home" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
+            <NavLink to="/settings/profile-edit" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
               Edit Profile
             </NavLink>
           </li>
           <li className="sidebar-nav-item">
-            <NavLink to="/privacy-settings" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
+            <NavLink to="/settings/privacy-settings" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
               Privacy Settings
             </NavLink>
           </li>
           <li className="sidebar-nav-item">
-            <NavLink to="/theme-settings" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
+            <NavLink to="/settings/theme-settings" activeClassName="sidebar-nav-link active" className="sidebar-nav-link">
               Theme Settings
             </NavLink>
           </li>

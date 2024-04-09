@@ -2,7 +2,7 @@ const mongoose = require("../index");
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
-    postId: { type: Number, required: true, unique: true },
+    postId: { type: Number, required: true},
     commentId: { type: Number, required: true, unique: true },
     text: { type: String, required: true },
     likes: { type: Array, required: true },

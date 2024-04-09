@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
 import Navbar from '../Navbar';
 import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
-import FriendLists from '../friendlist';
 import '../component_css/MainPage.css';
-import CreatePostForm from './CreatePostForm';
+import ThemeSelector from './ThemeSelector';
+import FriendLists from '../friendlist';
 
-
-
-
-
-const MainPageEdit = () => {
+const MainPageThemes = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,21 +22,23 @@ const MainPageEdit = () => {
   };
 
   return (
-    <div className="main-container">
-      <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="content-container">
-        <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="main-content">
-          
-           
-            <CreatePostForm/>
-          
-          
-        </div>
-          <FriendLists className="friend-list"/>
-      </div>
-    </div>
-  );
-}
 
-export default MainPageEdit;
+    <div className="main-container">
+    <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div className="content-container">
+      <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div className="main-content">
+        <div className="profile-edit-container">
+        <ProfileSideBarEdit/>
+          <ThemeSelector/>
+        </div>
+      </div>
+      <FriendLists className="friend-list"/>
+    </div>
+  </div>
+
+    
+  );
+};
+
+export default MainPageThemes;

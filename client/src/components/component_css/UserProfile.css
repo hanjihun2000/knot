@@ -2,7 +2,7 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #D3D0B3;
+    background-color: var(--background-color);
     border: 1px solid #787876;
     border-radius: 4px;
   }
@@ -39,7 +39,7 @@
   }
   
   .post {
-    background-color: #D3D0B3;
+    background-color: var(--background-color);
     border: 1px solid #787876;
     border-radius: 4px;
     padding: 10px;
@@ -69,3 +69,87 @@
     margin-left: 10px;
     cursor: pointer;
   }
+  /* UserProfile.css */
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.view-toggle button {
+  padding: 8px 16px;
+  margin: 0 8px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+  background-color: #e0e0e0;
+}
+
+.posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow: auto; /* Add this line to make it scrollable */
+  max-height: 75vh; /* Set a max-height or height for the scrolling effect */
+}
+
+.post {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 80px;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.picture{
+  max-width: 100%;
+}
+
+textarea {
+  width: 100%; /* Adjust as needed */
+  height: 150px; /* Adjust as needed */
+  padding: 10px; /* Adds space inside the borders */
+  border: 1px solid #ccc; /* Subtle border color */
+  border-radius: 4px; /* Rounded borders */
+  font-family: 'Arial', sans-serif; /* Choose a font */
+  font-size: 16px; /* Readable font size */
+  resize: vertical; /* Allow only vertical resizing */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+  overflow-y: auto; /* Ensures scroll bar only appears when needed */
+}
+
+/* Style for placeholder text */
+::placeholder {
+  color: #888; /* Placeholder text color */
+}
+
+/* Scrollbar styles */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background-color: #efefef;
+}

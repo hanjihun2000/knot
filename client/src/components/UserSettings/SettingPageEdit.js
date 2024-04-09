@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
+import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
+import ProfileEdit from './ProfileEdit';
 import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import FriendLists from '../friendlist';
+
 import '../component_css/MainPage.css';
-import CreatePostForm from './CreatePostForm';
 
 
 
 
 
-const MainPageEdit = () => {
+const SettingPageEdit = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -31,10 +33,10 @@ const MainPageEdit = () => {
       <div className="content-container">
         <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="main-content">
-          
-           
-            <CreatePostForm/>
-          
+          <div className="profile-edit-container">
+            <ProfileSideBarEdit/>
+            <ProfileEdit/>
+          </div>
           
         </div>
           <FriendLists className="friend-list"/>
@@ -43,4 +45,4 @@ const MainPageEdit = () => {
   );
 }
 
-export default MainPageEdit;
+export default SettingPageEdit;
