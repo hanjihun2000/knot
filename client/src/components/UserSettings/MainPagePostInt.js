@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import upvoteImg from './U.png';
 import downvoteImg from './R.png';
+import shareImg from './share.svg';
+
 import '../component_css/MainPagePostInt.css';
-import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
 
@@ -35,6 +37,17 @@ const MainPagePostInt = ({post}) => {
   // console.log(post.postId)
 
   useEffect(() => {
+    fetch(`http://localhost:8000/api/commentapi/fetchComments?postId=${post.postId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }).then(data => {
+        //get username and text from comments
+        data = data.message.map(comment => `${comment.username}: ${comment.text}`);
+        setComments(data);
+      }).catch(error => console.error('Fetching error:', error));
     const closeComments = (event) => {
       if (!event.target.closest('.comments-container') && showComments) {
         setShowComments(false);
@@ -156,13 +169,52 @@ const MainPagePostInt = ({post}) => {
     setNewComment(e.target.value);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
       e.preventDefault();
-      setComments([...comments, newComment.trim()]);
+      setComments([...comments, `${user.username}: ${newComment}`]);
+      fetch(`http://localhost:8000/api/commentapi/createComment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postId: post.postId,
+          username: user.username,
+          text: newComment.trim()
+        })
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }).then(data => {
+        console.log(data.message);
+      }).catch(error => console.error('Fetching error:', error));
       setNewComment('');
     }
   };
+
+  const sharePost = () => {
+    fetch(`http://localhost:8000/api/postapi/sharePost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+        username: user.username
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log(response)
+      alert('Post shared successfully!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
+
   
   return (
     
@@ -177,7 +229,10 @@ const MainPagePostInt = ({post}) => {
         <button className="options-button">⋯</button>
       </div>
       <div className="post-content">
-        <div className="post-title">{post.title}</div>
+        <NavLink to={`/posts/${post.postId}`} className = 'no-underline-yep' >
+          <div className="post-title">{post.title}</div>
+        </NavLink>
+        <div className='original-username'>{post.originalUsername && <span>Shared from: {post.originalUsername}</span>}</div>
         <div className="post-image" onClick={handleImageClick}>
         {post.media && <img src={mediaURL} alt="Post Media" className="post-image"/>}
         </div>
@@ -186,6 +241,9 @@ const MainPagePostInt = ({post}) => {
             <p>{post.description}</p>
           </div>
           <div className="action-buttons">
+            <button className="share-button">
+              <img src={shareImg} alt="Share" onClick={sharePost}/> Share
+            </button>
             <button className="vote-button" onClick={handleLike}>
               <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
             </button>
@@ -200,18 +258,21 @@ const MainPagePostInt = ({post}) => {
             ref={textareaRef}
             value={newComment}
             onChange={handleCommentChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
             placeholder="Write a comment..."
             rows="1"
             className="comment-input"
           ></textarea>
           {showComments && (
             <div className="comments">
-              {comments.map((comment, index) => (
-                <div key={index} className="comment">
-                  <span className="username">{username}</span> {comment}
-                </div>
-              ))}
+              {comments.map((comment, index) => {
+                const [username, text] = comment.split(': ');
+                return (
+                  <div key={index} className="comment">
+                    <span className="username">{username}</span>: {text}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

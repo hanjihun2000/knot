@@ -134,19 +134,19 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
       // Find the user by username
       const user = await User.findOne({ username: username });
   
-      if (!user) {
-        return res.status(404).json({ message: "User not found!" });
-      }
+	  if (!user) {
+		return res.status(404).json({ message: "User not found!" });
+	  }
 
-      changableFields = ["bio", "theme", "accountType", "email", "password", "profilePicture"];
+	  changableFields = ["bio", "theme", "accountType", "email", "password", "profilePicture"];
   
-      // Update the fields
-      for (const field in req.body) {
-        if (!changableFields.includes(field)) {
-          continue;
-        }
-        user[field] = req.body[field];
-      }
+	  // Update the fields
+	  for (const field in req.body) {
+		if (!changableFields.includes(field)) {
+		  continue;
+		}
+		user[field] = req.body[field];
+	  }
   
       // Add image to user with buffer and mimetype
       if (req.file) {
@@ -186,7 +186,9 @@ try {
 		return res.status(404).json({ message: "User not found!" });
 	}
 
-	const {buffer, mimetype} = user.profilePicture;
+	let {buffer, mimetype} = user.profilePicture;
+
+	// console.log(buffer);
 
 
 	// if (!user.profilePicture || !user.profilePicture.buffer) {
@@ -194,6 +196,10 @@ try {
 	// }
 
 	// Set the response headers
+	if (!mimetype) {
+		mimetype = "image/jpeg";
+	}
+
 	res.set("Content-Type", mimetype);
 
 	// Send the profile picture buffer as the response

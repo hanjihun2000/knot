@@ -1,49 +1,32 @@
-import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom';
 import '../component_css/SearchPage.css';
+import React, { useState, useEffect } from 'react';
 
-const SearchPage = ({ users }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredUsers, setFilteredUsers] = useState([]);
 
-  const handleSearch = (event) => {
-    const term = event.target.value.toLowerCase();
-    setSearchTerm(term);
-
-    const filtered = users.filter((user) =>
-      user.username.toLowerCase().includes(term)
-    );
-    setFilteredUsers(filtered);
-  };
-
-  return (
-    <div className="search-page">
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search for usernames..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="search-input"
-        />
-      </div>
-      <div className="results-container">
-        {filteredUsers.length > 0 ? (
-          filteredUsers.map((user) => (
-            <div key={user.id} className="user-card">
-              <img
-                src={user.profilePicture}
-                alt={user.username}
-                className="profile-picture"
-              />
-              <span className="username">{user.username}</span>
-            </div>
-          ))
-        ) : (
-          <p>No results found.</p>
-        )}
-      </div>
-    </div>
-  );
-};
+const SearchPage = ({ users, onSearch }) => {
+    return (
+        <div className="search-page">
+          <div className="results-container">
+            {users && users.length > 0 ? (
+              users.map((user) => (
+                <div key={user.id} className="user-card">
+                  <NavLink to={`/profile/${user.username}`} className="profile-link">
+                    <img
+                      src={user.profilePicture}
+                      alt={user.username}
+                      className="profile-picture"
+                    />
+                    <span className="username">{user.username}</span>
+                  </NavLink>
+                </div>
+              ))
+            ) : (
+              <p>No results found.</p>
+            )}
+          </div>
+        </div>
+      );
+    };
+    
 
 export default SearchPage;
