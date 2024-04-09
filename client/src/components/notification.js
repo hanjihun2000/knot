@@ -37,12 +37,12 @@ const RequestList = () => {
       receiver,
       accept: accept.toString(),
     }).toString();
+    console.log(queryParams);
     const url = `http://localhost:8000/api/handleFollowRequest?${queryParams}`;
 
     try {
       const response = await fetch(url, {
         method: "DELETE",
-
         headers: {
           "Content-Type": "application/json",
           // Include any other headers like Authorization if needed
