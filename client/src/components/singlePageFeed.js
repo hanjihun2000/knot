@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import './component_css/MainPage.css';
 import FriendLists from './friendlist';
 import NotificationList from './notification';
+import Singlepage from './singlePageComponent'
 
 
 const MainPageThemes = () => {
@@ -18,7 +19,7 @@ const MainPageThemes = () => {
       <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="main-content">
           <div className="notification-list-container"> 
-            <NotificationList/>
+            <Singlepage/>
             
           </div>
       </div>

@@ -79,7 +79,7 @@ const RequestList = () => {
       <ul className="request-list">
         <li key='refresh' className="row-refresh-border">
           <button onClick={fetchRequestFollower} className="refresh-button-notification">
-            <ArrowsClockwise className='refresh-icon'/>
+            {<ArrowsClockwise className='refresh-icon'/>}
           </button>
         </li>
         {requestFollower.map((requestedUser, index) => {

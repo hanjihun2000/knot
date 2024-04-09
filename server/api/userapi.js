@@ -262,8 +262,6 @@ router.get("/viewFollowers", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
-
 router.get("/viewFollowing", async (req, res) => {
     try {
         const { username } = req.query;
@@ -302,13 +300,6 @@ router.get("/viewFollowing", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
-
-
-// router.get("/test", upload.none(), async (req, res) => {
-// 	console.log(req.body.test);
-// 	res.send("Hello World!");
-// });
 
 router.get('/searchUsers', upload.none(), async (req, res) => {
 	try {
