@@ -4,6 +4,7 @@ import downvoteImg from '../UserSettings/R.png';
 
 import postImage from '../UserSettings/iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
+import { useParams } from 'react-router-dom';
 import './singPagePost.css';
 const SingPagePost = () => {
   const [likes, setLikes] = useState(0);
@@ -15,7 +16,7 @@ const SingPagePost = () => {
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
-
+  const { postId } = useParams();
   const handleImageClick = () => {
     setIsImageActive(current => !current);
   };
@@ -36,6 +37,24 @@ const SingPagePost = () => {
       document.removeEventListener('click', closeComments);
     };
   }, [showComments]);
+
+  useEffect(() => {
+    // Define the function to fetch data
+    console.log(postId);
+    const fetchData = async () => {
+      const response = await fetch(`http://localhost:8000/api/postapi/fetchPost?=${postId}`);
+      if (!response.ok) {
+        console.error('Failed to fetch post:', response.status);
+        return;
+      }
+      const data = await response.json();
+      // Here, you would set the post data to your state
+      // setPostData(data);
+    };
+
+    // Call the fetch function
+    fetchData();
+  }, [postId]); 
 
   useEffect(() => {
     if (textareaRef.current) {
