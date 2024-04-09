@@ -17,7 +17,7 @@ import singlePageFeed from './components/singlePageFeed';
 
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
 import UserProfile from './components/UserSettings/UserProfile';
-
+import SearchPage from './components/UserSettings/SearchPage';
 
 function App() {
   // Check if the user is authenticated by verifying the token's presence
@@ -33,6 +33,9 @@ function App() {
             </Route>
             <Route path='/login'>
               <LogInForm />
+            </Route>
+            <Route path='/search'>
+              <SearchPage />
             </Route>
             <Route exact path='/userprofile'>
               <UserProfile/>
