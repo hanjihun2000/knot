@@ -56,18 +56,5 @@ app.use("/api/followapi", followapiRouter);
 app.use("/api/adminapi", adminapiRouter);
 
 app.listen(PORT, () => {
-	console.log(`Server listening on ${PORT}`);
-	// admin user account upon server starts
-	// const admin = new userSchema({
-	// 	username: "admin",
-	// 	password: "admin",
-	// 	email: "admin@example.com",
-	// 	accountType: "admin",
-	// 	profilePicture: null,
-	// 	bio: null,
-	// 	theme: null,
-	// 	followers: [],
-	// 	following: []
-	// });
-	// admin.save();
+  console.log(`Server listening on ${PORT}`);
 });
