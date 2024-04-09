@@ -219,59 +219,81 @@ router.get("/fetchUserPosts", upload.none(), async (req, res) => {
 });
 
 router.get("/viewFollowers", async (req, res) => {
-	try {
-		const requestedUsername = req.query.username;
-		const user = await User.findOne({ username: requestedUsername });
-		if (!user) {
-			return res.status(404).json({ message: "User not found!" });
-		}
-		const followers = user.followers;
-		const followerUsers = await Promise.all(
-			followers.map(async (followerUsername) => {
-			  const followerUser = await User.findOne({ username: followerUsername }).select("username profilePicture");
-			  return followerUser;
-			})
-		  );
-		res.json(followerUsers);
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+    try {
+        const {username} = req.query;
+        const user = await User.findOne({ username: username });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found!" });
+        }
+
+        // Get the followers list
+        const { followers } = user;
+
+        // Filter out users which have been deleted
+        const updatedFollowers = [];
+        for (let i = 0; i < followers.length; i++) {
+            const followerUser = await User.findOne({ username: followers[i] });
+            if (followerUser) {
+                updatedFollowers.push(followers[i]);
+            }
+        }
+
+        // Update the user's followers list in the database
+        user.followers = updatedFollowers;
+        await user.save();
+
+        // Map followers list to objects containing username and profile picture
+        const followerUsers = await Promise.all(
+            updatedFollowers.map(async (followerUsername) => {
+                const followerUser = await User.findOne({ username: followerUsername }).select("username profilePicture");
+                return followerUser;
+            })
+        );
+
+        res.status(200).json(followerUsers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
-
-
 router.get("/viewFollowing", async (req, res) => {
-	try {
-		const usernameParam = req.query.username;
-		const user = await User.findOne({ username: usernameParam }).select("following");
-		if (!user) {
-			return res.status(404).json({ message: "User not found!" });
-		}
+    try {
+        const { username } = req.query;
+        const user = await User.findOne({ username: username });
 
-		const updatedFollowing = await Promise.all(
-			user.following.map(async (followingUsername) => {
-			  const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
-			  return followingUser ? followingUsername : null;
-			})
-		);
-		  
-		
-		const filteredFollowing = updatedFollowing.filter(username => username !== null);
+        if (!user) {
+            return res.status(404).json({ message: "User not found!" });
+        }
 
-		user.following = filteredFollowing;
-		await user.save();
-	
-		res.status(200).json(user.following);
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+        // Get the following list
+        const { following } = user;
+
+        // Filter out users which have been deleted
+        const updatedFollowing = [];
+        for (let i = 0; i < following.length; i++) {
+            const followingUser = await User.findOne({ username: following[i] });
+            if (followingUser) {
+                updatedFollowing.push(following[i]);
+            }
+        }
+
+        // Update the user's following list in the database
+        user.following = updatedFollowing;
+        await user.save();
+
+        // Map following list to objects containing username and profile picture
+        const followingUsers = await Promise.all(
+            updatedFollowing.map(async (followingUsername) => {
+                const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
+                return followingUser;
+            })
+        );
+
+        res.status(200).json(followingUsers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
-
-
-
-// router.get("/test", upload.none(), async (req, res) => {
-// 	console.log(req.body.test);
-// 	res.send("Hello World!");
-// });
 
 router.get('/searchUsers', upload.none(), async (req, res) => {
 	try {

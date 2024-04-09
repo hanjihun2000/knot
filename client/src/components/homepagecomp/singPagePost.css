@@ -45,4 +45,9 @@
     /* max-height: calculated_value; */
     /* overflow-y: auto; */
   }
+  .post-description-sign {
+    white-space: normal; /* Default value, just to be explicit */
+    word-wrap: break-word; /* Breaks the word to prevent overflow */
+  }
+  
   

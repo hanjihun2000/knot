@@ -7,6 +7,7 @@ import { useUser } from '../../userContext';
 import { useParams } from 'react-router-dom';
 import placeholderImage from './plaimg.png';
 import './singPagePost.css';
+
 const SingPagePost = () => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
@@ -19,6 +20,7 @@ const SingPagePost = () => {
   const [showComments, setShowComments] = useState(false);
   const { postId } = useParams();
   const [postData, setPostData] = useState([]);
+  const {user} = useUser();
   const handleImageClick = () => {
     setIsImageActive(current => !current);
   };
@@ -26,14 +28,51 @@ const SingPagePost = () => {
   const toggleComments = () => {  
     setShowComments(!showComments);
   };
+
+
+
+  const postComment = async (newCommentText) => {
+    const commentData = {
+      username: user.username, // Username of the commenter
+      text: newCommentText, // Text content of the comment
+      postId: postId, // Assuming each comment is associated with a postId
+    };
+  
+    try {
+      const response = await fetch('http://localhost:8000/api/commentapi/createComment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(commentData),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      // Assuming the server responds with the newly added comment
+      const addedComment = await response.json();
+  
+      // Optionally update comments list in the state
+      setComments((prevComments) => [...prevComments, addedComment]);
+  
+    } catch (error) {
+      console.error("Failed to post comment:", error);
+      // Handle the error (e.g., show an error message)
+    }
+  };
+
   const handleAddComment = () => {
     if (newComment.trim()) {
       const commentToAdd = {
-        username, // Assuming you want to use the logged-in user's name
+        username: user.username, // Assuming you want to use the logged-in user's name
         text: newComment.trim(),
       };
+      
       setComments([...comments, commentToAdd]);
       setNewComment(''); // Reset the input field
+      postComment(newComment.trim());
 
       // Here, you might also want to send the comment to the server
       // const response = await fetch('/api/commentapi/addComment', {
@@ -103,7 +142,9 @@ const SingPagePost = () => {
     const commentsData = await commentsResponse.json();
     console.log(commentsData);
     // Set comments to state
-    setComments(commentsData.comments);
+    if(commentsData.message.length > 0) {
+    setComments(commentsData.message);
+    }
       
       
     };
@@ -139,6 +180,7 @@ const SingPagePost = () => {
     }
   };
   
+  
   return (
     <div className="post-container-sign">
       <div className="post-content-wrapper-sign">
@@ -154,7 +196,7 @@ const SingPagePost = () => {
           {comments.length > 0 ? (
     comments.map((comment, index) => (
       <div key={index} className="comment-sign">
-        <span className="comment-user-sign">{comment.username}:</span>
+        <span className="comment-user-sign">{comment.username}: </span>
         <span className="comment-text-sign">{comment.text}</span>
       </div>
     ))

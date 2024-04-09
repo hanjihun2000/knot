@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
 import Navbar from '../Navbar';
 import FriendLists from '../friendlist';
-import '../component_css/MainPage.css';
+import './singpage.css'
 import '../component_css/FriendList.css';
 
 import SingPagePost from './singPagePost';
@@ -30,7 +30,7 @@ const SingPage= () => {
     <div className="singpage-container">
       <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="singpage-content-container">
-        
+      <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="singpage-content">
           
            
@@ -38,7 +38,7 @@ const SingPage= () => {
           
           
         </div>
-          
+          <FriendLists/>
       </div>
     </div>
   );
