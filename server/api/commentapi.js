@@ -51,7 +51,9 @@ router.get("/fetchAllCommentIds", upload.none(), async (req, res) => {
 
 router.post("/createComment", upload.none(), async (req, res) => {
 	try {
-		// console.log(req.body)
+
+		console.log(req.body)
+		
 		const {postId, username, text} = req.body;
 		if (!postId || !username || !text) {
 			return res.status(400).send({ status: "error", message: "Please fill in all fields!" });

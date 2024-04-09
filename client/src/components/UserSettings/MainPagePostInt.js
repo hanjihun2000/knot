@@ -37,6 +37,17 @@ const MainPagePostInt = ({post}) => {
   // console.log(post.postId)
 
   useEffect(() => {
+    fetch(`http://localhost:8000/api/commentapi/fetchComments?postId=${post.postId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }).then(data => {
+        //get username and text from comments
+        data = data.message.map(comment => `${comment.username}: ${comment.text}`);
+        setComments(data);
+      }).catch(error => console.error('Fetching error:', error));
     const closeComments = (event) => {
       if (!event.target.closest('.comments-container') && showComments) {
         setShowComments(false);
@@ -158,10 +169,28 @@ const MainPagePostInt = ({post}) => {
     setNewComment(e.target.value);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
       e.preventDefault();
-      setComments([...comments, newComment.trim()]);
+      setComments([...comments, `${user.username}: ${newComment}`]);
+      fetch(`http://localhost:8000/api/commentapi/createComment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postId: post.postId,
+          username: user.username,
+          text: newComment.trim()
+        })
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }).then(data => {
+        console.log(data.message);
+      }).catch(error => console.error('Fetching error:', error));
       setNewComment('');
     }
   };
@@ -224,18 +253,21 @@ const MainPagePostInt = ({post}) => {
             ref={textareaRef}
             value={newComment}
             onChange={handleCommentChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
             placeholder="Write a comment..."
             rows="1"
             className="comment-input"
           ></textarea>
           {showComments && (
             <div className="comments">
-              {comments.map((comment, index) => (
-                <div key={index} className="comment">
-                  <span className="username">{username}</span> {comment}
-                </div>
-              ))}
+              {comments.map((comment, index) => {
+                const [username, text] = comment.split(': ');
+                return (
+                  <div key={index} className="comment">
+                    <span className="username">{username}</span>: {text}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
