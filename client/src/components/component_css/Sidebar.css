@@ -5,7 +5,7 @@
   background-image: var(--background-image);
    /* Centers items vertically */
   align-items: center; /* Aligns items horizontally */
-  height: 100vh; /* Full height of the viewport */
+  height: calc(100vh - 180px); /* Full height of the viewport */
   width: 20vw; /* Width of the sidebar */
   max-width: 200px;
   background-color: #F2E9E4;
@@ -19,7 +19,7 @@
   transition: opacity 0.5s, transform 0.5s; /* Add transitions */
   transition: all 0.5s ease-in-out;
   z-index: 2;
-  overflow: auto;
+  overflow-y: auto;
   }
   .nav-link-none {
     text-decoration: none; /* Removes underline */
@@ -73,6 +73,8 @@
     opacity: 1; /* Make the element visible when the sidebar is open */
     transform: translateX(0); /* Move the element into place when the sidebar is open */
     transition-delay: 0s; /* No delay when the sidebar is open */
+    overflow: hidden;
+    height: auto;
     /* Other styles for open sidebar */
   }
   
@@ -164,11 +166,11 @@
   .menu-bottom-part {
     display: flex;
     flex-direction: column;
-    padding-bottom: 28vh;
+    /* padding-bottom: 28vh; */
     width: 80%;
     text-align: right;
-    margin-top: auto; /* Add this line */
-    position: absolute; /* Add this line */
+    /* margin-top: auto; Add this line */
+    position: top; /* Add this line */
     bottom: 0; /* Add this line */
     align-self: center;
   }

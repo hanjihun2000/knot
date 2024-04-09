@@ -57,9 +57,9 @@ const MainPageHomePage= () => {
         <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="main-content">
           
-        {posts.map((post, index) => (
-          <MainPagePostInt key={index} post={post} />
-        ))}
+          {posts.map((post, index) => (
+            <MainPagePostInt key={index} post={post} />
+          ))}
           
         </div>
           <FriendLists className="friend-list"/>
