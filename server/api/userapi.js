@@ -137,9 +137,14 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
 	  if (!user) {
 		return res.status(404).json({ message: "User not found!" });
 	  }
+
+	  changableFields = ["bio", "theme", "accountType", "email", "password", "profilePicture"];
   
 	  // Update the fields
 	  for (const field in req.body) {
+		if (!changableFields.includes(field)) {
+		  continue;
+		}
 		user[field] = req.body[field];
 	  }
   
