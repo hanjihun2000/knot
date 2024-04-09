@@ -11,6 +11,7 @@ import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // En
 import { UserProvider } from './userContext'; // Adjust the import path as necessary
 import MainPagePost from './components/UserSettings/MainPagePost';
 import NotificationPage from './components/notificationPage';
+import singlePageFeed from './components/singlePageFeed';
 
 
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
@@ -79,7 +80,7 @@ function App() {
             <ProtectedRoute
               exact
               path='/post'
-              component={NotificationPage}
+              component={singlePageFeed}
               auth={isAuthenticated}
             />
           </Switch>
