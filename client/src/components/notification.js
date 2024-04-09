@@ -22,6 +22,8 @@ const RequestList = () => {
       })
       .then((data) => {
         setRequestFollower(data.message);
+        console.log("success");
+        console.log(data.message);
       })
       .catch((error) => console.error("Fetching error:", error));
   };

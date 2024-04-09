@@ -3,14 +3,15 @@ import '../component_css/UserProfile.css';
 import profilePicture from './profile-picture.jpg';
 import editIcon from './edit-icon.png';
 import trashIcon from './trash-icon.png';
-
+import enlargeIcon from './enlarge-icon.png';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
+import { Link } from 'react-router-dom';
 const UserProfile = () => {
   const { username } = useParams();
   const {user} = useUser();
   const [userPosts, setUserPosts] = useState([]);
-  const [userBio, setUserBio] = useState('');
+  const [userBio, setUserBio] = useState(user.bio);
   const [showPosts, setShowPosts] = useState(true);
   const [userComments, setUserComments] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
@@ -35,7 +36,7 @@ const UserProfile = () => {
     // For now, we'll just update it locally
     setUserPosts((currentPosts) =>
       currentPosts.map((post) => {
-        if (post._id === editingPost._id) {
+        if (post.postId === editingPost.postId) {
           return { ...post, text: editingText };
         }
         return post;
@@ -50,14 +51,14 @@ const UserProfile = () => {
 
   useEffect(() => {
     const fetchUrl = `http://localhost:8000/api/userapi/fetchUserPosts?username=${username}`;
+    
     fetch(fetchUrl)
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         if (data.posts) {
           setUserPosts(data.posts);
-          if (data.posts.length > 0) {
-            setUserBio(data.posts[0].text);
-          }
+          
         }
       })
       .catch(error => console.error('Error fetching user posts:', error));
@@ -137,13 +138,14 @@ const UserProfile = () => {
       </div>
       {showPosts ? (
         <div className="posts-container">
-          {userPosts.map((post) => ( // Remove the index key for uniqueness and use post._id if available
-            <div key={post._id} className="post">
+          {userPosts.map((post) => ( 
+            
+            <div key={post.postId} className="post">
               <div className="post-header">
                 <h4>{post.title}</h4>
               </div>
               
-              {editingPost && editingPost._id === post._id ? (
+              {editingPost && editingPost.postId === post.postId ? (
                 <div>
                 <div className="post-media">
                 {renderMedia(post.media)}
@@ -165,7 +167,7 @@ const UserProfile = () => {
               )}
               {/* Move buttons here, below the textarea or post content */}
               <div className="post-actions">
-                {editingPost && editingPost._id === post._id ? (
+                {editingPost && editingPost.postId === post.postId ? (
                   <>
                     <button onClick={handleConfirm}>Confirm</button>
                     <button onClick={handleDiscard}>Discard</button>
@@ -174,10 +176,14 @@ const UserProfile = () => {
                   <>
                     <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
                     <img src={trashIcon} alt="Delete" className="action-icon" />
+                    <Link to={`/posts/${post.postId}`} key={post.postId} state={{ post }} className="post-link">
+                    <img src={enlargeIcon} alt="Enlarge" className="action-icon" />
+                    </Link>
                   </>
                 )}
               </div>
             </div>
+          
           ))}
         </div>
       ) : (
