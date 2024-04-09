@@ -22,14 +22,16 @@ async function generateUniquePostId() {
     return id;
 }
 
-router.post("/createPost", upload.single('file'), async (req, res) => {
+router.post("/createPost", upload.single('media'), async (req, res) => {
     // const username = req.body.username;
     // const title = req.body.title;
     // const text = req.body.text;
     // const buffer = req.file.buffer;
     // const mimetype = req.file.mimetype;
 
-    const {username, title, text, buffer, mimetype} = req.body;
+    const {username, title, text, media} = req.body;
+
+    const {buffer, mimetype} = req.file;
     
     let id;
     // generate a postId that is unique

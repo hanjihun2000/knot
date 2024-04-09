@@ -46,7 +46,12 @@ const CreatePostForm = () => {
       formData.append('media', fileInputRef.current.files[0]);
     }
 
-    console.log(formData)
+    // print media
+    console.log(formData.get('media'));
+
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0]+ ', '+ pair[1]); 
+    // }
   
     try {
       const response = await fetch('http://localhost:8000/api/postapi/createPost', {

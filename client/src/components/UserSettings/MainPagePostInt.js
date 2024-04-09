@@ -16,6 +16,7 @@ const MainPagePostInt = ({post}) => {
   const {user} = useUser();
   const username = user.username;
   const [userProfilePic, setUserProfilePic] = useState(null)
+  const [mediaURL, setMediaURL] = useState(null)
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -27,6 +28,8 @@ const MainPagePostInt = ({post}) => {
   const toggleComments = () => {
     setShowComments(!showComments);
   };
+
+  // console.log(post.postId)
 
   useEffect(() => {
     const closeComments = (event) => {
@@ -65,6 +68,19 @@ const MainPagePostInt = ({post}) => {
       .catch(error => console.error('Fetching error:', error));
   }, [post.username]);
 
+  useEffect(() => {
+    if (post.media) {
+      // console.log(post.media.buffer)
+      // console.log(post.media.mimetype)
+      const byteArray = new Uint8Array(post.media.buffer.data);
+      const blob = new Blob([byteArray], { type: post.media.mimetype });
+      const url = URL.createObjectURL(blob);
+      setMediaURL(url);
+    }
+  }, [post.media]);
+
+  // console.log(post.media)
+
 
 
   // console.log("Recommended:", posts)
@@ -101,7 +117,7 @@ const MainPagePostInt = ({post}) => {
       <div className="post-content">
         <div className="post-title">{post.title}</div>
         <div className="post-image" onClick={handleImageClick}>
-        {isImageActive && <img src={post.media} alt="Post Media" />}
+        {post.media && <img src={mediaURL} alt="Post Media" />}
         </div>
         <div className="post-description-actions">
           <div className="post-description">
