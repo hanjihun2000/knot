@@ -22,21 +22,6 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
 
-  const handleSearchTermChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/api/userapi/searchUsers?username=jay&searchTerm=${searchTerm}`
-      );
-      setUsers(response.data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
-
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem("token");
 
@@ -53,21 +38,12 @@ const App = () => {
             <Route path="/login">
               <LogInForm />
             </Route>
-            <Route path="/search">
-              <div className="search-container">
-                <input
-                  type="text"
-                  placeholder="Search for usernames..."
-                  value={searchTerm}
-                  onChange={handleSearchTermChange}
-                  className="search-input"
-                />
-                <button onClick={handleSearch} className="search-button">
-                  Search
-                </button>
-              </div>
-              <SearchPage users={users} />
-            </Route>
+            <ProtectedRoute
+              exact
+              path="/search"
+              component={SearchPage}
+              auth={isAuthenticated}
+            />
             <Route exact path="/userprofile">
               <UserProfile />
             </Route>
