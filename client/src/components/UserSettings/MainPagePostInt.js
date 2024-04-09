@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import upvoteImg from './U.png';
 import downvoteImg from './R.png';
+import shareImg from './share.svg';
+
 import '../component_css/MainPagePostInt.css';
-import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
 
 
@@ -163,6 +165,27 @@ const MainPagePostInt = ({post}) => {
       setNewComment('');
     }
   };
+
+  const sharePost = () => {
+    fetch(`http://localhost:8000/api/postapi/sharePost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+        username: user.username
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log(response)
+      alert('Post shared successfully!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
+
   
   return (
     <div className="post-container">
@@ -175,6 +198,7 @@ const MainPagePostInt = ({post}) => {
       </div>
       <div className="post-content">
         <div className="post-title">{post.title}</div>
+        <div className='original-username'>{post.originalUsername && <span>Shared from: {post.originalUsername}</span>}</div>
         <div className="post-image" onClick={handleImageClick}>
         {post.media && <img src={mediaURL} alt="Post Media" className="post-image"/>}
         </div>
@@ -183,6 +207,9 @@ const MainPagePostInt = ({post}) => {
             <p>{post.description}</p>
           </div>
           <div className="action-buttons">
+            <button className="share-button">
+              <img src={shareImg} alt="Share" onClick={sharePost}/> Share
+            </button>
             <button className="vote-button" onClick={handleLike}>
               <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
             </button>
