@@ -5,14 +5,15 @@ import '../component_css/MainPagePostInt.css';
 import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
 
-const MainPagePostInt = () => {
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
+const MainPagePostInt = ({post}) => {
+  console.log(post)
+  const [likes, setLikes] = useState(post.likes);
+  const [dislikes, setDislikes] = useState(post.dislikes);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
-  const { username } = useUser(); // setUsername removed since it wasn't used
-  const [posts, setPosts] = useState([]);
+  const {user} = useUser();
+  const username = user.username;
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -45,21 +46,7 @@ const MainPagePostInt = () => {
     }
   }, [newComment]);
 
-  //fetch posts
-  useEffect(() => {
-    const username = localStorage.getItem('username');
-    fetch(`http://localhost:8000/api/postapi/recommendPosts?username=${username}`) // Fetch posts for the user
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 'success') {
-          setPosts(data.posts);
-        } else {
-          alert(data.message);
-        }
-      }).catch((error) => {
-        console.error('There was an error!', error);
-      });
-  }, [username]);
+  
 
   // console.log("Recommended:", posts)
 
@@ -87,19 +74,19 @@ const MainPagePostInt = () => {
     <div className="post-container">
       <div className="post-header">
         <div className="user-info">
-          <img src="user-profile-pic.jpg" alt="User Profile" className="profile-pic" />
-          <span className="username">{username}</span>
+          <img src={post.userProfilePic} alt="User Profile" className="profile-pic" />
+          <span className="username">{post.username}</span>
         </div>
         <button className="options-button">⋯</button>
       </div>
       <div className="post-content">
-        <div className="post-title">My first beach trip!</div>
+        <div className="post-title">{post.title}</div>
         <div className="post-image" onClick={handleImageClick}>
-        {!isImageActive &&    <img src={postImage} alt="Post Image" /> }
+        {!isImageActive && <img src={post.media} alt="Post Media" />}
         </div>
         <div className="post-description-actions">
           <div className="post-description">
-            <p>Happy day! <span>#beach</span> <span>#ik</span> <span>#sand</span> <span>#holiday</span></p>
+            <p>{post.description}</p>
           </div>
           <div className="action-buttons">
             <button className="vote-button" onClick={handleLike}>
@@ -134,7 +121,7 @@ const MainPagePostInt = () => {
       </div>
       {isImageActive && (
         <div className="image-overlay" onClick={() => setIsImageActive(false)}>
-          <img src={postImage} alt="Post Image Enlarged" />
+          <img src={post.image} alt="Post Image Enlarged" />
         </div>
       )}
     </div>
