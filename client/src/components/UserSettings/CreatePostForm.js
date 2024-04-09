@@ -35,7 +35,7 @@ const CreatePostForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    console.log(fileInputRef.current.files[0]);
     const formData = new FormData();
     formData.append('username', user.username); // You might want to dynamically set this
     formData.append('title', postTitle);
@@ -43,13 +43,22 @@ const CreatePostForm = () => {
   
     // Only append the file if a file was selected
     if (fileInputRef.current.files[0]) {
+      
       formData.append('media', fileInputRef.current.files[0]);
     }
+
+    // print media
+    console.log(formData.get('media'));
+
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0]+ ', '+ pair[1]); 
+    // }
   
     try {
       const response = await fetch('http://localhost:8000/api/postapi/createPost', {
         method: 'POST',
         body: formData, // formData will be the body of the request
+        
       });
   
       const responseData = await response.json();
@@ -81,7 +90,7 @@ const CreatePostForm = () => {
       <div className="post-image-container">
       <div className="post-preview-container">
       {
-          postFileType === "image" && <img src={postImage} alt="Post" className="post-image" />
+          postFileType === "image" && <img src={postImage} alt="Post" className="post-image-small" />
         }
         {
           postFileType === "video" && <video controls src={postImage} className="post-video"></video>

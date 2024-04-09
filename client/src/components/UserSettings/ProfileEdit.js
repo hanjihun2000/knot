@@ -51,7 +51,7 @@ const ProfileEdit = () => {
         setUser((currentUser) => ({
           ...currentUser,
           bio: bio,
-          profilePicture: URL.createObjectURL(profilePic)
+          profilePicture: profilePic ? URL.createObjectURL(profilePic) : null
         }));
       } else {
         alert(data.message || 'An error occurred during edit');

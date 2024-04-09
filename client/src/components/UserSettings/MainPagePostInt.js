@@ -5,13 +5,21 @@ import '../component_css/MainPagePostInt.css';
 import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
 
-const MainPagePostInt = () => {
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
+
+const MainPagePostInt = ({post}) => {
+  // console.log(post)
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
-  const { username } = useUser(); // setUsername removed since it wasn't used
+  const {user} = useUser();
+  const username = user.username;
+  const [userProfilePic, setUserProfilePic] = useState(null)
+  const [mediaURL, setMediaURL] = useState(null);
+
+  const [like, setLike] = useState();
+  const [dislike, setDislike] = useState();
+  const [likeCount, setLikeCount] = useState();
+  const [dislikeCount, setDislikeCount] = useState();
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -23,6 +31,8 @@ const MainPagePostInt = () => {
   const toggleComments = () => {
     setShowComments(!showComments);
   };
+
+  // console.log(post.postId)
 
   useEffect(() => {
     const closeComments = (event) => {
@@ -44,13 +54,103 @@ const MainPagePostInt = () => {
     }
   }, [newComment]);
 
+  // set profile picture of post user
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${post.username}`)
+      .then(response => {
+        if (!response.ok) {
+          console.log(response)
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(data => {
+        const image = URL.createObjectURL(data);
+        setUserProfilePic(data.size? image : null);
+      })
+      .catch(error => console.error('Fetching error:', error));
+  }, [post.username]);
+
+
+  //set post media
+  useEffect(() => {
+    if (post.media) {
+      // console.log(post.media.buffer)
+      // console.log(post.media.mimetype)
+      const byteArray = new Uint8Array(post.media.buffer.data);
+      const blob = new Blob([byteArray], { type: post.media.mimetype });
+      const url = URL.createObjectURL(blob);
+      setMediaURL(url);
+    }
+  }, [post.media]);
+
+  // init likes and dislikes
+  useEffect(() => {
+    setLike(post.likes.includes(user.username));
+    setDislike(post.dislikes.includes(user.username));
+    setLikeCount(post.likes.length);
+    setDislikeCount(post.dislikes.length);
+  }, []);
+
+  // console.log("Recommended:", posts)
+
   const handleLike = () => {
-    setLikes(likes + 1);
+    fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+        username: user.username,
+        like: true,
+        undo: like
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    }).then(data => {
+      setLike(!like);
+      setDislike(false);
+      setLikeCount(data.likeCount);
+      setDislikeCount(data.dislikeCount);
+    }).catch(error => console.error('Fetching error:', error));
+
   };
 
   const handleDislike = () => {
-    setDislikes(dislikes + 1);
+    fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+        username: user.username,
+        like: false,
+        undo: dislike
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    }).then(data => {
+      setDislike(!dislike);
+      setLike(false);
+      setLikeCount(data.likeCount);
+      setDislikeCount(data.dislikeCount);
+    }).catch(error => console.error('Fetching error:', error));
+
   };
+
+  // useEffect( () => {
+  //   setLikeCount(post.likes.length + (like ? 1 : 0));
+  //   setDislikeCount(post.dislikes.length + (dislike ? 1 : 0));
+  // }, [like, dislike]);
+
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -68,26 +168,26 @@ const MainPagePostInt = () => {
     <div className="post-container">
       <div className="post-header">
         <div className="user-info">
-          <img src="user-profile-pic.jpg" alt="User Profile" className="profile-pic" />
-          <span className="username">{username}</span>
+          {userProfilePic && <img src={userProfilePic} alt="User Profile" className="profile-pic" />}
+          <span className="username">{post.username}</span>
         </div>
         <button className="options-button">⋯</button>
       </div>
       <div className="post-content">
-        <div className="post-title">My first beach trip!</div>
+        <div className="post-title">{post.title}</div>
         <div className="post-image" onClick={handleImageClick}>
-        {!isImageActive &&    <img src={postImage} alt="Post Image" /> }
+        {post.media && <img src={mediaURL} alt="Post Media" className="post-image"/>}
         </div>
         <div className="post-description-actions">
           <div className="post-description">
-            <p>Happy day! <span>#beach</span> <span>#ik</span> <span>#sand</span> <span>#holiday</span></p>
+            <p>{post.description}</p>
           </div>
           <div className="action-buttons">
             <button className="vote-button" onClick={handleLike}>
-              <img src={upvoteImg} alt="Upvote" /> Like ({likes})
+              <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
             </button>
             <button className="vote-button" onClick={handleDislike}>
-              <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikes})
+              <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikeCount})
             </button>
           </div>
         </div>
@@ -113,9 +213,9 @@ const MainPagePostInt = () => {
           )}
         </div>
       </div>
-      {isImageActive && (
+      {isImageActive && post.media && (
         <div className="image-overlay" onClick={() => setIsImageActive(false)}>
-          <img src={postImage} alt="Post Image Enlarged" />
+          <img src={mediaURL} alt="Post Image Enlarged" />
         </div>
       )}
     </div>
