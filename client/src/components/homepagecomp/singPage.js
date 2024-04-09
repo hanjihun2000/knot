@@ -38,7 +38,7 @@ const SingPage= () => {
           
           
         </div>
-          <FriendLists/>
+          <FriendLists className="singpage-friend-list"/>
       </div>
     </div>
   );

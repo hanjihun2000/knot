@@ -132,22 +132,3 @@ body {
 .comment {
   margin-bottom: 8px;
 }
-.main-content {
-  flex-grow: 1; /* To fill the remaining space */
-   /* Adjust this value as needed */
-  
-  display: flex;
-  height: 2000px;
-  
-  font-family: "Inika";
-  overflow-y: auto;
-}
-.main-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  flex-direction: column;
-  overflow-y: auto;
-  height: 120vh;
-  max-height: 100vh; /* Set a max-height or height for the scrolling effect */
-}
