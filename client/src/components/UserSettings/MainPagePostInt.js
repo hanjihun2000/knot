@@ -4,7 +4,6 @@ import downvoteImg from './R.png';
 import '../component_css/MainPagePostInt.css';
 import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
-import { set } from 'mongoose';
 
 const MainPagePostInt = ({post}) => {
   // console.log(post)
