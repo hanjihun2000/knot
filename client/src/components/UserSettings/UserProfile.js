@@ -134,7 +134,7 @@ const UserProfile = () => {
 
 
   useEffect(() => {
-    const fetchUrl = `http://localhost:8000/api/userapi/fetchUserPosts?username=${username}`;
+    const fetchUrl = `http://localhost:8000/api/userapi/fetchUserPosts?username=${username}&sender=${username}`;
     
     fetch(fetchUrl)
       .then(response => response.json())
@@ -206,73 +206,61 @@ const UserProfile = () => {
   return (
     <div className="user-profile-container">
       <div className="user-info">
-        <img src={userProfilePic } alt="Profile" className="profile-picture" />
+        <img src={userProfilePic} alt="Profile" className="profile-picture" />
         {user.username !== username && (
-    friendList.includes(username) ? 
-    <span className = "follow-button">Followed</span> : 
-    <button className="follow-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
-  )}
+          friendList.includes(username) ? 
+          <span className="follow-button">Followed</span> : 
+          <button className="follow-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
+        )}
         <div className="user-details">
           <h2>{username}</h2>
           <p>{userBio}</p>
         </div>
       </div>
-      <div className="view-toggle">
-        <button onClick={() => handleToggleView('posts')} className={showPosts ? 'active' : ''}>
-          Posts
-        </button>
-        <button onClick={() => handleToggleView('comments')} className={!showPosts ? 'active' : ''}>
-          Comments
-        </button>
-      </div>
+      
       {showPosts ? (
         <div className="posts-container">
-          {userPosts.map((post) => ( 
-            
+          {userPosts.map((post) => (
             <div key={post.postId} className="post">
               <div className="post-header">
                 <h4>{post.title}</h4>
               </div>
-              
               {editingPost && editingPost.postId === post.postId ? (
                 <div>
-                <div className="post-media">
-                {renderMedia(post.media)}
-              </div>
-                <textarea
-                  className='text-description'
-                  value={editingText}
-                  onChange={handleTextChange}
-                />
+                  <div className="post-media">{renderMedia(post.media)}</div>
+                  <textarea
+                    className="text-description"
+                    value={editingText}
+                    onChange={handleTextChange}
+                  />
                 </div>
               ) : (
                 <div>
-                  
-                  <div className="post-media">
-                    {renderMedia(post.media)}
-                  </div>
-                  <textarea readOnly className = 'text-description' value = {post.text}></textarea>
+                  <div className="post-media">{renderMedia(post.media)}</div>
+                  <textarea readOnly className="text-description" value={post.text}></textarea>
                 </div>
               )}
-              {/* Move buttons here, below the textarea or post content */}
               <div className="post-actions">
-                {editingPost && editingPost.postId === post.postId ? (
+                {user.username === username && (
                   <>
-                    <button onClick={handleConfirm}>Confirm</button>
-                    <button onClick={handleDiscard}>Discard</button>
-                  </>
-                ) : (
-                  <>
-                    <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
-                    <img src={trashIcon} alt="Delete" className="action-icon" />
-                    <Link to={`/posts/${post.postId}`} key={post.postId} state={{ post }} className="post-link">
-                    <img src={enlargeIcon} alt="Enlarge" className="action-icon" />
-                    </Link>
+                    {editingPost && editingPost.postId === post.postId ? (
+                      <>
+                        <button onClick={handleConfirm}>Confirm</button>
+                        <button onClick={handleDiscard}>Discard</button>
+                      </>
+                    ) : (
+                      <>
+                        <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
+                        <img src={trashIcon} alt="Delete" className="action-icon" />
+                      </>
+                    )}
                   </>
                 )}
+                <Link to={`/posts/${post.postId}`} state={{ post }} className="post-link">
+                  <img src={enlargeIcon} alt="Enlarge" className="action-icon" />
+                </Link>
               </div>
             </div>
-          
           ))}
         </div>
       ) : (
@@ -281,13 +269,13 @@ const UserProfile = () => {
           {userComments.map((comment, index) => (
             <div key={index} className="comment">
               <p>{comment.text}</p>
-              {/* Additional comment details here */}
             </div>
           ))}
         </div>
       )}
     </div>
-  );}
+  );
+  ;}
 
 
 export default UserProfile;

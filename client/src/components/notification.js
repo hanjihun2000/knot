@@ -28,35 +28,36 @@ const RequestList = () => {
   };
 
   const handleFollowRequest = async (sender, receiver, accept) => {
-  const queryParams = new URLSearchParams({ sender, receiver, accept: accept.toString() }).toString();
-  const url = `http://localhost:8000/api/handleFollowRequest?${queryParams}`;
-  
-  
-  try {
-    const response = await fetch(url, {
-      method: 'DELETE',
-      
-      headers: {
-        'Content-Type': 'application/json',
-        // Include any other headers like Authorization if needed
-      },
-      
-      
-    });
+    const queryParams = new URLSearchParams({
+      sender,
+      receiver,
+      accept: accept.toString(),
+    }).toString();
+    console.log(queryParams);
+    const url = `http://localhost:8000/api/followapi/handleFollowRequest?${queryParams}`;
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          // Include any other headers like Authorization if needed
+        },
+      });
 
-    const result = await response.json();
-    console.log(result);
+      const result = await response.json();
+      console.log(result);
 
-    // Handle success or error based on the response
-    if (response.ok) {
-      console.log("Success:", result.message);
-    } else {
-      console.error("Error:", result.message);
+      // Handle success or error based on the response
+      if (response.ok) {
+        console.log("Success:", result.message);
+        fetchRequestFollower();
+      } else {
+        console.error("Error:", result.message);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
     }
-  } catch (error) {
-    console.error('Fetch error:', error);
-  }
-};
+  };
 
   // Fetch data only once when the component mounts
   useEffect(() => {

@@ -221,7 +221,7 @@ router.get("/fetchUserPosts", upload.none(), async (req, res) => {
     }
 
     //if user accountType is private, and the sender is not a follower of user, return an error
-    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender)) 
+    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender) ) 
 	&& sender !== username && sender !== "admin") {
         return res.status(403).json({ status: "error", message: "User account is private!" });
     }
