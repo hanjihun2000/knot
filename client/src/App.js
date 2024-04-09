@@ -1,5 +1,4 @@
 import './App.css';
-import React from 'react';
 import SignUpForm from './components/SignUpForm';
 import LogInForm from './components/LogInForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -13,13 +12,29 @@ import { UserProvider } from './userContext'; // Adjust the import path as neces
 import MainPagePost from './components/UserSettings/MainPagePost';
 import NotificationPage from './components/notificationPage';
 import singlePageFeed from './components/singlePageFeed';
-
-
+import axios from 'axios';
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
 import UserProfile from './components/UserSettings/UserProfile';
 import SearchPage from './components/UserSettings/SearchPage';
+import React, { useState,useEffect } from 'react';
 
-function App() {
+const App = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [users, setUsers] = useState([]);
+
+  const handleSearchTermChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/userapi/searchUsers?username=jay&searchTerm=${searchTerm}`);
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem('token');
 
@@ -35,7 +50,19 @@ function App() {
               <LogInForm />
             </Route>
             <Route path='/search'>
-              <SearchPage />
+              <div className="search-container">
+                <input
+                  type="text"
+                  placeholder="Search for usernames..."
+                  value={searchTerm}
+                  onChange={handleSearchTermChange}
+                  className="search-input"
+                />
+                <button onClick={handleSearch} className="search-button">
+                  Search
+                </button>
+              </div>
+              <SearchPage users={users} />
             </Route>
             <Route exact path='/userprofile'>
               <UserProfile/>
@@ -54,11 +81,10 @@ function App() {
               auth={isAuthenticated}
             />
             <ProtectedRoute  
-            exact path='/settings/profile-edit'
-            component={SettingPageEdit}
-            auth={isAuthenticated}
+              exact path='/settings/profile-edit'
+              component={SettingPageEdit}
+              auth={isAuthenticated}
             />
-           
             <ProtectedRoute
               exact
               path='/settings/privacy-settings'
@@ -94,7 +120,6 @@ function App() {
       </UserProvider>
     </Router>
   );
-
-}
+};
 
 export default App;
