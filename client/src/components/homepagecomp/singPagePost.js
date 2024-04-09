@@ -5,6 +5,7 @@ import downvoteImg from '../UserSettings/R.png';
 import postImage from '../UserSettings/iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
 import { useParams } from 'react-router-dom';
+import placeholderImage from './plaimg.png';
 import './singPagePost.css';
 const SingPagePost = () => {
   const [likes, setLikes] = useState(0);
@@ -13,16 +14,37 @@ const SingPagePost = () => {
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
   const { username } = useUser(); // setUsername removed since it wasn't used
-  
+  const [imageSrc, setImageSrc] = useState(placeholderImage);
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const { postId } = useParams();
+  const [postData, setPostData] = useState([]);
   const handleImageClick = () => {
     setIsImageActive(current => !current);
   };
 
-  const toggleComments = () => {
+  const toggleComments = () => {  
     setShowComments(!showComments);
+  };
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      const commentToAdd = {
+        username, // Assuming you want to use the logged-in user's name
+        text: newComment.trim(),
+      };
+      setComments([...comments, commentToAdd]);
+      setNewComment(''); // Reset the input field
+
+      // Here, you might also want to send the comment to the server
+      // const response = await fetch('/api/commentapi/addComment', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(commentToAdd),
+      // });
+      // if (response.ok) {
+      //   // Handle the successful addition of the comment
+      // }
+    }
   };
 
   useEffect(() => {
@@ -40,16 +62,50 @@ const SingPagePost = () => {
 
   useEffect(() => {
     // Define the function to fetch data
-    console.log(postId);
+   
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:8000/api/postapi/fetchPost?=${postId}`);
+      const response = await fetch(`http://localhost:8000/api/postapi/fetchPost?postId=${postId}`);
       if (!response.ok) {
         console.error('Failed to fetch post:', response.status);
         return;
       }
       const data = await response.json();
-      // Here, you would set the post data to your state
-      // setPostData(data);
+      console.log(data);
+      setPostData(data);
+      if (data && data.media && data.media.buffer) {
+        // If data.media.buffer is present, handle it
+        try {
+          const byteArray = new Uint8Array(data.media.buffer.data || data.media.buffer);
+          const blob = new Blob([byteArray], { type: data.media.mimetype });
+          const imageObjectURL = URL.createObjectURL(blob);
+      
+        
+          setImageSrc(imageObjectURL); // Assume you have a state or some way to handle the image source URL
+        } catch (error) {
+          console.error('Error creating blob from binary data', error);
+          
+          setImageSrc(placeholderImage);
+        }
+      }else {
+        // media is null or undefined, handle the scenario
+        console.log('Media data is not available.');
+      
+        // Here you could set a default image or a placeholder
+        // setImageSrc(placeholderImage);
+      }
+
+      const commentsResponse = await fetch(`http://localhost:8000/api/commentapi/fetchComments?postId=${postId}`);
+    if (!commentsResponse.ok) {
+      console.error('Failed to fetch comments:', commentsResponse.status);
+      // Handle error, perhaps set an error state to display a message
+      return;
+    }
+    const commentsData = await commentsResponse.json();
+    console.log(commentsData);
+    // Set comments to state
+    setComments(commentsData.comments);
+      
+      
     };
 
     // Call the fetch function
@@ -87,20 +143,33 @@ const SingPagePost = () => {
     <div className="post-container-sign">
       <div className="post-content-wrapper-sign">
         <div className="post-image-container-sign">
-          <img src={postImage} alt="Beach" className="post-image-sign" />
+          <img src={imageSrc} alt="Beach" className="post-image-sign" />
         </div>
         <div className="post-text-content-sign">
           <p className="post-description-sign">
-            Happy day! <span className="hashtag">#beach</span> <span className="hashtag">#hk</span> <span className="hashtag">#sand</span> <span className="hashtag">#holiday</span>
+           {postData.text}
           </p>
           <div className="comments-section-sign">
-            {/* Map through your comments here */}
-            <div className="comment-sign">
-              <span className="comment-user-sign">hanjihun:</span>
-              <span className="comment-text-sign">Nice!</span>
-              {/* ... */}
-            </div>
-            {/* ... other comments ... */}
+            
+          {comments.length > 0 ? (
+    comments.map((comment, index) => (
+      <div key={index} className="comment-sign">
+        <span className="comment-user-sign">{comment.username}:</span>
+        <span className="comment-text-sign">{comment.text}</span>
+      </div>
+    ))
+  ) : (
+    <div className="no-comments-sign">No comments yet.</div>
+  )} 
+            <textarea
+          ref={textareaRef}
+          value={newComment}
+          onChange={handleCommentChange}
+          onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleAddComment()}
+          placeholder="Write a comment..."
+          className="new-comment-input-sign"
+        ></textarea>
+        <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
           </div>
         </div>
       </div>
