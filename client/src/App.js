@@ -15,12 +15,11 @@ import singlePageFeed from "./components/singlePageFeed";
 import axios from "axios";
 import MainPageHomePage from "./components/UserSettings/MainPageHomePage"; // Adjust your
 import UserProfile from "./components/UserSettings/UserProfile";
-import SearchPage from "./components/UserSettings/SearchPage";
+import SearchPage from "./components/SearchPage";
 import React, { useState, useEffect } from "react";
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [users, setUsers] = useState([]);
+
 
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem("token");
