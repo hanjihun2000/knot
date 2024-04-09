@@ -3,15 +3,9 @@ import '../component_css/UserProfile.css';
 import profilePicture from './profile-picture.jpg';
 import editIcon from './edit-icon.png';
 import trashIcon from './trash-icon.png';
-<<<<<<< Updated upstream
-
-=======
-import postImage from './profile-picture2.jpg'; // Import your post image
->>>>>>> Stashed changes
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
 const UserProfile = () => {
-<<<<<<< Updated upstream
   const { username } = useParams();
   const {user} = useUser();
   const [userPosts, setUserPosts] = useState([]);
@@ -23,29 +17,6 @@ const UserProfile = () => {
   const handleEditClick = (post) => {
     setEditingPost(post);
     setEditingText(post.text);
-=======
-  const [showPosts, setShowPosts] = useState(false);
-  const username = 'johndoe';
-  const userDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
-  const [showFullPostView, setShowFullPostView] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [activeView, setActiveView] = useState('posts'); // New state variable
-  const posts = [
-    {
-      title: 'Title of post/repost',
-      author: 'postauthor',
-      comment: 'Looking good!',
-    },
-    {
-      title: 'Title of post/repost',
-      author: 'postauthor',
-      comment: 'I want to go there!',
-    },
-  ];
-
-  const toggleView = () => {
-    setShowPosts(!showPosts);
->>>>>>> Stashed changes
   };
 
   const handleTextChange = (event) => {
@@ -209,7 +180,6 @@ const UserProfile = () => {
           ))}
         </div>
       ) : (
-<<<<<<< Updated upstream
         <div className="comments-container">
           <h3>Comments</h3>
           {userComments.map((comment, index) => (
@@ -218,34 +188,10 @@ const UserProfile = () => {
               {/* Additional comment details here */}
             </div>
           ))}
-=======
-        <div className="user-activity">
-          <div className="posts">
-            <h3>Posts</h3>
-            {posts.map((post, index) => (
-              <div key={index} className="post">
-                <h4>{post.title}</h4>
-                <p>{post.author}</p>
-                <p>
-                  <span className="username">{username}</span>'s comment: {post.comment}
-                </p>
-                <div className="post-actions">
-                  <img src={editIcon} alt="Edit" className="action-icon" />
-                  <img src={trashIcon} alt="Delete" className="action-icon" />
-                </div>
-              </div>
-            ))}
-          </div>
-          
->>>>>>> Stashed changes
         </div>
       )}
     </div>
   );}
 
-<<<<<<< Updated upstream
 
 export default UserProfile;
-=======
-export default UserProfile;
->>>>>>> Stashed changes

@@ -1,195 +1,75 @@
-/* UserProfile.css */
 .user-profile-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: var(--background-color);
-  border: 1px solid #787876;
-  border-radius: 4px;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.profile-picture {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-right: 20px;
-}
-
-.user-details h2 {
-  margin: 0;
-}
-
-.user-details p {
-  margin: 5px 0 0;
-}
-
-.user-activity {
-  display: flex;
-  justify-content: space-between;
-}
-
-.posts,
-.comments {
-  width: 48%;
-}
-
-.post {
-  background-color: var(--background-color);
-  border: 1px solid #787876;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.post h4 {
-  margin: 0 0 5px;
-}
-
-.post p {
-  margin: 5px 0;
-}
-
-.username {
-  font-weight: bold;
-}
-
-.post-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.action-icon {
-  width: 20px;
-  height: 20px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-/* Post Page */
-.post-container {
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #d3d0b3;
-  border: 1px solid #787876;
-  border-radius: 10px;
-  margin-bottom: 60px;
-  overflow: hidden;
-}
-
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #e6e6e6;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-}
-
-.profile-pic {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.options-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: #262626;
-}
-
-.post-content {
-  padding: 16px;
-}
-
-.post-title {
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.post-image img {
-  width: 40%;
-  height: auto;
-  border: 1px solid #e6e6e6;
-}
-
-.post-description-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.post-description {
-  flex-grow: 1;
-}
-
-.post-description span {
-  font-weight: bold;
-  color: #262626;
-}
-
-.action-buttons {
-  display: flex;
-}
-
-.vote-button {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin-right: 16px;
-}
-
-.vote-button img {
-  width: 20px;
-  height: 20px;
-  margin-right: 4px;
-}
-
-.comments-container {
-  padding: 16px;
-  border-top: 1px solid #e6e6e6;
-}
-
-.comment-info {
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.comment-input {
-  width: 100%;
-  border: none;
-  outline: none;
-  resize: none;
-  padding: 8px;
-  border-radius: 3px;
-  background-color: #fafafa;
-  margin-bottom: 16px;
-}
-
-.comments {
-  display: flex;
-  flex-direction: column;
-}
-
-.comment {
-  margin-bottom: 8px;
-}
-/* UserProfile.css */
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--background-color);
+    border: 1px solid #787876;
+    border-radius: 4px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .user-details h2 {
+    margin: 0;
+  }
+  
+  .user-details p {
+    margin: 5px 0 0;
+  }
+  
+  .user-activity {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .posts,
+  .comments {
+    width: 48%;
+  }
+  
+  .post {
+    background-color: var(--background-color);
+    border: 1px solid #787876;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .post h4 {
+    margin: 0 0 5px;
+  }
+  
+  .post p {
+    margin: 5px 0;
+  }
+  
+  .username {
+    font-weight: bold;
+  }
+  
+  .post-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .action-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  /* UserProfile.css */
 .view-toggle {
   display: flex;
   justify-content: center;
@@ -209,12 +89,9 @@
   background-color: #e0e0e0;
 }
 
-.posts-container,
-.comments-container {
+.posts-container {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-<<<<<<< Updated upstream
   justify-content: space-between;
   overflow: auto; /* Add this line to make it scrollable */
   max-height: 75vh; /* Set a max-height or height for the scrolling effect */
@@ -275,6 +152,10 @@ textarea::-webkit-scrollbar-thumb {
 
 textarea::-webkit-scrollbar-track {
   background-color: #efefef;
-=======
->>>>>>> Stashed changes
+}
+
+textarea[readonly] {
+  background-color: #f3f3f3; /* Light grey to indicate it is disabled */
+  color: #6c757d; /* Dim text color to indicate non-editability */
+  cursor: not-allowed; 
 }
