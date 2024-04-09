@@ -56,6 +56,12 @@ body {
   margin-bottom: 8px;
 }
 
+.post-image-small img {
+  width: auto;
+  height: auto;
+  border: 1px solid #e6e6e6;
+}
+
 .post-image img {
   width: 100%;
   height: auto;

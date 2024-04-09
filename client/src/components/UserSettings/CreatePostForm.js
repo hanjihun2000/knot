@@ -88,7 +88,7 @@ const CreatePostForm = () => {
       <div className="post-image-container">
       <div className="post-preview-container">
       {
-          postFileType === "image" && <img src={postImage} alt="Post" className="post-image" />
+          postFileType === "image" && <img src={postImage} alt="Post" className="post-image-small" />
         }
         {
           postFileType === "video" && <video controls src={postImage} className="post-video"></video>

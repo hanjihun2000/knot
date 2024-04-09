@@ -62,10 +62,13 @@ const MainPagePostInt = ({post}) => {
         return response.blob();
       })
       .then(data => {
-        setUserProfilePic(URL.createObjectURL(data));
+        const image = URL.createObjectURL(data);
+        setUserProfilePic(data.size? image : null);
       })
       .catch(error => console.error('Fetching error:', error));
   }, [post.username]);
+
+
 
   useEffect(() => {
     if (post.media) {
@@ -116,7 +119,7 @@ const MainPagePostInt = ({post}) => {
       <div className="post-content">
         <div className="post-title">{post.title}</div>
         <div className="post-image" onClick={handleImageClick}>
-        {post.media && <img src={mediaURL} alt="Post Media" />}
+        {post.media && <img src={mediaURL} alt="Post Media" className="post-image"/>}
         </div>
         <div className="post-description-actions">
           <div className="post-description">
