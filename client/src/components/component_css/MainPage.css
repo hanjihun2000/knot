@@ -1,51 +1,47 @@
 .main-container {
-    display: flex;
-    height: 100vh; /* Full viewport height */
-    overflow: hidden; /* In case the content overflows */
-    background-image: var(--background-image);
-    flex-direction: column;
-  }
+  display: flex;
+  height: calc(100vh - 80px); /* Full viewport height */
+  background-image: var(--background-image);
+  flex-direction: column;
+  /* overflow: auto; */
+}
 
-  .content-container {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: row; /* Explicitly define direction if not default */
-  }
+.content-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row; /* Explicitly define direction if not default */
+  height: 100%;
+}
 
-  .navBar {
-    position:fixed;
-    width: 100%;
-    height: 60px;
-    overflow: hidden; /* Add this line */
-    /* other styles... */
-  }
+.navBar {
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  /* overflow: hidden; Remove or change this line */
+  /* other styles... */
+}
 
-  .main-content {
-    flex-grow: 1; /* To fill the remaining space */
-     /* Adjust this value as needed */
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    font-family: "Inika";
-    
-  }
-  
-  .profile-edit-container{
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-    width: 50vw;
-    background-color: var(--background-color);
-    font-family: "Inika";
-  }
-  .notification-list-container{
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-    width: 60vw;
-    border-radius: 8px;
-    background-color: var(--background-color);
-    font-family: "Inika";
-  }
+.main-content {
+  flex-grow: 1; /* To fill the remaining space */
+  height: auto; /* Full height */
+    /* Allow vertical scrolling */
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inika";
+}
+
+.profile-edit-container {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  width: 50vw;
+  background-color: var(--background-color);
+  font-family: "Inika";
+}
+
+.friend-list {
+  position: fixed;
+  overflow-y: auto;
+}

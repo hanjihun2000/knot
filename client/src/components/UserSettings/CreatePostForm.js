@@ -45,6 +45,13 @@ const CreatePostForm = () => {
     if (fileInputRef.current.files[0]) {
       formData.append('media', fileInputRef.current.files[0]);
     }
+
+    // print media
+    console.log(formData.get('media'));
+
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0]+ ', '+ pair[1]); 
+    // }
   
     try {
       const response = await fetch('http://localhost:8000/api/postapi/createPost', {
@@ -81,7 +88,7 @@ const CreatePostForm = () => {
       <div className="post-image-container">
       <div className="post-preview-container">
       {
-          postFileType === "image" && <img src={postImage} alt="Post" className="post-image" />
+          postFileType === "image" && <img src={postImage} alt="Post" className="post-image-small" />
         }
         {
           postFileType === "video" && <video controls src={postImage} className="post-video"></video>
