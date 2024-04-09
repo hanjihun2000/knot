@@ -8,7 +8,9 @@ const FriendLists = () => {
   const [friendList, setFriendList] = useState([]);
   const { user } = useUser();
   const [fetchTrigger, setFetchTrigger] = useState(false);
-  
+
+  // console.log(user);
+
   const fetchFriendList = () => {
     
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
@@ -28,7 +30,7 @@ const FriendLists = () => {
   // Fetch data only once when the component mounts
   useEffect(() => {
     fetchFriendList();
-  }, []);
+  }, [user]);
 
   function createImageObjectURL(userProfile) {
     if (!userProfile.profilePicture || !userProfile.profilePicture.buffer) {
@@ -47,21 +49,17 @@ const FriendLists = () => {
       
       <ul className="FriendLists">
         <li key = 'refresh className = "row' className="refresh-border"><button onClick={fetchFriendList} className="refresh-button"><ArrowsClockwise className="reload-icon" /></button></li>
-        {friendList.map((friend, index) => {
-  // Log the current friend and index to the console
-  
-
-  return (
-    <li key={index} className="row">
-      <NavLink to={`/profile/${friend}`} className="nav-link">
-        <div id="profilePicture">
-          <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend}/>
-        </div>
-        <div id="username">{friend}</div>
-      </NavLink>
-    </li>
-  );
-})}
+        {friendList.map((friend, index) => (
+          <li key={index} className="row">
+            <NavLink to={`/profile/${friend.username}`} className="nav-link">
+              <div id="profilePicture">
+                {/* <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend.username}/> */}
+                <img src={createImageObjectURL(friend) || 'path/to/default/image.png'}/>
+              </div>
+              <div id="username">{friend.username}</div>
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );
