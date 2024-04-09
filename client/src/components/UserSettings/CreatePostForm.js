@@ -43,7 +43,7 @@ const CreatePostForm = () => {
   
     // Only append the file if a file was selected
     if (fileInputRef.current.files[0]) {
-      
+      console.log('check');
       formData.append('media', fileInputRef.current.files[0]);
     }
   
