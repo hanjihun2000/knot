@@ -51,6 +51,7 @@ export const UserProvider = ({ children }) => {
         bio: data.bio || '',
         followers: data.followers || [],
         following: data.following || [],
+        accountType: data.accountType
       });
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', username);
