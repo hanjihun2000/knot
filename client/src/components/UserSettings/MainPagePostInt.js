@@ -6,7 +6,7 @@ import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
 
 const MainPagePostInt = ({post}) => {
-  console.log(post)
+  // console.log(post)
   const [likes, setLikes] = useState(post.likes);
   const [dislikes, setDislikes] = useState(post.dislikes);
   const [newComment, setNewComment] = useState('');

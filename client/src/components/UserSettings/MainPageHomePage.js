@@ -24,7 +24,7 @@ const MainPageHomePage= () => {
 
   //fetch posts
   useEffect(() => {
-    console.log(username)
+    // console.log(username)
     if (username === '') {
       return;
     }

@@ -9,6 +9,8 @@ const FriendLists = () => {
   const { user } = useUser();
   const [fetchTrigger, setFetchTrigger] = useState(false);
 
+  // console.log(user);
+
   const fetchFriendList = () => {
     fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
       .then(response => {
@@ -27,7 +29,7 @@ const FriendLists = () => {
   // Fetch data only once when the component mounts
   useEffect(() => {
     fetchFriendList();
-  }, []);
+  }, [user]);
 
   function createImageObjectURL(userProfile) {
     if (!userProfile.profilePicture || !userProfile.profilePicture.buffer) {
@@ -49,7 +51,8 @@ const FriendLists = () => {
           <li key={index} className="row">
             <NavLink to={`/profile/${friend.username}`} className="nav-link">
               <div id="profilePicture">
-                <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend.username}/>
+                {/* <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend.username}/> */}
+                <img src={createImageObjectURL(friend) || 'path/to/default/image.png'}/>
               </div>
               <div id="username">{friend.username}</div>
             </NavLink>

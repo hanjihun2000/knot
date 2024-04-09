@@ -80,6 +80,7 @@
   
   .sidebar.closed {
     width: 0;
+    height: auto;
     /* Other styles for closed sidebar */
   }
 
@@ -170,7 +171,7 @@
     width: 80%;
     text-align: right;
     /* margin-top: auto; Add this line */
-    position: top; /* Add this line */
+    position: bottom; /* Add this line */
     bottom: 0; /* Add this line */
     align-self: center;
   }
