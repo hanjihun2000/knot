@@ -11,7 +11,7 @@ const UserProfile = () => {
   const { username } = useParams();
   const {user} = useUser();
   const [userPosts, setUserPosts] = useState([]);
-  const [userBio, setUserBio] = useState('');
+  const [userBio, setUserBio] = useState(user.bio);
   const [showPosts, setShowPosts] = useState(true);
   const [userComments, setUserComments] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
@@ -55,12 +55,10 @@ const UserProfile = () => {
     fetch(fetchUrl)
       .then(response => response.json())
       .then(data => {
-        
+        console.log(data);
         if (data.posts) {
           setUserPosts(data.posts);
-          if (data.posts.length > 0) {
-            setUserBio(data.posts[0].text);
-          }
+          
         }
       })
       .catch(error => console.error('Error fetching user posts:', error));
