@@ -17,10 +17,36 @@ const UserProfile = () => {
   const [editingPost, setEditingPost] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [userProfilePic, setUserProfilePic] = useState(null);
+  const [friendList, setFriendList] = useState([]);
   const handleEditClick = (post) => {
     setEditingPost(post);
     setEditingText(post.text);
   };
+
+
+  const fetchFriendList = () => {
+    
+    fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const usernames = data.map(user => user.username);
+        console.log(usernames);
+        console.log(data);
+        setFriendList(usernames);
+        
+      })
+      .catch(error => console.error('Fetching error:', error));
+  };
+
+  // Fetch data only once when the component mounts
+  useEffect(() => {
+    fetchFriendList();
+  }, [user]);
 
   const sendFollowRequest = async (sender, receiver) => {
     try {
@@ -181,7 +207,11 @@ const UserProfile = () => {
     <div className="user-profile-container">
       <div className="user-info">
         <img src={userProfilePic } alt="Profile" className="profile-picture" />
-        {user.username !== username && <button className="follow-button"  onClick={() => sendFollowRequest(user.username, username)}>Follow</button>}
+        {user.username !== username && (
+    friendList.includes(username) ? 
+    <span className = "follow-button">Followed</span> : 
+    <button className="follow-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
+  )}
         <div className="user-details">
           <h2>{username}</h2>
           <p>{userBio}</p>
