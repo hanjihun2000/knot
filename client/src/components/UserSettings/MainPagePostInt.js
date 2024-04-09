@@ -1,31 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import upvoteImg from './U.png';
-import downvoteImg from './R.png';
-import '../component_css/MainPagePostInt.css';
-import postImage from './iphone14promax_dirt_0.5x.jpg'
-import { useUser } from '../../userContext';
-import { set } from 'mongoose';
+import React, { useState, useEffect, useRef } from "react";
+import upvoteImg from "./U.png";
+import downvoteImg from "./R.png";
+import "../component_css/MainPagePostInt.css";
+import postImage from "./iphone14promax_dirt_0.5x.jpg";
+import { useUser } from "../../userContext";
 
-const MainPagePostInt = ({post}) => {
+const MainPagePostInt = ({ post }) => {
   // console.log(post)
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
-  const {user} = useUser();
+  const { user } = useUser();
   const username = user.username;
-  const [userProfilePic, setUserProfilePic] = useState(null)
+  const [userProfilePic, setUserProfilePic] = useState(null);
   const [mediaURL, setMediaURL] = useState(null);
 
   const [like, setLike] = useState();
   const [dislike, setDislike] = useState();
   const [likeCount, setLikeCount] = useState();
   const [dislikeCount, setDislikeCount] = useState();
-  
+
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
 
   const handleImageClick = () => {
-    setIsImageActive(current => !current);
+    setIsImageActive((current) => !current);
   };
 
   const toggleComments = () => {
@@ -36,41 +35,42 @@ const MainPagePostInt = ({post}) => {
 
   useEffect(() => {
     const closeComments = (event) => {
-      if (!event.target.closest('.comments-container') && showComments) {
+      if (!event.target.closest(".comments-container") && showComments) {
         setShowComments(false);
       }
     };
 
-    document.addEventListener('click', closeComments);
+    document.addEventListener("click", closeComments);
     return () => {
-      document.removeEventListener('click', closeComments);
+      document.removeEventListener("click", closeComments);
     };
   }, [showComments]);
 
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [newComment]);
 
   // set profile picture of post user
   useEffect(() => {
-    fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${post.username}`)
-      .then(response => {
+    fetch(
+      `http://localhost:8000/api/userapi/viewProfilePicture?username=${post.username}`
+    )
+      .then((response) => {
         if (!response.ok) {
-          console.log(response)
-          throw new Error('Network response was not ok');
+          console.log(response);
+          throw new Error("Network response was not ok");
         }
         return response.blob();
       })
-      .then(data => {
+      .then((data) => {
         const image = URL.createObjectURL(data);
-        setUserProfilePic(data.size? image : null);
+        setUserProfilePic(data.size ? image : null);
       })
-      .catch(error => console.error('Fetching error:', error));
+      .catch((error) => console.error("Fetching error:", error));
   }, [post.username]);
-
 
   //set post media
   useEffect(() => {
@@ -96,54 +96,58 @@ const MainPagePostInt = ({post}) => {
 
   const handleLike = () => {
     fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: post.postId,
         username: user.username,
         like: true,
-        undo: like
+        undo: like,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    }).then(data => {
-      setLike(!like);
-      setDislike(false);
-      setLikeCount(data.likeCount);
-      setDislikeCount(data.dislikeCount);
-    }).catch(error => console.error('Fetching error:', error));
-
+      .then((data) => {
+        setLike(!like);
+        setDislike(false);
+        setLikeCount(data.likeCount);
+        setDislikeCount(data.dislikeCount);
+      })
+      .catch((error) => console.error("Fetching error:", error));
   };
 
   const handleDislike = () => {
     fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: post.postId,
         username: user.username,
         like: false,
-        undo: dislike
+        undo: dislike,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    }).then(data => {
-      setDislike(!dislike);
-      setLike(false);
-      setLikeCount(data.likeCount);
-      setDislikeCount(data.dislikeCount);
-    }).catch(error => console.error('Fetching error:', error));
-
+      .then((data) => {
+        setDislike(!dislike);
+        setLike(false);
+        setLikeCount(data.likeCount);
+        setDislikeCount(data.dislikeCount);
+      })
+      .catch((error) => console.error("Fetching error:", error));
   };
 
   // useEffect( () => {
@@ -151,24 +155,29 @@ const MainPagePostInt = ({post}) => {
   //   setDislikeCount(post.dislikes.length + (dislike ? 1 : 0));
   // }, [like, dislike]);
 
-
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
+    if (e.key === "Enter" && !e.shiftKey && newComment.trim() !== "") {
       e.preventDefault();
       setComments([...comments, newComment.trim()]);
-      setNewComment('');
+      setNewComment("");
     }
   };
-  
+
   return (
     <div className="post-container">
       <div className="post-header">
         <div className="user-info">
-          {userProfilePic && <img src={userProfilePic} alt="User Profile" className="profile-pic" />}
+          {userProfilePic && (
+            <img
+              src={userProfilePic}
+              alt="User Profile"
+              className="profile-pic"
+            />
+          )}
           <span className="username">{post.username}</span>
         </div>
         <button className="options-button">⋯</button>
@@ -176,7 +185,9 @@ const MainPagePostInt = ({post}) => {
       <div className="post-content">
         <div className="post-title">{post.title}</div>
         <div className="post-image" onClick={handleImageClick}>
-        {post.media && <img src={mediaURL} alt="Post Media" className="post-image"/>}
+          {post.media && (
+            <img src={mediaURL} alt="Post Media" className="post-image" />
+          )}
         </div>
         <div className="post-description-actions">
           <div className="post-description">
