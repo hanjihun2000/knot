@@ -174,24 +174,48 @@ router.put(
 );
 
 router.get("/viewProfilePicture", async (req, res) => {
+try {
+	const {username} = req.query;
+	// console.log(username);
   try {
     const username = req.query.username;
     console.log(username);
 
+	// Find the user by username
+	const user = await User.findOne({ username: username });
+
     // Find the user by username
     const user = await User.findOne({ username: username });
 
+	if (!user) {
+		console.log("User not found!")
+		return res.status(404).json({ message: "User not found!" });
+	}
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
 
+	const {buffer, mimetype} = user.profilePicture;
+
+
+	// if (!user.profilePicture || !user.profilePicture.buffer) {
+	// 	return res.status(404).json({ message: "Profile picture not found!" });
+	// }
     if (!user.profilePicture || !user.profilePicture.buffer) {
       return res.status(404).json({ message: "Profile picture not found!" });
     }
 
+	// Set the response headers
+	res.set("Content-Type", mimetype);
     // Set the response headers
     res.set("Content-Type", user.profilePicture.mimetype);
 
+	// Send the profile picture buffer as the response
+	res.status(200).send(buffer);
+} catch (error) {
+	console.log(error);
+	res.status(500).json({ message: error.message });
+}
     // Send the profile picture buffer as the response
     res.send(user.profilePicture.buffer);
   } catch (error) {
@@ -238,6 +262,53 @@ router.get("/fetchUserPosts", upload.none(), async (req, res) => {
 });
 
 router.get("/viewFollowers", async (req, res) => {
+    try {
+        const {username} = req.query;
+        const user = await User.findOne({ username: username });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found!" });
+        }
+
+        // Get the followers list
+        const { followers } = user;
+
+        // Filter out users which have been deleted
+        const updatedFollowers = [];
+        for (let i = 0; i < followers.length; i++) {
+            const followerUser = await User.findOne({ username: followers[i] });
+            if (followerUser) {
+                updatedFollowers.push(followers[i]);
+            }
+        }
+
+        // Update the user's followers list in the database
+        user.followers = updatedFollowers;
+        await user.save();
+
+        // Map followers list to objects containing username and profile picture
+        const followerUsers = await Promise.all(
+            updatedFollowers.map(async (followerUsername) => {
+                const followerUser = await User.findOne({ username: followerUsername }).select("username profilePicture");
+                return followerUser;
+            })
+        );
+
+        res.status(200).json(followerUsers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+router.get("/viewFollowing", async (req, res) => {
+    try {
+        const { username } = req.query;
+        const user = await User.findOne({ username: username });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found!" });
+        }
   try {
     const { username } = req.query;
     const user = await User.findOne({ username: username });
@@ -246,6 +317,34 @@ router.get("/viewFollowers", async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
 
+        // Get the following list
+        const { following } = user;
+
+        // Filter out users which have been deleted
+        const updatedFollowing = [];
+        for (let i = 0; i < following.length; i++) {
+            const followingUser = await User.findOne({ username: following[i] });
+            if (followingUser) {
+                updatedFollowing.push(following[i]);
+            }
+        }
+
+        // Update the user's following list in the database
+        user.following = updatedFollowing;
+        await user.save();
+
+        // Map following list to objects containing username and profile picture
+        const followingUsers = await Promise.all(
+            updatedFollowing.map(async (followingUsername) => {
+                const followingUser = await User.findOne({ username: followingUsername }).select("username profilePicture");
+                return followingUser;
+            })
+        );
+
+        res.status(200).json(followingUsers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
     // Get the followers list
     const { followers } = user;
 
@@ -310,6 +409,25 @@ router.get("/searchUsers", upload.none(), async (req, res) => {
 
     console.log(matchedUsers);
 
+		// Prioritize users from the searcher's following and follower lists
+		const prioritizedUsers = [username, ...followingList, ...followerList].filter(user => matchedUsernames.includes(user));
+		console.log(prioritizedUsers);
+		const otherUsers = matchedUsernames.filter(user => !prioritizedUsers.includes(user));
+	
+		// Combine the prioritized and other users into a single list
+		const searchResultList = [...prioritizedUsers, ...otherUsers];
+
+		const searchResults = await Promise.all(
+			searchResultList.map(async (searchResult) => {
+				const user = await User.findOne({ username: searchResult }).select("username profilePicture");
+				return user;
+			}
+		));
+	
+		res.status(200).json(searchResults);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
     // Prioritize users from the searcher's following and follower lists
     const prioritizedUsers = [
       username,
@@ -340,5 +458,20 @@ router.get("/searchUsers", upload.none(), async (req, res) => {
 // 	const usernames = users.map(user => user.username);
 // 	res.status(200).json(usernames);
 // })
+
+router.put('/resetFollows', upload.none(), async (req, res) => {
+	try {
+		users = await User.find().select("followers following");
+		users.forEach(async (user) => {
+			user.followers = [];
+			user.following = [];
+			await user.save();
+		});
+		res.status(200).json({ message: "Follows reset!" });
+	}
+	catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
 
 module.exports = router;

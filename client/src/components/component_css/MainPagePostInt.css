@@ -2,7 +2,7 @@
 body {
   background-image: var(--background-image);
   height: 100vh;
-  overflow:hidden;
+  /* overflow: auto; */
 }
 .post-container {
   max-width: 600px;
@@ -11,7 +11,8 @@ body {
   border: 1px solid #787876;
   border-radius: 10px; /* Added border-radius */
   margin-bottom: 60px;
-  overflow: hidden; /* Added overflow property */
+  /* overflow: auto */
+  /* overflow: hidden; Added overflow property */
 }
 
 .post-header {
@@ -53,6 +54,12 @@ body {
 .post-title {
   font-weight: bold;
   margin-bottom: 8px;
+}
+
+.post-image-small img {
+  width: auto;
+  height: auto;
+  border: 1px solid #e6e6e6;
 }
 
 .post-image img {
