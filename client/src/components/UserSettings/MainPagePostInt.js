@@ -4,6 +4,7 @@ import downvoteImg from './R.png';
 import '../component_css/MainPagePostInt.css';
 import postImage from './iphone14promax_dirt_0.5x.jpg'
 import { useUser } from '../../userContext';
+import { set } from 'mongoose';
 
 const MainPagePostInt = ({post}) => {
   // console.log(post)
@@ -14,6 +15,7 @@ const MainPagePostInt = ({post}) => {
   const textareaRef = useRef(null);
   const {user} = useUser();
   const username = user.username;
+  const [userProfilePic, setUserProfilePic] = useState('');
   
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -46,7 +48,23 @@ const MainPagePostInt = ({post}) => {
     }
   }, [newComment]);
 
-  
+  // set profile picture of post user
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${post.username}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(data => {
+        setUserProfilePic(URL.createObjectURL(data));
+        // setUserProfilePic(data.profilePicture);
+      })
+      .catch(error => console.error('Fetching error:', error));
+  }, [post.username]);
+
+
 
   // console.log("Recommended:", posts)
 
@@ -74,7 +92,7 @@ const MainPagePostInt = ({post}) => {
     <div className="post-container">
       <div className="post-header">
         <div className="user-info">
-          <img src={post.userProfilePic} alt="User Profile" className="profile-pic" />
+          <img src={userProfilePic} alt="User Profile" className="profile-pic" />
           <span className="username">{post.username}</span>
         </div>
         <button className="options-button">⋯</button>
@@ -82,7 +100,7 @@ const MainPagePostInt = ({post}) => {
       <div className="post-content">
         <div className="post-title">{post.title}</div>
         <div className="post-image" onClick={handleImageClick}>
-        {!isImageActive && <img src={post.media} alt="Post Media" />}
+        {isImageActive && <img src={post.media} alt="Post Media" />}
         </div>
         <div className="post-description-actions">
           <div className="post-description">
@@ -121,7 +139,7 @@ const MainPagePostInt = ({post}) => {
       </div>
       {isImageActive && (
         <div className="image-overlay" onClick={() => setIsImageActive(false)}>
-          <img src={post.image} alt="Post Image Enlarged" />
+          <img src={post.media} alt="Post Image Enlarged" />
         </div>
       )}
     </div>

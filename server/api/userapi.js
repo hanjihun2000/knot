@@ -170,25 +170,29 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
 router.get("/viewProfilePicture", async (req, res) => {
 try {
 	const username = req.query.username;
-	console.log(username);
+	// console.log(username);
 
 	// Find the user by username
 	const user = await User.findOne({ username: username });
 
 	if (!user) {
+		console.log("User not found!")
 		return res.status(404).json({ message: "User not found!" });
 	}
 
-	if (!user.profilePicture || !user.profilePicture.buffer) {
-		return res.status(404).json({ message: "Profile picture not found!" });
-	}
+	const {buffer, mimetype} = user.profilePicture;
+
+	// if (!user.profilePicture || !user.profilePicture.buffer) {
+	// 	return res.status(404).json({ message: "Profile picture not found!" });
+	// }
 
 	// Set the response headers
-	res.set("Content-Type", user.profilePicture.mimetype);
+	res.set("Content-Type", mimetype);
 
 	// Send the profile picture buffer as the response
-	res.send(user.profilePicture.buffer);
+	res.status(200).send(buffer);
 } catch (error) {
+	console.log(error);
 	res.status(500).json({ message: error.message });
 }
 });
@@ -332,7 +336,14 @@ router.get('/searchUsers', upload.none(), async (req, res) => {
 		const otherUsers = matchedUsernames.filter(user => !prioritizedUsers.includes(user));
 	
 		// Combine the prioritized and other users into a single list
-		const searchResults = [...prioritizedUsers, ...otherUsers];
+		const searchResultList = [...prioritizedUsers, ...otherUsers];
+
+		const searchResults = await Promise.all(
+			searchResultList.map(async (searchResult) => {
+				const user = await User.findOne({ username: searchResult }).select("username profilePicture");
+				return user;
+			}
+		));
 	
 		res.status(200).json(searchResults);
 	} catch (error) {
