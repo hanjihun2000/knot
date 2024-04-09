@@ -128,42 +128,47 @@ try {
 });
 
 router.put("/editUserProfile", upload.single('profilePicture'), async (req, res) => {
-	try {
-	  const { username } = req.body;
+    try {
+      const { username } = req.body;
   
-	  // Find the user by username
-	  const user = await User.findOne({ username: username });
+      // Find the user by username
+      const user = await User.findOne({ username: username });
   
-	  if (!user) {
-		return res.status(404).json({ message: "User not found!" });
-	  }
+      if (!user) {
+        return res.status(404).json({ message: "User not found!" });
+      }
+
+      changableFields = ["bio", "theme", "accountType", "email", "password", "profilePicture"];
   
-	  // Update the fields
-	  for (const field in req.body) {
-		user[field] = req.body[field];
-	  }
+      // Update the fields
+      for (const field in req.body) {
+        if (!changableFields.includes(field)) {
+          continue;
+        }
+        user[field] = req.body[field];
+      }
   
-	  // Add image to user with buffer and mimetype
-	  if (req.file) {
-		user.profilePicture = {
-		  buffer: req.file.buffer,
-		  mimetype: req.file.mimetype
-		};
-	  } else {
-		//set empty buffer
-		user.profilePicture = {
-		  buffer: null,
-		  mimetype: null
-		}
-	  }
+      // Add image to user with buffer and mimetype
+      if (req.file) {
+        user.profilePicture = {
+          buffer: req.file.buffer,
+          mimetype: req.file.mimetype
+        };
+      } else {
+        //set empty buffer
+        user.profilePicture = {
+          buffer: null,
+          mimetype: null
+        }
+      }
   
-	  // Save the updated user
-	  const updatedUser = await user.save();
+      // Save the updated user
+      const updatedUser = await user.save();
   
-	  res.status(200).json(updatedUser);
-	} catch (error) {
-	  res.status(500).json({ message: error.message });
-	}
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   });
 
 
