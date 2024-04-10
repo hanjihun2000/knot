@@ -32,10 +32,12 @@ const SearchPage = () => {
           // Handle the case where the response is not an array
         } else {
           data.map((user) => {
+            
             if (!user.profilePicture || !user.profilePicture.buffer) {
               user.filtered = true;
             }
             else {
+              console.log(user.username);
               const byteArray = new Uint8Array(user.profilePicture.buffer.data);
               const blob = new Blob([byteArray], { type: user.profilePicture.mimetype });
               user.profilePicture.buffer = URL.createObjectURL(blob);
