@@ -190,7 +190,7 @@ const MainPagePostInt = ({ post }) => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey && newComment.trim() !== "") {
+    if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
       e.preventDefault();
       setComments([...comments, `${user.username}: ${newComment}`]);
       fetch(`http://localhost:8000/api/commentapi/createComment`, {

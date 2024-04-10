@@ -59,14 +59,14 @@ router.get("/fetchAllCommentIds", upload.none(), async (req, res) => {
 });
 
 router.post("/createComment", upload.none(), async (req, res) => {
-  try {
-    // console.log(req.body)
-    const { postId, username, text } = req.body;
-    if (!postId || !username || !text) {
-      return res
-        .status(400)
-        .send({ status: "error", message: "Please fill in all fields!" });
-    }
+	try {
+
+		console.log(req.body)
+		
+		const {postId, username, text} = req.body;
+		if (!postId || !username || !text) {
+			return res.status(400).send({ status: "error", message: "Please fill in all fields!" });
+		}
 
     // if username does not exist in the database, return an error
     if (!(await User.exists({ username: username }))) {
