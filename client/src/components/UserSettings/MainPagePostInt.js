@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import upvoteImg from './U.png';
 import downvoteImg from './R.png';
 import shareImg from './share.svg';
+import reportImg from './report.jpeg';
 
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';
@@ -219,6 +220,24 @@ const MainPagePostInt = ({ post }) => {
     }).catch(error => console.error('Fetching error:', error));
   }
 
+  const sendReport = () => {
+    fetch(`http://localhost:8000/api/postapi/reportPost`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      alert('Post reported!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
+
   
   return (
     
@@ -253,13 +272,16 @@ const MainPagePostInt = ({ post }) => {
             <p>{post.description}</p>
           </div>
           <div className="action-buttons">
-            <button className="share-button">
+            <button className="post-interact-button" onClick={sharePost}>
               <img src={shareImg} alt="Share" onClick={sharePost}/> Share
             </button>
-            <button className="vote-button" onClick={handleLike}>
+            <button className="post-interact-button" onClick={sendReport}>
+              <img src={reportImg} alt="Report"/> Report
+            </button>
+            <button className="post-interact-button" onClick={handleLike}>
               <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
             </button>
-            <button className="vote-button" onClick={handleDislike}>
+            <button className="post-interact-button" onClick={handleDislike}>
               <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikeCount})
             </button>
           </div>
