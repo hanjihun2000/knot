@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import upvoteImg from './U.png';
-import downvoteImg from './R.png';
-import shareImg from './share.svg';
+import upvoteImg from '../U.png';
+import downvoteImg from '../R.png';
+import shareImg from '../share.svg';
+import reportImg from '../report.jpeg';
 
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
 
+const MainPagePostInt = ({ post }) => {
 const MainPagePostInt = ({ post }) => {
   // console.log(post)
   const [newComment, setNewComment] = useState("");
@@ -127,11 +129,19 @@ const MainPagePostInt = ({ post }) => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
+        if (like) {
+          setLikeCount(likeCount - 1);
+        } else {
+          setLikeCount(likeCount + 1);
+        }
+        if (dislike) {
+          setDislikeCount(dislikeCount - 1);
+        }
         setLike(!like);
         setDislike(false);
-        setLikeCount(data.likeCount);
-        setDislikeCount(data.dislikeCount);
+        // setLikeCount(data.likeCount);
+        // setDislikeCount(data.dislikeCount);
       })
       .catch((error) => console.error("Fetching error:", error));
   };
@@ -155,11 +165,18 @@ const MainPagePostInt = ({ post }) => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
+        if (dislike) {
+          setDislikeCount(dislikeCount - 1);
+        } else {
+          setDislikeCount(dislikeCount + 1);
+        }
+        if (like) {
+          setLikeCount(likeCount - 1);
+        }
         setDislike(!dislike);
         setLike(false);
-        setLikeCount(data.likeCount);
-        setDislikeCount(data.dislikeCount);
+        // setDislikeCount(data.dislikeCount);
       })
       .catch((error) => console.error("Fetching error:", error));
   };
@@ -219,6 +236,24 @@ const MainPagePostInt = ({ post }) => {
     }).catch(error => console.error('Fetching error:', error));
   }
 
+  const sendReport = () => {
+    fetch(`http://localhost:8000/api/postapi/reportPost`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postId: post.postId,
+      })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      alert('Post reported!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
+
   
   return (
     
@@ -226,7 +261,13 @@ const MainPagePostInt = ({ post }) => {
       <div className="post-header">
       <NavLink to={`/profile/${post.username}`} className = 'no-underline-yep' >
         <div className="user-info no-underline-yep">
-          {userProfilePic && <img src={userProfilePic} alt="User Profile" className="profile-pic" />}
+          {userProfilePic && (
+            <img
+              src={userProfilePic}
+              alt="User Profile"
+              className="profile-pic"
+            />
+          )}
           <span className="username">{post.username}</span>
         </div>
         </NavLink>
@@ -247,13 +288,16 @@ const MainPagePostInt = ({ post }) => {
             <p>{post.description}</p>
           </div>
           <div className="action-buttons">
-            <button className="share-button">
-              <img src={shareImg} alt="Share" onClick={sharePost}/> Share
+            <button className="post-interact-button" onClick={sharePost}>
+              <img src={shareImg} alt="Share"/> Share
             </button>
-            <button className="vote-button" onClick={handleLike}>
+            <button className="post-interact-button" onClick={sendReport}>
+              <img src={reportImg} alt="Report"/> Report
+            </button>
+            <button className="post-interact-button" onClick={handleLike}>
               <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
             </button>
-            <button className="vote-button" onClick={handleDislike}>
+            <button className="post-interact-button" onClick={handleDislike}>
               <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikeCount})
             </button>
           </div>
