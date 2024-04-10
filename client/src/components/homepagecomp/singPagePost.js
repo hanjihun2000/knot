@@ -3,9 +3,9 @@ import upvoteImg from '../U.png';
 import downvoteImg from '../R.png';
 import shareImg from '../share.svg';
 import reportImg from '../report.jpeg';
-import {Warning} from "@phosphor-icons/react";
 import { useParams } from 'react-router-dom';
 import placeholderImage from '../../components/plaimg.png';
+import {Share,Flag, ArrowFatUp, ArrowFatDown, Warning} from "@phosphor-icons/react";
 import './singPagePost.css';
 
 import { useUser } from '../../userContext';
@@ -363,16 +363,18 @@ const SingPagePost = () => {
           </div>
           <div className="post-interact-button-row">  
             <button className="post-interact-button" onClick={sharePost}>
-              <img src={shareImg} alt="Share"/>
+              <Share className= "Share-icon"/>
             </button>
             <button className="post-interact-button" onClick={sendReport}>
-              <img src={reportImg} alt="Report"/>
+              <div><Flag className= "Flag-icon"/></div>
             </button>
-            <button className="post-interact-button" onClick={handleLike}>
-              <img src={upvoteImg} alt="Upvote" /> ({likeCount})
+            <button className={`post-interact-button ${like ? 'upclicked' : ''}`} onClick={handleLike}>
+              <div><ArrowFatUp className= "arrowUp-icon"/> </div>
+              <div className="like-dislike-count">{likeCount}</div>
             </button>
-            <button className="post-interact-button" onClick={handleDislike}>
-              <img src={downvoteImg} alt="Downvote" /> ({dislikeCount})
+            <button className={`post-interact-button ${dislike ? 'downclicked' : ''}`} onClick={handleDislike}>
+              <div><ArrowFatDown className= "arrowDown-icon"/></div>
+              <div className="like-dislike-count">{dislikeCount}</div>
             </button>
           </div>
         </div>
