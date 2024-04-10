@@ -284,6 +284,7 @@ router.get("/viewFollowers", async (req, res) => {
 router.get("/viewFollowing", async (req, res) => {
   try {
     const { username } = req.query;
+    console.log(username);
     const user = await User.findOne({ username: username });
 
     if (!user) {
