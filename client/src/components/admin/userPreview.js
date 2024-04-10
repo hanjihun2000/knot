@@ -1,5 +1,5 @@
-import '../component_css/ProfileEdit.css';
-import React, {useState, useEffect} from 'react';
+import './userPreview.css';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../../userContext';
 import {userDemoList} from './userDemoList';
 import { NavLink } from 'react-router-dom';
@@ -55,29 +55,29 @@ const UserPreview = () => {
 
 
   return (
-    <div className="profile-edit">
+    <div className="userPreview-page">
       <h2>View User</h2>
-        <div className="profile-container">
+        <div className="userPreview-container">
           <ul className="user-list">
             {users.map((user) => {
               return (
                 <li key={user.id} className="user-item">
                   <div className="user-info">
-                    <NavLink to={`/profile/${user.username}`} className="nav-link-none" >
+                    <NavLink to={`/profile/${user.username}`} className="userComponent" >
                       <div id="user-profile-picture">
-                        <img src={user.profilePicture || 'path/to/default/image.png'}/>
+                        <img 
+                          src={user.profilePicture || 'path/to/default/image.png'}
+                        />
                       </div>
-                      <div id="username">{user.username}</div>
+                      <div id="userPreview-username">{user.username}</div>
                     </NavLink>
+                    <button className="delete-button">Delete</button>
                   </div>
                 </li>
               );
             })}
-          </ul>
-          
+          </ul>  
         </div>
-          
-        <button type="submit" className="confirm-button">Confirm</button>
     </div>
   );
 };

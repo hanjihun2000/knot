@@ -32,7 +32,7 @@ const AdminViewUser = () => {
       <div className="content-container">
         <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="main-content">
-          <div className="profile-edit-container"> {/* change name to admin container*/}
+          <div className="admin-view-user-container"> {/* change name to admin container*/}
             <AdminSettingSideBar/>
             <UserPreview/>
           </div>

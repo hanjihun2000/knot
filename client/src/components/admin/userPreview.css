@@ -1,0 +1,308 @@
+.FriendListsContainer {
+    max-height: 100%; /* Adjust this value as needed */
+    overflow-y: auto;
+    
+    padding-right: 4px; 
+  box-sizing: border-box;
+  }
+    .FriendLists {
+    display: flex;
+    position: relative;
+    width: 20vw;
+    height: 100vh;
+    overflow: auto;
+    background-image: var(--background-image);
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center; /* Aligns items horizontally */
+    max-width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding-right: 40px;
+    font-family: "Inika";
+    margin:0;
+  }
+  .row{
+    width: 100%; /* Full width of the sidebar */
+    padding: 10px; /* Padding between rows */
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    font-size: 1.2em;
+   }
+  
+  .FriendLists ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .FriendLists li {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .nav-link {
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    padding: 2px; /* Padding between rows */
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Makes the text color the same as the parent element */
+    align-items: center; /* Add this line */
+  }
+
+  .refresh-border{
+    list-style-type: none;
+    width: 100%; /* Full width of the sidebar */
+    height: auto; /* Full height of the sidebar */
+    text-align: right;
+  }
+
+  .row:hover {
+    border-radius: 32px;
+    cursor: pointer;
+    background-color: rgba(23, 23, 23, 0.3);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+   #profilePicture{
+      padding-right: 10px;
+      height: 40px;
+      width: 40px;
+   }
+   #profilePicture img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+    #username{
+    }
+    ::-webkit-scrollbar {
+        width: 10px; /* Width of the scrollbar */
+        border-radius: 10px;
+      }
+      
+      /* Track or progress bar */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Color of the track */
+        border-radius: 10px;
+      }
+      
+      /* Handle or slider */
+      ::-webkit-scrollbar-thumb {
+        background: #888; /* Color of the slider */
+        border-radius: 10px;
+      }
+      
+      /* Handle or slider on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color of the slider on hover */
+      }
+      .reload-icon{
+        width: 32px;
+        height: 32px;
+      }
+      .refresh-button{
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        background-color: transparent; /* Add this line */
+      }
+      .refresh-button:hover{
+        background-color: rgba(23, 23, 23, 0.3);
+      }
+
+      .userPreview-page {
+        --background: #f9f3ee; /* Adjust color to match your design */
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         /* Or adjust to fit under your navbar */
+        
+         /* Adjust to your preference */
+        width: 40vw;
+        min-width: 10vw;
+        margin-right: auto;
+        height: 80vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .profile-edit {
+        --background: #f9f3ee; /* Adjust color to match your design */
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         /* Or adjust to fit under your navbar */
+        
+         /* Adjust to your preference */
+        width: 40vw;
+        min-width: 10vw;
+        margin-right: auto;
+        height: 80vh;
+        
+      }
+      
+      .profile-picture img {
+        width: 100px; /* Adjust size as necessary */
+        height: 100px;
+        border-radius: 50%; /* Circular image */
+        margin-bottom: 20px;
+      }
+      
+      .edit-form {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .edit-form input[type="text"],
+      .edit-form input[type="password"],
+      .edit-form textarea,
+      .edit-form button {
+        margin-bottom: 10px; /* Spacing between fields */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      
+      .edit-form button {
+        background: #d1bfa7; /* Adjust to match your design */
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .edit-form button:hover {
+        background: #bfa07d; /* Darker shade for hover state */
+      }
+      .password-container {
+        position: relative;
+        display: flex;
+      }
+      
+     
+      .password-container img {
+        position: absolute;
+        top: 1.2em;
+        right: 0.5em;
+        height: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+      .password-input {
+        width: 100%;
+      }
+      .profile-picture {
+        display: flex; /* Aligns children inline */
+        align-items: center; /* Centers children vertically */
+        justify-content: space-between; /* Puts maximum space between children */
+        margin-bottom: 20px;
+      }
+      
+      .profile-picture img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #333;
+        margin-bottom: 10px;
+        
+      }
+      
+      /* Style the File Input and the Button */
+      .file-input-container {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+      }
+      
+      
+      
+      .file-input-button:hover {
+        background-color: #0056b3;
+      }
+      
+      /* Hide the default file input */
+      .file-input-container input[type='file'] {
+        display: none;
+      }
+      
+      .userPreview-container {
+        display: flex; /* Aligns children inline */
+        align-items: center; /* Centers children vertically */
+        justify-content: start; /* Align items to the start of the container */
+        gap: 10px; /* Add some space between your elements */
+        flex: 1;
+      }
+      
+      .userPreview-container img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid rgb(190, 190, 189);
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .file-input-button {
+        /* Button style */
+        border: none;
+        color: white;
+        background-color: #007bff;
+        padding: 10px 20px;
+        
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        
+      }
+      
+      .file-input-button:hover {
+        background-color: #0056b3;
+      }
+      
+      /* Hide the default file input but allow it to be clickable */
+      #profile-pic-input {
+        display: none;
+        
+        
+      }
+      
+      .Username{
+        margin-top: 20px;
+      }
+      .user-item{
+        width: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: space-between; 
+      }
+      .user-info{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      .user-list{
+        list-style-type: none;
+        width: 80%;
+      }
+      .userComponent{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        gap: 10px;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .userPreview-username{
+        text-decoration: none;
+      }
+      
