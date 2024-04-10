@@ -94,16 +94,30 @@ body {
   display: flex;
 }
 
-.post-interact-button {
+.vote-button {
   display: flex;
   align-items: center;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-family: "Inika"
+  margin-right: 16px;
 }
 
-.post-interact-button img {
+.vote-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.share-button img {
   width: 20px;
   height: 20px;
   margin-right: 4px;

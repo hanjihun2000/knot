@@ -25,7 +25,7 @@ router.get("/listUsers", upload.none(), async (req, res) => {
   }
 });
 
-router.get("/listUsernames", upload.none(), async (req, res) => {
+router.get('/listUsernames', upload.none(), async (req, res) => {
     try {
         const users = await User.find().select("username");
         return res.status(200).send({ status: "success", message: users });
@@ -35,8 +35,7 @@ router.get("/listUsernames", upload.none(), async (req, res) => {
     }
 });
 
-
-router.get("/listUserProfiles", upload.none(), async (req, res) => {
+router.get('/listUserProfiles', upload.none(), async (req, res) => {
     // get name and profilePicture only
     try {
         const users = await User.find().select('username profilePicture');
@@ -47,29 +46,24 @@ router.get("/listUserProfiles", upload.none(), async (req, res) => {
     }
 });
 
-
-router.get("/listReportedUsers", upload.none(), async (req, res) => {
-  try {
-    //get usernames of reported posts
-    const reportedPosts = await Post.find({ IsReported: true }).select(
-      "username"
-    );
-    //get usernames of reported comments
-    const reportedComments = await Comment.find({ IsReported: true }).select(
-      "username"
-    );
-    const reportedUsers = [];
-    //add usernames to reportedUsers
-    reportedPosts.forEach((post) => {
-      if (!reportedUsers.includes(post.username)) {
-        reportedUsers.push(post.username);
-      }
-    });
-    reportedComments.forEach((comment) => {
-      if (!reportedUsers.includes(comment.username)) {
-        reportedUsers.push(comment.username);
-      }
-    });
+router.get('/listReportedUsers', upload.none(), async (req, res) => {
+	try {
+		//get usernames of reported posts
+		const reportedPosts = await Post.find({ IsReported: true }).select('username');
+		//get usernames of reported comments
+		const reportedComments = await Comment.find({ IsReported: true }).select('username');
+		const reportedUsers = [];
+		//add usernames to reportedUsers
+		reportedPosts.forEach(post => {
+			if (!reportedUsers.includes(post.username)) {
+				reportedUsers.push(post.username);
+			}
+		});
+		reportedComments.forEach(comment => {
+			if (!reportedUsers.includes(comment.username)) {
+				reportedUsers.push(comment.username);
+			}
+		});
 
     //fetch user name and profile picture
     const users = await User.find({ username: { $in: reportedUsers } }).select(

@@ -15,11 +15,11 @@ import singlePageFeed from "./components/singlePageFeed";
 import axios from "axios";
 import MainPageHomePage from "./components/UserSettings/MainPageHomePage"; // Adjust your
 import UserProfile from "./components/UserSettings/UserProfile";
-import SearchPage from "./components/SearchPage";
+import SearchPage from "./components/UserSettings/SearchPage";
 import React, { useState, useEffect } from "react";
 
 const App = () => {
-
+ 
 
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem("token");
@@ -37,14 +37,9 @@ const App = () => {
             <Route path="/login">
               <LogInForm />
             </Route>
-            <ProtectedRoute
-              exact
-              path="/search"
-              component={SearchPage}
-              auth={isAuthenticated}
-            />
-            <Route exact path="/userprofile">
-              <UserProfile />
+            
+            <Route exact path='/userprofile'>
+              <UserProfile/>
             </Route>
             <Route exact path="/posts/:postId" component={SingPage} />
             <ProtectedRoute

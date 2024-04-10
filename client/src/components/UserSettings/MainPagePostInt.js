@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import upvoteImg from '../U.png';
-import downvoteImg from '../R.png';
-import shareImg from '../share.svg';
-import reportImg from '../report.jpeg';
+import upvoteImg from './U.png';
+import downvoteImg from './R.png';
+import shareImg from './share.svg';
 
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';
@@ -175,7 +174,7 @@ const MainPagePostInt = ({ post }) => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey && newComment.trim() !== "") {
+    if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
       e.preventDefault();
       setComments([...comments, `${user.username}: ${newComment}`]);
       fetch(`http://localhost:8000/api/commentapi/createComment`, {
@@ -220,24 +219,6 @@ const MainPagePostInt = ({ post }) => {
     }).catch(error => console.error('Fetching error:', error));
   }
 
-  const sendReport = () => {
-    fetch(`http://localhost:8000/api/postapi/reportPost`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        postId: post.postId,
-      })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      alert('Post reported!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
-
   
   return (
     
@@ -245,13 +226,7 @@ const MainPagePostInt = ({ post }) => {
       <div className="post-header">
       <NavLink to={`/profile/${post.username}`} className = 'no-underline-yep' >
         <div className="user-info no-underline-yep">
-          {userProfilePic && (
-            <img
-              src={userProfilePic}
-              alt="User Profile"
-              className="profile-pic"
-            />
-          )}
+          {userProfilePic && <img src={userProfilePic} alt="User Profile" className="profile-pic" />}
           <span className="username">{post.username}</span>
         </div>
         </NavLink>
@@ -272,16 +247,13 @@ const MainPagePostInt = ({ post }) => {
             <p>{post.description}</p>
           </div>
           <div className="action-buttons">
-            <button className="post-interact-button" onClick={sharePost}>
+            <button className="share-button">
               <img src={shareImg} alt="Share" onClick={sharePost}/> Share
             </button>
-            <button className="post-interact-button" onClick={sendReport}>
-              <img src={reportImg} alt="Report"/> Report
-            </button>
-            <button className="post-interact-button" onClick={handleLike}>
+            <button className="vote-button" onClick={handleLike}>
               <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
             </button>
-            <button className="post-interact-button" onClick={handleDislike}>
+            <button className="vote-button" onClick={handleDislike}>
               <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikeCount})
             </button>
           </div>
