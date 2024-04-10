@@ -35,6 +35,8 @@ const UserPreview = () => {
             });
             const imageObjectURL = URL.createObjectURL(blob);
             return {...user, profilePicture: imageObjectURL};
+          } else {
+            return user;
           }
         }));
         console.log(updatedUsers)
@@ -65,7 +67,7 @@ const UserPreview = () => {
                       <div id="user-profile-picture">
                         <img src={user.profilePicture || 'path/to/default/image.png'}/>
                       </div>
-                      <div id="username">{user.name}</div>
+                      <div id="username">{user.username}</div>
                     </NavLink>
                   </div>
                 </li>
