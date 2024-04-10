@@ -4,10 +4,12 @@ import downvoteImg from '../R.png';
 import shareImg from '../share.svg';
 import reportImg from '../report.jpeg';
 
-import { useUser } from '../../userContext';
 import { useParams } from 'react-router-dom';
 import placeholderImage from './plaimg.png';
 import './singPagePost.css';
+
+import { useUser } from '../../userContext';
+import { NavLink } from 'react-router-dom';
 
 const SingPagePost = () => {
   const [likes, setLikes] = useState(0);
@@ -18,18 +20,12 @@ const SingPagePost = () => {
   const { username } = useUser(); // setUsername removed since it wasn't used
   const [imageSrc, setImageSrc] = useState(placeholderImage);
   const [isImageActive, setIsImageActive] = useState(false);
-  const [showComments, setShowComments] = useState(false);
   const { postId } = useParams();
   const [postData, setPostData] = useState([]);
   const {user} = useUser();
   const handleImageClick = () => {
     setIsImageActive(current => !current);
   };
-
-  const toggleComments = () => {  
-    setShowComments(!showComments);
-  };
-
 
 
   const postComment = async (newCommentText) => {
@@ -86,19 +82,6 @@ const SingPagePost = () => {
       // }
     }
   };
-
-  useEffect(() => {
-    const closeComments = (event) => {
-      if (!event.target.closest('.comments-container') && showComments) {
-        setShowComments(false);
-      }
-    };
-
-    document.addEventListener('click', closeComments);
-    return () => {
-      document.removeEventListener('click', closeComments);
-    };
-  }, [showComments]);
 
   useEffect(() => {
     // Define the function to fetch data
@@ -180,30 +163,58 @@ const SingPagePost = () => {
       setNewComment('');
     }
   };
+
+  const loadProfilePic = async () => {
+    fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${postData.username}`)
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response);
+          throw new Error("Network response was not ok");
+        }
+        return response.blob();
+      })
+      .then((data) => {
+        if (data.size) {
+          return URL.createObjectURL(data);
+        } else {
+          return placeholderImage;
+        }
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
+  
   
   
   return (
     <div className="post-container-sign">
       <div className="post-content-wrapper-sign">
         <div className="post-image-container-sign">
-          <img src={imageSrc} alt="Beach" className="post-image-sign" />
+          <img src={imageSrc} alt="Image" className="post-image-sign" />
         </div>
         <div className="post-text-content-sign">
+          <NavLink to={`/profile/${postData.username}`} className="post-username-sign">
+            <div className="post-user-info">
+              <img src={loadProfilePic()} alt="Profile" className="post-profile-image-sign" />
+              <span classname="username">{postData.username}</span>
+            </div>
+          </NavLink>
           <p className="post-description-sign">
            {postData.text}
           </p>
           <div className="comments-section-sign">
             
           {comments.length > 0 ? (
-    comments.map((comment, index) => (
-      <div key={index} className="comment-sign">
-        <span className="comment-user-sign">{comment.username}: </span>
-        <span className="comment-text-sign">{comment.text}</span>
-      </div>
-    ))
-  ) : (
-    <div className="no-comments-sign">No comments yet.</div>
-  )} 
+            comments.map((comment, index) => (
+              <div key={index} className="comment-sign">
+                <span className="comment-user-sign">{comment.username}: </span>
+                <span className="comment-text-sign">{comment.text}</span>
+              </div>
+            ))
+          ) : (
+            <div className="no-comments-sign">No comments yet.</div>
+          )} 
             <textarea
           ref={textareaRef}
           value={newComment}

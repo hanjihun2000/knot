@@ -6,6 +6,9 @@
     margin: auto; /* Center the container on the page */
     height: 80vh; /* 80% of the viewport height */
     max-height: 80vh; /* Ensure it doesn't exceed 80% of the viewport height */
+    background-color: #D3D0B3;
+    padding: 30px;
+    border-radius: 10px;
   }
   
   .post-content-wrapper-sign {
