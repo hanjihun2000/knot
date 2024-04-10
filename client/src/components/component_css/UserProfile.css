@@ -3,14 +3,14 @@
     
     padding: 20px;
     background-color: var(--background-color);
-    border: 1px solid #787876;
-    border-radius: 4px;
+   
+    border-radius: 8px;
     position: absolute;
     top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
       
-    width: 50%;
+    width: 100%;
   }
   
   .user-info {
@@ -128,6 +128,30 @@
 .picture{
   max-width: 100%;
 }
+
+.follow-request-button{
+background: transparent;
+position: absolute;
+  right:2vw;
+  top:3vh;
+  border-radius: 8px;
+  border-color: #eee;
+  font-family: "Inika";
+  height: 30px;
+}
+
+
+.follow-request-button:hover{
+  background: transparent;
+  position: absolute;
+    right:2vw;
+    top:3vh;
+    border-radius: 8px;
+    border-color: #eee;
+    font-family: "Inika";
+    background-color: rgba(23, 23, 23, 0.3);        
+  }
+
 
 textarea {
   width: 100%; /* Adjust as needed */

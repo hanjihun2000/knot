@@ -34,12 +34,8 @@
 
 .results-container{
     display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 16px;
-    overflow-x: auto;
-    width: 90%;
-    padding: 16px;
+  flex-wrap: wrap; /* Enable wrapping */
+  gap: 10px; 
 }
 
 .center-container {
