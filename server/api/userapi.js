@@ -147,19 +147,19 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
 		user[field] = req.body[field];
 	  }
   
-      // Add image to user with buffer and mimetype
-      if (req.file) {
-        user.profilePicture = {
-          buffer: req.file.buffer,
-          mimetype: req.file.mimetype
-        };
-      } else {
-        //set empty buffer
-        user.profilePicture = {
-          buffer: null,
-          mimetype: null
-        }
+	  // Add image to user with buffer and mimetype
+	  if (req.file) {
+      user.profilePicture = {
+        buffer: req.file.buffer,
+        mimetype: req.file.mimetype
+      };
+	  } else {
+      //set empty buffer
+      user.profilePicture = {
+        buffer: null,
+        mimetype: null
       }
+	  }
   
       // Save the updated user
       const updatedUser = await user.save();
@@ -182,23 +182,27 @@ router.get("/viewProfilePicture", async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    let {buffer, mimetype} = user.profilePicture;
-    // console.log(buffer);
 
-    // if (!user.profilePicture || !user.profilePicture.buffer) {
-    // 	return res.status(404).json({ message: "Profile picture not found!" });
-    // }
+	let {buffer, mimetype} = user.profilePicture;
 
-    // Set the response headers
-    if (!mimetype) {
-      mimetype = "image/jpeg";
-    }
 
-	  res.set("Content-Type", mimetype);
-    res.status(200).send(buffer);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+	// if (!user.profilePicture || !user.profilePicture.buffer) {
+	// 	return res.status(404).json({ message: "Profile picture not found!" });
+	// }
+
+	// Set the response headers
+	if (!mimetype) {
+		mimetype = "image/jpeg";
+	}
+
+	res.set("Content-Type", mimetype);
+
+	// Send the profile picture buffer as the response
+	res.status(200).send(buffer);
+} catch (error) {
+	console.log(error);
+	res.status(500).json({ message: error.message });
+}
 });
 
 router.get("/fetchUserPosts", upload.none(), async (req, res) => {

@@ -8,13 +8,6 @@ import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
 import { Link } from 'react-router-dom';
 
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
-// import 'firebase/auth';
-
-// import {useAuthState} from 'react-firebase-hooks/auth';
-// import {useCollectionData} from 'react-firebase-hooks/firestore';
- 
 
 const UserProfile = () => {
   const { username } = useParams();
@@ -299,7 +292,7 @@ const UserProfile = () => {
   return (
     <div className="user-profile-container">
       <div className="user-info">
-        <img src={userProfilePic} alt="Profile" className="profile-picture" />
+        {userProfilePic && <img src={userProfilePic} alt="Profile" className="profile-picture" />}
         {user.username !== username && (
           friendList.includes(username) ? 
           <span className="follow-button">Followed</span> : 
