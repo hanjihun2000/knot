@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import '../component_css/Sidebar.css';
-import { sideBarItem } from './sideBarItem';
+import { sideBarItemUser } from './sideBarItemUser';
+import{ adminSidebarList } from '../admin/AdminSidebarList';
 import { useHistory } from 'react-router-dom';
 import { SignOut, XCircle } from "@phosphor-icons/react";
 import logo from './knotlogo.png';
@@ -21,7 +22,11 @@ const Sidebar = () => {
     console.log('User state updated:', user);
   }, [user]);
 
-  
+  const getSidebarItems = () => {
+    console.log("testing1",user.accountType);
+    return user.accountType === 'admin' ? adminSidebarList : sideBarItemUser;
+  };
+
   return (
     <nav className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
@@ -35,7 +40,7 @@ const Sidebar = () => {
             <button className="menu-item-button-create" >Create</button>
             </NavLink>
             <ul className="sidebar-list">
-              {sideBarItem.map((item, index) => (
+              {getSidebarItems().map((item, index) => (  //will be changed to sideBarItemAdmin
                 <li 
                   key={index} 
                   className="row"
