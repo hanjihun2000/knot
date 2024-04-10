@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import '../component_css/Sidebar.css';
 import { sideBarItemUser } from './sideBarItemUser';
 import{ adminSidebarList } from '../admin/adminSidebarList';
@@ -13,21 +13,44 @@ const Sidebar = () => {
   const { isOpen, setIsOpen } = useSideBarContext();
   const history = useHistory();
   const { user, logout } = useUser(); 
-  const accountType = !!localStorage.getItem("accountType");
-  console.log(accountType);
+  const [accountType, setAccountType] = useState(user);
   const handleLogout = () => {
     logout();
     history.push('/login');
   };
+
+   
+    useEffect(() => {
+      fetch(`http://localhost:8000/api/userapi/fetchUser?username=${user.username}`)
+        .then(response => {
+          if (!response.ok) {
+            console.log(response)
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          
+          setAccountType(data.accountType);
+          
+          
+        })
+        .catch(error => console.error('Fetching error:', error));
+    }, [user.username]);
+
+
+
+  
+
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', user.theme);
     console.log('User state updated:', user);
     console.log("testing1",user.accountType);
   }, [user]);
-
   const getSidebarItems = () => {
     
-    return user.accountType === 'admin' ? adminSidebarList : sideBarItemUser;
+    return accountType === 'admin' ? adminSidebarList : sideBarItemUser;
   };
 
   return (
