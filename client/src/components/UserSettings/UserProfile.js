@@ -7,6 +7,15 @@ import enlargeIcon from './enlarge-icon.png';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
 import { Link } from 'react-router-dom';
+
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+
+import {useAuthState} from 'react-firebase-hooks/auth';
+import {useCollectionData} from 'react-firebase-hooks/firestore';
+ 
+
 const UserProfile = () => {
   const { username } = useParams();
   const {user} = useUser();
@@ -82,7 +91,48 @@ const UserProfile = () => {
   };
   
 
-  const handleConfirm = () => {
+  const handleDeletePost = async (post) => {
+    // Display a confirmation dialog
+    const isConfirmed = window.confirm("Are you sure you want to delete this post?");
+    const postId = post.postId;
+    // Proceed only if the user confirms
+    if (!isConfirmed) {
+      return; // Early return if the user cancels the action
+    }
+  
+    const apiUrl = 'http://localhost:8000/api/postapi/deletePost'; // The endpoint you provided
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ postId }), // Send the postId to delete
+      });
+  
+      const data = await response.json(); // Assuming the server responds with JSON
+      if (response.ok) {
+        // Update the state to remove the deleted post from the UI
+        setUserPosts(currentPosts => currentPosts.filter(post => post.postId !== postId));
+        // Optionally, show a success message
+        alert('Post deleted successfully!');
+      } else {
+        // Handle server errors (e.g., post not found)
+        console.error(data.message);
+        // Optionally, provide user feedback based on the error
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error("Network error:", error);
+      // Optionally, provide user feedback
+      alert('Network error, could not delete post.');
+    }
+  };
+  
+
+  const handleConfirm = async () => {
     // Here you would handle the API request to save the edited post
     // For now, we'll just update it locally
     setUserPosts((currentPosts) =>
@@ -93,9 +143,52 @@ const UserProfile = () => {
         return post;
       })
     );
-    setEditingPost(null);
-    setEditingText("");
+    const apiUrl = 'http://localhost:8000/api/postapi/editPost';
+  
+
+    const postData = {
+      postId: editingPost.postId,
+      text: editingText,
+      
+    };
+
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'PUT', // since it's an update operation
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+  
+      const data = await response.json(); // Assuming the server responds with JSON
+      if (response.ok) {
+        // Update the local state only if the server confirms the update
+        setUserPosts((currentPosts) =>
+          currentPosts.map((post) => {
+            if (post.postId === editingPost.postId) {
+              return { ...post, text: editingText }; // Update any other fields if necessary
+            }
+            return post;
+          })
+        );
+        setEditingPost(null);
+      setEditingText("");
+        // Handle any additional UI feedback, such as showing a success message
+      } else {
+        // Handle server errors (e.g., post not found or validation errors)
+        console.error(data.message);
+        // Optionally, provide user feedback based on the error
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error("Network error:", error);
+      // Optionally, provide user feedback based on the error
+    }
   };
+    
+  
   
   useEffect(() => {
     fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${username}`)
@@ -251,7 +344,7 @@ const UserProfile = () => {
                     ) : (
                       <>
                         <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
-                        <img src={trashIcon} alt="Delete" className="action-icon" />
+                        <img src={trashIcon} alt="Delete" className="action-icon" onClick={() => handleDeletePost(post)} />
                       </>
                     )}
                   </>
