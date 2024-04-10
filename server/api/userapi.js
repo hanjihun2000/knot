@@ -131,11 +131,11 @@ router.post("/logout", upload.none(), (req, res) => {
 });
 
 router.put("/editUserProfile", upload.single('profilePicture'), async (req, res) => {
-	try {
-	  const { username } = req.body;
+    try {
+      const { username } = req.body;
   
-	  // Find the user by username
-	  const user = await User.findOne({ username: username });
+      // Find the user by username
+      const user = await User.findOne({ username: username });
   
 	  if (!user) {
 		return res.status(404).json({ message: "User not found!" });
@@ -165,13 +165,13 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
       }
 	  }
   
-	  // Save the updated user
-	  const updatedUser = await user.save();
+      // Save the updated user
+      const updatedUser = await user.save();
   
-	  res.status(200).json(updatedUser);
-	} catch (error) {
-	  res.status(500).json({ message: error.message });
-	}
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   });
 
 
@@ -226,17 +226,11 @@ router.get("/fetchUserPosts", upload.none(), async (req, res) => {
       .json({ status: "error", message: "Username does not exist!" });
   }
 
-  //if user accountType is private, and the sender is not a follower of user, return an error
-  if (
-    user.accountType === "private" &&
-    (!user.follower || !user.follower.includes(sender)) &&
-    sender !== username &&
-    sender !== "admin"
-  ) {
-    return res
-      .status(403)
-      .json({ status: "error", message: "User account is private!" });
-  }
+    //if user accountType is private, and the sender is not a follower of user, return an error
+    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender) ) 
+	&& sender !== username && sender !== "admin") {
+        return res.status(403).json({ status: "error", message: "User account is private!" });
+    }
 
   const posts = await Post.find({ username: username });
 
