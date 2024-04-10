@@ -39,8 +39,8 @@ const UserPreview = () => {
             return user;
           }
         }));
-        console.log(updatedUsers)
         setUsers(updatedUsers);
+        console.log(users);
       } else {
         console.error('Error:', result.message);
       }
@@ -51,6 +51,7 @@ const UserPreview = () => {
 
   const deleteUser = async (username) => {
     try {
+      if (!window.confirm(`Are you sure you want to delete user ${username}?`)) return;
       const response = await fetch('http://localhost:8000/api/adminapi/deleteUser', {
         method: 'DELETE',
         headers: {
@@ -67,7 +68,7 @@ const UserPreview = () => {
       if (response.ok) {
         console.log('Success:', result.message);
         alert(`User ${username} deleted successfully`)
-        fetchAllUsers();
+        setUsers(prevUsers => prevUsers.filter(user => user.username !== username));
       } else {
         console.error('Error:', result.message);
       }
@@ -93,7 +94,7 @@ const UserPreview = () => {
                     <NavLink to={`/profile/${user.username}`} className="userComponent" >
                       <div id="user-profile-picture">
                         <img 
-                          src={user.profilePicture || 'path/to/default/image.png'}
+                          src={user.profilePicture || '../../default-profile-picture.png'}
                         />
                       </div>
                       <div id="userPreview-username">{user.username}</div>
