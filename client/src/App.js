@@ -24,7 +24,9 @@ const App = () => {
   const isAuthenticated = !!localStorage.getItem("token");
 
   return (
+    
     <Router>
+     
       <UserProvider>
         {" "}
         {/* Wrap the entire application or the relevant part with UserProvider */}
@@ -71,11 +73,11 @@ const App = () => {
               component={SettingPageThemes}
               auth={isAuthenticated}
             />
-            <ProtectedRoute
+            <Route
               exact
               path="/profile/:username"
               component={UserProfile}
-              auth={isAuthenticated}
+             
             />
             <ProtectedRoute
               exact

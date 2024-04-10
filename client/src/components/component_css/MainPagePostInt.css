@@ -55,6 +55,9 @@ body {
 
 .post-content {
   padding: 16px;
+  position: relative;
+  display:flex;
+  flex-direction: column  ;
 }
 
 .post-title {
@@ -134,16 +137,33 @@ body {
   margin-bottom: 16px;
 }
 
-.comments {
-  display: flex;
-  flex-direction: column;
+.comments-main-page {
+  width: 90%;
 }
-
 .comment {
   margin-bottom: 8px;
+  width: 90%; /* Full width of the parent */
+  box-sizing: border-box; /* Includes padding and border in the element's width */
+  
+  padding: 0; /* Resets padding */
 }
 
 .no-underline-yep{
   text-decoration: none;
   color: black;
+}
+.report-comment-sign-page{
+  position: absolute;
+  border: none; /* Removes the border */
+    padding: 0; /* Removes padding */
+    background: none; /* Removes any background to make it transparent */
+    cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
+    position: absolute;
+    right: 20px;
+    
+   
+}
+
+.report-comment-sign-page:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Adds a slight background on hover for feedback */
 }

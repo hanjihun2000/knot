@@ -4,7 +4,7 @@ import upvoteImg from '../U.png';
 import downvoteImg from '../R.png';
 import shareImg from '../share.svg';
 import reportImg from '../report.jpeg';
-
+import {Warning} from "@phosphor-icons/react";
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
@@ -46,7 +46,7 @@ const MainPagePostInt = ({ post }) => {
         return response.json();
       }).then(data => {
         //get username and text from comments
-        data = data.message.map(comment => `${comment.username}: ${comment.text}`);
+        data = data.message.map(comment => `${comment.username}: ${comment.text}: ${comment.commentId}`);
         setComments(data);
       }).catch(error => console.error('Fetching error:', error));
     const closeComments = (event) => {
@@ -144,6 +144,24 @@ const MainPagePostInt = ({ post }) => {
       })
       .catch((error) => console.error("Fetching error:", error));
   };
+
+
+  const reportComment= (commentId) => {
+    console.log(commentId);
+    fetch(`http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      alert('Comment reported!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
 
   const handleDislike = () => {
     fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
@@ -313,12 +331,20 @@ const MainPagePostInt = ({ post }) => {
             className="comment-input"
           ></textarea>
           {showComments && (
-            <div className="comments">
+            <div className="comments-main-page">
               {comments.map((comment, index) => {
-                const [username, text] = comment.split(': ');
+                console.log(comments);
+                const [username, text, commentId] = comment.split(': ');
+                console.log(text);
                 return (
                   <div key={index} className="comment">
                     <span className="username">{username}</span>: {text}
+                    <button onClick={(e) => {
+  e.stopPropagation(); // Prevents the click event from propagating up to the document
+  reportComment(commentId);
+}} className="report-comment-sign-page">
+  <Warning size={24} color="red" />
+</button>
                   </div>
                 );
               })}
