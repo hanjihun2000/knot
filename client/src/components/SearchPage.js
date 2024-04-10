@@ -14,7 +14,7 @@ const SearchPage = () => {
     <div className="content-container">
       <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="main-content">
-          <div className="notification-list-container"> 
+          <div className="admin-view-user-container"> 
             <SearchComponent/>
           </div>
       </div>
