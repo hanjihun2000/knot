@@ -207,3 +207,15 @@ textarea[readonly] {
 .picture{
   width: 25vw;
 }
+.magnifyingGlassPlus-icon{
+  height: 20px;
+  width: 20px;
+}
+.trash-icon{
+  height: 20px;
+  width: 20px;
+}
+.pencilSimpleLine-icon{
+  height: 20px;
+  width: 20px;
+}

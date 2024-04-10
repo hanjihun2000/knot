@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
 import { Link } from 'react-router-dom';
 import FriendLists from '../friendlist';
-
+import {PencilSimpleLine, Trash, MagnifyingGlassPlus} from "@phosphor-icons/react";
 
 const UserProfile = () => {
   const { username } = useParams();
@@ -337,14 +337,15 @@ const UserProfile = () => {
                       </>
                     ) : (
                       <>
-                        <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
-                        <img src={trashIcon} alt="Delete" className="action-icon" onClick={() => handleDeletePost(post)} />
+                      <div alt="Edit" className="action-icon" onClick={() => handleEditClick(post)}><PencilSimpleLine className= "pencilSimpleLine-icon" /></div>
+                      <div alt="Edit" className="action-icon" onClick={() => handleDeletePost(post)}><Trash className= "trash-icon" /></div>
+                       
                       </>
                     )}
                   </>
                 )}
                 <Link to={`/posts/${post.postId}`} state={{ post }} className="post-link">
-                  <img src={enlargeIcon} alt="Enlarge" className="action-icon" />
+                <div alt="Edit" className="action-icon" ><MagnifyingGlassPlus className= "magnifyingGlassPlus-icon" /></div>
                 </Link>
               </div>
             </div>
