@@ -19,6 +19,7 @@ const Sidebar = () => {
     history.push('/login');
   };
   useEffect(() => {
+    document.documentElement.setAttribute('data-theme', user.theme);
     console.log('User state updated:', user);
   }, [user]);
 

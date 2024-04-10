@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import '../component_css/CreatePostForm.css';
 import defaultImage from './iphone14promax_dirt_0.5x.jpg';
 import { useUser } from '../../userContext';
+import { Redirect } from 'react-router-dom'; 
 const CreatePostForm = () => {
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
@@ -9,7 +10,7 @@ const CreatePostForm = () => {
   const { user, logout } = useUser(); 
   const fileInputRef = useRef(null);
   const [postFileType, setPostFileType] = useState('');
-
+  const [Created, setCreated] = useState(false);
   const handlePostTitleChange = (e) => {
     setPostTitle(e.target.value);
   };
@@ -58,6 +59,7 @@ const CreatePostForm = () => {
       if (response.ok) {
         alert('Post created successfully!');
         console.log(responseData);
+        setCreated(!Created);
         // Reset form state here if desired
       } else {
         // Handle server errors or validation errors
@@ -68,6 +70,10 @@ const CreatePostForm = () => {
       alert('An error occurred while trying to create the post.');
     }
   };
+
+  if(Created){
+    return <Redirect to="/home" />;
+  }
   
   return (
     <div className="create-post-container">

@@ -1,34 +1,51 @@
 import React from 'react';
 import '../component_css/ThemeSelector.css'; // Make sure to create a corresponding CSS file
-
+import { useUser } from '../../userContext';
 function ThemeSelector() {
-  const setTheme = theme => {
+  const { user,setUser } = useUser(); 
+  let theme = !!localStorage.getItem("theme");
+
+  const setTheme = async (theme) => {
     // Set the theme attribute on the document element
-    document.documentElement.setAttribute('data-theme', theme);
+    const apiUrl = 'http://localhost:8000/api/userapi/editUserProfile';
 
-    // Prepare your API request here. Assume you have the user's token.
-    const token = localStorage.getItem('userToken'); // Example: Getting token from localStorage
+    // Use FormData to handle file uploads
+    const formData = new FormData();
+    formData.append('username', user.username);
+    formData.append('theme', theme);
 
-    // Set up your API request with the user's selected theme
-    fetch('http://localhost:8000/api/userapi/editUserProfile', {
-      method: 'PUT', // Assuming the method to update is PUT
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // Assuming you use Bearer token for authorization
-      },
-      body: JSON.stringify({
-        theme: theme, // Sending the selected theme to the server
-      }),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'PUT', // Make sure to use 'PUT' if that's what your backend is expecting
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+       
+       
+        setUser((currentUser) => ({
+          ...currentUser,
+          
+          theme: theme
+        }));
+        
+      } else {
+        alert(data.message || 'An error occurred during edit');
       }
-      return response.json(); // or handle success
-    })
-    .then(data => console.log(data)) // Success handling
-    .catch(error => console.error('Error updating theme:', error)); // Error handling
+    } catch (error) {
+      console.error('There was an error!', error);
+      alert('An unexpected error occurred. Please try again later.');
+    }
+    localStorage.setItem('theme',theme);
   };
+
+    
+   
+    // Set up your API request with the user's selected theme
+   
+
   
   return (
     <div className="theme-selector">
@@ -45,3 +62,6 @@ function ThemeSelector() {
 }
 
 export default ThemeSelector;
+
+
+
