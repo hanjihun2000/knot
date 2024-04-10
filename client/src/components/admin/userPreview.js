@@ -1,51 +1,37 @@
+import '../component_css/ProfileEdit.css';
 import React, { useState } from 'react';
-import Sidebar from '../SidebarComp/Sidebar';
-import Navbar from '../Navbar';
-import SettingPagePrivacyDets from './SettingPagePrivacyDets';
-import ProfileSideBarPrivacy from '../SidebarComp/ProfileSideBar';
-import '../component_css/MainPage.css';
-import FriendLists from '../friendlist';
+import { useUser } from '../../userContext';
+import {userDemoList} from './userDemoList';
+import { NavLink } from 'react-router-dom';
 
 
-
-
-
-
-const SettingPagePrivacy = () => {
-
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
-
-
-  const togglePasswordVisibility = () => {
-    setPasswordShown(!passwordShown);
-  };
-  const toggleConfirmPasswordVisibility = () => {
-    setConfirmPasswordShown(!confirmPasswordShown);
-  };
-
+const UserPreview = () => {
   return (
-    
-
-<div className="main-container">
-<Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-<div className="content-container">
-  <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-  <div className="main-content">
-    <div className="profile-edit-container">
-    <ProfileSideBarPrivacy/>
-      <SettingPagePrivacyDets/>
+    <div className="profile-edit">
+      <h2>View User</h2>
+        <div className="profile-container">
+          <ul className="user-list">
+            {userDemoList.map((user) => {
+              return (
+                <li key={user.id} className="user-item">
+                  <div className="user-info">
+                    <NavLink to={`/profile/${user.username}`} className="nav-link-none" >
+                      <div id="user-profile-picture">
+                        <img src={user.profilePicture || 'path/to/default/image.png'}/>
+                      </div>
+                      <div id="username">{user.name}</div>
+                    </NavLink>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          
+        </div>
+          
+        <button type="submit" className="confirm-button">Confirm</button>
     </div>
-  </div>
-  <FriendLists className="friend-list"/>
-</div>
-</div>
-
-    
   );
 };
 
-export default SettingPagePrivacy;
+export default UserPreview;
