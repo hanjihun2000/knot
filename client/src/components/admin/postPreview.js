@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
+import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
+import ProfileEdit from './ProfileEdit';
+import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import FriendLists from '../friendlist';
-import './singpage.css'
-import '../component_css/FriendList.css';
 
-import SingPagePost from './singPagePost';
+import '../component_css/MainPage.css';
 
 
 
 
 
-const SingPage= () => {
+const SettingPageEdit = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,21 +28,21 @@ const SingPage= () => {
   };
 
   return (
-    <div className="singpage-container">
+    <div className="main-container">
       <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="singpage-content-container">
-      <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="singpage-content">
-          
-           
-            <SingPagePost/>
-          
+      <div className="content-container">
+        <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className="main-content">
+          <div className="profile-edit-container">
+            <ProfileSideBarEdit/>
+            <ProfileEdit/>
+          </div>
           
         </div>
-          <FriendLists className="singpage-friend-list"/>
+          <FriendLists className="friend-list"/>
       </div>
     </div>
   );
 }
 
-export default SingPage;
+export default SettingPageEdit;

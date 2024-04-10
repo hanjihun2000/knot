@@ -205,17 +205,17 @@ const SingPagePost = () => {
           </p>
           <div className="comments-section-sign">
             
-          {comments.length > 0 ? (
-            comments.map((comment, index) => (
-              <div key={index} className="comment-sign">
-                <span className="comment-user-sign">{comment.username}: </span>
-                <span className="comment-text-sign">{comment.text}</span>
-              </div>
-            ))
-          ) : (
-            <div className="no-comments-sign">No comments yet.</div>
-          )} 
-            <textarea
+              {comments.length > 0 ? (
+                comments.map((comment, index) => (
+                  <div key={index} className="comment-sign">
+                    <span className="comment-user-sign">{comment.username}: </span>
+                    <span className="comment-text-sign">{comment.text}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="no-comments-sign">No comments yet.</div>
+              )} 
+          <textarea
           ref={textareaRef}
           value={newComment}
           onChange={handleCommentChange}
@@ -223,8 +223,10 @@ const SingPagePost = () => {
           placeholder="Write a comment..."
           className="new-comment-input-sign"
         ></textarea>
-        <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
-          </div>
+        <div className='button-container-sign'>
+          <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
+        </div>  
+        </div>
         </div>
       </div>
     </div>
