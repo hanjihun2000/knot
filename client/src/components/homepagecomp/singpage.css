@@ -1,0 +1,33 @@
+.singpage-container{
+  display: flex;
+  height: calc(100vh - 80px); /* Full viewport height */
+  background-image: var(--background-color);
+  flex-direction: column;
+}
+
+.singpage-content-container{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row; /* Explicitly define direction if not default */
+    height: 100%;
+}
+
+.navBar{
+  position: fixed;
+  width: 100%;
+  height: 60px;
+}
+
+.singpage-content{
+  flex-grow: 1; /* To fill the remaining space */
+  height: auto; /* Full height */
+    /* Allow vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  font-family: "Inika";
+}
+.singpage-friend-list{
+  position: fixed;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

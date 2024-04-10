@@ -1,30 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import '../components/component_css/FriendList.css';
-import { useUser } from '../userContext';
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import "../components/component_css/FriendList.css";
+import { useUser } from "../userContext";
 import { ArrowsClockwise } from "@phosphor-icons/react";
 
 const FriendLists = () => {
   const [friendList, setFriendList] = useState([]);
   const { user } = useUser();
-  const [fetchTrigger, setFetchTrigger] = useState(false);
-
-  // console.log(user);
-
+  
   const fetchFriendList = () => {
-    
-    fetch(`http://localhost:8000/api/userapi/viewFollowing?username=${user.username}`)
-      .then(response => {
+    fetch(
+      `http://localhost:3000/api/userapi/viewFollowing?username=${user.username}`
+    )
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(data => {
-        console.log(data);
-        setFriendList(data);
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          // Handle the case where the response is not an array
+        } else {
+          data.map((user) => {
+            if (!user.profilePicture || !user.profilePicture.buffer) {
+              user.filtered = true;
+            }
+            else {
+              const byteArray = new Uint8Array(user.profilePicture.buffer.data);
+              const blob = new Blob([byteArray], { type: user.profilePicture.mimetype });
+              user.profilePicture.buffer = URL.createObjectURL(blob);
+            }
+          });
+          const result = data.filter((user) => user.filtered !== true);
+          setFriendList(result);
+        }
       })
-      .catch(error => console.error('Fetching error:', error));
+      .catch((error) => console.error("Fetching error:", error));
   };
 
   // Fetch data only once when the component mounts
@@ -32,29 +44,23 @@ const FriendLists = () => {
     fetchFriendList();
   }, [user]);
 
-  function createImageObjectURL(userProfile) {
-    if (!userProfile.profilePicture || !userProfile.profilePicture.buffer) {
-      return 'path/to/default/image.png'; // Fallback if no picture
-    }
-    
-    const byteArray = new Uint8Array(userProfile.profilePicture.buffer.data);
-    const blob = new Blob([byteArray], { type: userProfile.profilePicture.mimetype });
-    const imageObjectURL = URL.createObjectURL(blob);
-    
-    return imageObjectURL;
-  }
-
   return (
     <nav className="FriendListsContainer">
-      
       <ul className="FriendLists">
-        <li key = 'refresh className = "row' className="refresh-border"><button onClick={fetchFriendList} className="refresh-button"><ArrowsClockwise className="reload-icon" /></button></li>
+        <li key='refresh className = "row' className="refresh-border">
+          <button onClick={fetchFriendList} className="refresh-button">
+            <ArrowsClockwise className="reload-icon" />
+          </button>
+        </li>
         {friendList.map((friend, index) => (
           <li key={index} className="row">
             <NavLink to={`/profile/${friend.username}`} className="nav-link">
               <div id="profilePicture">
-                {/* <img src={createImageObjectURL(friend) || 'path/to/default/image.png'} alt={friend.username}/> */}
-                <img src={createImageObjectURL(friend) || 'path/to/default/image.png'}/>
+                <img
+                  src={friend.profilePicture.buffer}
+                  alt={friend.username}
+                  className="profile-picture"
+                />
               </div>
               <div id="username">{friend.username}</div>
             </NavLink>
