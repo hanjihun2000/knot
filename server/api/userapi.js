@@ -130,48 +130,50 @@ router.post("/logout", upload.none(), (req, res) => {
   }
 });
 
-router.put(
-  "/editUserProfile",
-  upload.single("profilePicture"),
-  async (req, res) => {
+router.put("/editUserProfile", upload.single('profilePicture'), async (req, res) => {
     try {
       const { username } = req.body;
-
+  
       // Find the user by username
       const user = await User.findOne({ username: username });
+  
+	  if (!user) {
+		return res.status(404).json({ message: "User not found!" });
+	  }
 
-      if (!user) {
-        return res.status(404).json({ message: "User not found!" });
-      }
-
-      // Update the fields
-      for (const field in req.body) {
-        user[field] = req.body[field];
-      }
-
+	  changableFields = ["bio", "theme", "accountType", "email", "password", "profilePicture"];
+  
+	  // Update the fields
+	  for (const field in req.body) {
+		if (!changableFields.includes(field)) {
+		  continue;
+		}
+		user[field] = req.body[field];
+	  }
+  
       // Add image to user with buffer and mimetype
       if (req.file) {
         user.profilePicture = {
           buffer: req.file.buffer,
-          mimetype: req.file.mimetype,
+          mimetype: req.file.mimetype
         };
       } else {
         //set empty buffer
         user.profilePicture = {
           buffer: null,
-          mimetype: null,
-        };
+          mimetype: null
+        }
       }
-
+  
       // Save the updated user
       const updatedUser = await user.save();
-
+  
       res.status(200).json(updatedUser);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
-);
+  });
+
 
 router.get("/viewProfilePicture", async (req, res) => {
   try {
@@ -186,14 +188,21 @@ router.get("/viewProfilePicture", async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    const { buffer, mimetype } = user.profilePicture;
+	let {buffer, mimetype} = user.profilePicture;
+
+	// console.log(buffer);
+
 
     // if (!user.profilePicture || !user.profilePicture.buffer) {
     // 	return res.status(404).json({ message: "Profile picture not found!" });
     // }
 
-    // Set the response headers
-    res.set("Content-Type", mimetype);
+	// Set the response headers
+	if (!mimetype) {
+		mimetype = "image/jpeg";
+	}
+
+	res.set("Content-Type", mimetype);
 
     // Send the profile picture buffer as the response
     res.status(200).send(buffer);
@@ -216,17 +225,11 @@ router.get("/fetchUserPosts", upload.none(), async (req, res) => {
       .json({ status: "error", message: "Username does not exist!" });
   }
 
-  //if user accountType is private, and the sender is not a follower of user, return an error
-  if (
-    user.accountType === "private" &&
-    (!user.follower || !user.follower.includes(sender)) &&
-    sender !== username &&
-    sender !== "admin"
-  ) {
-    return res
-      .status(403)
-      .json({ status: "error", message: "User account is private!" });
-  }
+    //if user accountType is private, and the sender is not a follower of user, return an error
+    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender) ) 
+	&& sender !== username && sender !== "admin") {
+        return res.status(403).json({ status: "error", message: "User account is private!" });
+    }
 
   const posts = await Post.find({ username: username });
 

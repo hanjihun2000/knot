@@ -5,7 +5,7 @@ body {
   /* overflow: auto; */
 }
 .post-container {
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
   background-color: #D3D0B3;
   border: 1px solid #787876;
@@ -37,6 +37,12 @@ body {
 
 .username {
   font-weight: bold;
+}
+
+.original-username {
+  font-weight: normal;
+  font-size: 12px;
+  color: #262626;
 }
 
 .options-button {
@@ -103,6 +109,20 @@ body {
   margin-right: 4px;
 }
 
+.share-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.share-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+
 .comments-container {
   padding: 16px;
   border-top: 1px solid #e6e6e6;
@@ -131,4 +151,8 @@ body {
 
 .comment {
   margin-bottom: 8px;
+}
+.no-underline-yep{
+  text-decoration: none;
+  color: black;
 }
