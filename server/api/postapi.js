@@ -31,7 +31,9 @@ router.post("/createPost", upload.single("media"), async (req, res) => {
 
   const { username, title, text, media } = req.body;
 
-  const { buffer, mimetype } = req.file;
+
+  const buffer = req.file ? req.file.buffer : null;
+  const mimetype = req.file ? req.file.mimetype : null;
 
   let id;
   // generate a postId that is unique
