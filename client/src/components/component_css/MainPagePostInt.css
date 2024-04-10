@@ -9,7 +9,7 @@ body {
   margin: 0 auto;
   background-color: #D3D0B3;
   border: 1px solid #787876;
-  border-radius: 10px; /* Added border-radius */
+  border-radius: 20px; /* Added border-radius */
   margin-bottom: 60px;
   /* overflow: auto */
   /* overflow: hidden; Added overflow property */
@@ -92,12 +92,16 @@ body {
 
 .action-buttons {
   display: flex;
+  justify-content: center;
 }
 
 .post-interact-button {
   display: flex;
-  align-items: center;
+  justify-content: center;
   background-color: transparent;
+  width: 20%;
+  /* left right padding*/
+  padding: 10px;
   border: none;
   cursor: pointer;
   font-family: "Inika"
@@ -138,6 +142,7 @@ body {
 .comment {
   margin-bottom: 8px;
 }
+
 .no-underline-yep{
   text-decoration: none;
   color: black;

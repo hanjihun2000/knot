@@ -128,11 +128,19 @@ const MainPagePostInt = ({ post }) => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
+        if (like) {
+          setLikeCount(likeCount - 1);
+        } else {
+          setLikeCount(likeCount + 1);
+        }
+        if (dislike) {
+          setDislikeCount(dislikeCount - 1);
+        }
         setLike(!like);
         setDislike(false);
-        setLikeCount(data.likeCount);
-        setDislikeCount(data.dislikeCount);
+        // setLikeCount(data.likeCount);
+        // setDislikeCount(data.dislikeCount);
       })
       .catch((error) => console.error("Fetching error:", error));
   };
@@ -156,11 +164,18 @@ const MainPagePostInt = ({ post }) => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
+        if (dislike) {
+          setDislikeCount(dislikeCount - 1);
+        } else {
+          setDislikeCount(dislikeCount + 1);
+        }
+        if (like) {
+          setLikeCount(likeCount - 1);
+        }
         setDislike(!dislike);
         setLike(false);
-        setLikeCount(data.likeCount);
-        setDislikeCount(data.dislikeCount);
+        // setDislikeCount(data.dislikeCount);
       })
       .catch((error) => console.error("Fetching error:", error));
   };
@@ -273,7 +288,7 @@ const MainPagePostInt = ({ post }) => {
           </div>
           <div className="action-buttons">
             <button className="post-interact-button" onClick={sharePost}>
-              <img src={shareImg} alt="Share" onClick={sharePost}/> Share
+              <img src={shareImg} alt="Share"/> Share
             </button>
             <button className="post-interact-button" onClick={sendReport}>
               <img src={reportImg} alt="Report"/> Report
