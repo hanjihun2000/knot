@@ -1,4 +1,4 @@
-import '../component_css/ProfileEdit.css';
+import './userPreview.css';
 import React, {useState, useEffect} from 'react';
 import { useUser } from '../../userContext';
 import {userDemoList} from './userDemoList';
@@ -67,7 +67,7 @@ const UserPreview = () => {
                           src={user.profilePicture || 'path/to/default/image.png'}
                         />
                       </div>
-                      <div id="userPreview-username">{user.name}</div>
+                      <div id="userPreview-username">{user.username}</div>
                     </NavLink>
                     <button className="delete-button">Delete</button>
                   </div>
