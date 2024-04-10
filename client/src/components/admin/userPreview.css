@@ -104,6 +104,7 @@
         border-radius: 8px;
         border: none;
         background-color: transparent; /* Add this line */
+        color: var(--text-color-sidebar);
       }
       .refresh-button:hover{
         background-color: rgba(23, 23, 23, 0.3);
