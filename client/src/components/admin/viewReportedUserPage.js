@@ -12,7 +12,7 @@ import '../component_css/MainPage.css';
 
 
 
-const ViewReortedUserPage = () => {
+const ViewReportedUserPage = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -45,4 +45,4 @@ const ViewReortedUserPage = () => {
   );
 }
 
-export default ViewReortedUserPage;
+export default ViewReportedUserPage;
