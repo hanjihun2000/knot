@@ -1,0 +1,110 @@
+.FriendListsContainer {
+    max-height: 100%; /* Adjust this value as needed */
+    overflow-y: auto;
+    
+    padding-right: 4px; 
+  box-sizing: border-box;
+  }
+    .FriendLists {
+    display: flex;
+    position: relative;
+    width: 20vw;
+    height: 100vh;
+    overflow: auto;
+    background-image: var(--background-image);
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center; /* Aligns items horizontally */
+    max-width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding-right: 40px;
+    font-family: "Inika";
+    margin:0;
+  }
+  .row{
+    width: 100%; /* Full width of the sidebar */
+    padding: 10px; /* Padding between rows */
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    font-size: 1.2em;
+   }
+  
+  .FriendLists ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .FriendLists li {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .nav-link {
+    display: flex; /* Displays items in a row */
+    flex-direction: row; /* Items are arranged horizontally */
+    padding: 2px; /* Padding between rows */
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Makes the text color the same as the parent element */
+    align-items: center; /* Add this line */
+  }
+
+  .refresh-border{
+    list-style-type: none;
+    width: 100%; /* Full width of the sidebar */
+    height: auto; /* Full height of the sidebar */
+    text-align: right;
+  }
+
+  .row:hover {
+    border-radius: 32px;
+    cursor: pointer;
+    background-color: rgba(23, 23, 23, 0.3);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+   #profilePicture{
+      padding-right: 10px;
+      height: 40px;
+      width: 40px;
+   }
+   #profilePicture img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+    #username{
+    }
+    ::-webkit-scrollbar {
+        width: 10px; /* Width of the scrollbar */
+        border-radius: 10px;
+      }
+      
+      /* Track or progress bar */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Color of the track */
+        border-radius: 10px;
+      }
+      
+      /* Handle or slider */
+      ::-webkit-scrollbar-thumb {
+        background: #888; /* Color of the slider */
+        border-radius: 10px;
+      }
+      
+      /* Handle or slider on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color of the slider on hover */
+      }
+      .reload-icon{
+        width: 32px;
+        height: 32px;
+      }
+      .refresh-button{
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        background-color: transparent; /* Add this line */
+      }
+      .refresh-button:hover{
+        background-color: rgba(23, 23, 23, 0.3);
+      }

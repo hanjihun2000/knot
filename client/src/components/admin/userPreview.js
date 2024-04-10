@@ -1,4 +1,5 @@
 import '../component_css/ProfileEdit.css';
+import './ProfileEdit.css';
 import React, { useState } from 'react';
 import { useUser } from '../../userContext';
 import {userDemoList} from './userDemoList';
@@ -17,19 +18,19 @@ const UserPreview = () => {
                   <div className="user-info">
                     <NavLink to={`/profile/${user.username}`} className="nav-link-none" >
                       <div id="user-profile-picture">
-                        <img src={user.profilePicture || 'path/to/default/image.png'}/>
+                        <img 
+                          src={user.profilePicture || 'path/to/default/image.png'}
+                        />
                       </div>
                       <div id="username">{user.name}</div>
                     </NavLink>
+                    <button className="delete-button">Delete</button>
                   </div>
                 </li>
               );
             })}
-          </ul>
-          
+          </ul>  
         </div>
-          
-        <button type="submit" className="confirm-button">Confirm</button>
     </div>
   );
 };
