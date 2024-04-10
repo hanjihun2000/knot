@@ -322,6 +322,7 @@ router.get("/searchUsers", upload.none(), async (req, res) => {
         $regex: searchTerm,
         $options: "i",
       },
+      accountType: "user"
     }).select("username profilePicture");
 
     // Check if no matched users found

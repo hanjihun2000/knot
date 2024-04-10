@@ -7,10 +7,8 @@ import { ArrowsClockwise } from "@phosphor-icons/react";
 const RequestList = () => {
   const [requestFollower, setRequestFollower] = useState([]);
   const { user } = useUser();
-  const [fetchTrigger, setFetchTrigger] = useState(false);
-
+  
   const fetchRequestFollower = () => {
-    console.log(user.username);
     fetch(
       `http://localhost:8000/api/followapi/viewFollowRequests?username=${user.username}`
     )
@@ -22,8 +20,6 @@ const RequestList = () => {
       })
       .then((data) => {
         setRequestFollower(data.message);
-        console.log("success");
-        console.log(data.message);
       })
       .catch((error) => console.error("Fetching error:", error));
   };
@@ -34,7 +30,6 @@ const RequestList = () => {
       receiver,
       accept: accept.toString(),
     }).toString();
-    console.log(queryParams);
     const url = `http://localhost:8000/api/followapi/handleFollowRequest?${queryParams}`;
     try {
       const response = await fetch(url, {
@@ -45,15 +40,12 @@ const RequestList = () => {
         },
       });
 
-      const result = await response.json();
-      console.log(result);
-
       // Handle success or error based on the response
       if (response.ok) {
-        console.log("Success:", result.message);
+        console.log("Success:", response.message);
         fetchRequestFollower();
       } else {
-        console.error("Error:", result.message);
+        console.error("Error:", response.message);
       }
     } catch (error) {
       console.error("Fetch error:", error);
@@ -64,16 +56,11 @@ const RequestList = () => {
   useEffect(() => {
     fetchRequestFollower();
   }, []);
+
   //there might be stuff to change here ask daniel later
   function createImageObjectURL(userProfile) {
-    if (!userProfile.profilePicture || !userProfile.profilePicture.buffer) {
-      return "path/to/default/image.png"; // Fallback if no picture
-    }
-
     const byteArray = new Uint8Array(userProfile.profilePicture.buffer.data);
-    const blob = new Blob([byteArray], {
-      type: userProfile.profilePicture.mimetype,
-    });
+    const blob = new Blob([byteArray], { type: userProfile.profilePicture.mimetype });
     const imageObjectURL = URL.createObjectURL(blob);
     return imageObjectURL;
   }
@@ -99,10 +86,7 @@ const RequestList = () => {
                 <div id="notification-profilePicture-container">
                   <img
                     className="notification-profilePicture"
-                    src={
-                      createImageObjectURL(requestedUser) ||
-                      "path/to/default/image.png"
-                    }
+                    src={createImageObjectURL(requestedUser)}
                     alt={requestedUser.username}
                   />
                 </div>
