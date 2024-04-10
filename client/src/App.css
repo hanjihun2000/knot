@@ -46,6 +46,7 @@
   --navbackgroundcolor: #f2e9e4; 
   --profile-sidebar: #D3D0B3;
   --hoverbackground: #e0e0e0;
+    overflow:hidden;
 }
 
 /* Define other theme variables */
@@ -74,12 +75,12 @@
 }
 
 /* Apply the CSS variables in your styles */
-body {
+.body {
   background-color: var(--background-color);
   color: var(--text-color);
   background-image: var(--background-image);
   height: 100vh;
-  overflow: auto; /* Updated to auto to allow scrolling */
+  overflow: hidden; /* Updated to auto to allow scrolling */
   margin: 0;
   padding: 0;
 }
