@@ -1,26 +1,25 @@
-import "./App.css";
-import SignUpForm from "./components/SignUpForm";
-import LogInForm from "./components/LogInForm";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import SingPage from "./components/homepagecomp/singPage";
-import SettingPageEdit from "./components/UserSettings/SettingPageEdit";
-import SettingPagePrivacy from "./components/UserSettings/SettingPagePrivacy";
-import ProtectedRoute from "./components/ProtectedRoute";
-import SettingPageThemes from "./components/UserSettings/SettingPageThemes";
-import { SideBarProvider } from "./components/SidebarComp/SideBarContext"; // Ensure the path is correct
-import { UserProvider } from "./userContext"; // Adjust the import path as necessary
-import MainPagePost from "./components/UserSettings/MainPagePost";
-import NotificationPage from "./components/notificationPage";
-import singlePageFeed from "./components/singlePageFeed";
-import axios from "axios";
-import MainPageHomePage from "./components/UserSettings/MainPageHomePage"; // Adjust your
-import UserProfile from "./components/UserSettings/UserProfile";
-import SearchPage from "./components/SearchPage";
-import React, { useState, useEffect } from "react";
+import './App.css';
+import React from 'react';
+import SignUpForm from './components/SignUpForm';
+import LogInForm from './components/LogInForm';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import SingPage from './components/homepagecomp/singPage';
+import SettingPageEdit from './components/UserSettings/SettingPageEdit';
+import SettingPagePrivacy from './components/UserSettings/SettingPagePrivacy';
+import ProtectedRoute from './components/ProtectedRoute';
+import SettingPageThemes from './components/UserSettings/SettingPageThemes';
+import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
+import { UserProvider } from './userContext'; // Adjust the import path as necessary
+import MainPagePost from './components/UserSettings/MainPagePost';
+import NotificationPage from './components/notificationPage';
+import singlePageFeed from './components/singlePageFeed';
+import adminViewUser from './components/admin/adminViewUser';
+import viewReortedUserPage from './components/admin/viewReortedUserPage';
+import SearchPage from './components/SearchPage';
+import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
+import UserProfile from './components/UserSettings/UserProfile';
 
 const App = () => {
- 
-
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem("token");
 
@@ -101,6 +100,17 @@ const App = () => {
               path="/post"
               component={singlePageFeed}
               auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/admin/adminViewUser'
+              component={adminViewUser}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/admin/view-reported-posts'
+              component={viewReortedUserPage}
             />
           </Switch>
         </SideBarProvider>

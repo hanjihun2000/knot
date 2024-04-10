@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './component_css/SignUpForm.css'; // Make sure to create a corresponding CSS file
 import toggleVisi from '../OIP.jpg';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom'; // Import Redirect here
 
 function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ function SignUpForm() {
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [isTermsVisible, setIsTermsVisible] = useState(false); //
-
+  const [isSignUp, setIsSignUp] = useState(false);
   
     const handleSignUp = async (event) => {
       event.preventDefault();
@@ -51,7 +51,9 @@ function SignUpForm() {
         if (response.ok) {
           // The request was successful, process the response data as needed.
           console.log(data);
-          alert(data.message || 'Signed up successfully!');
+          
+          setIsSignUp(!isSignUp); // Update state based on the result of the login attempt
+          
         } else {
           // The request was completed but the server responded with an error status.
           // Alert the user with the message returned from the server.
@@ -76,6 +78,10 @@ function SignUpForm() {
   const togglePopup = () => {
     setIsTermsVisible(!isTermsVisible);
   };
+
+  if(isSignUp){
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div className = "root">

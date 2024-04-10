@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
+import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
+import AdminProfileSettings from './adminSettingSideBar';
 import FriendLists from '../friendlist';
-import './singpage.css'
-import '../component_css/FriendList.css';
+import ViewReportedPosts from './viewReportedPosts';
 
-import SingPagePost from './singPagePost';
-
+import '../component_css/MainPage.css';
 
 
 
 
-const SingPage= () => {
+
+const ViewReortedUserPage = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,21 +28,21 @@ const SingPage= () => {
   };
 
   return (
-    <div className="singpage-container">
+    <div className="main-container">
       <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="singpage-content-container">
-      <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="singpage-content">
-          
-           
-            <SingPagePost/>
-          
+      <div className="content-container">
+        <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className="main-content">
+          <div className="profile-edit-container"> {/* change name to admin container*/ }
+            <AdminProfileSettings/>
+            <ViewReportedPosts/>
+          </div>
           
         </div>
-          <FriendLists className="singpage-friend-list"/>
+          <FriendLists className="friend-list"/>
       </div>
     </div>
   );
 }
 
-export default SingPage;
+export default ViewReortedUserPage;
