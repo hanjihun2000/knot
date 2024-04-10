@@ -15,7 +15,7 @@ import singlePageFeed from "./components/singlePageFeed";
 import axios from "axios";
 import MainPageHomePage from "./components/UserSettings/MainPageHomePage"; // Adjust your
 import UserProfile from "./components/UserSettings/UserProfile";
-import SearchPage from "./components/SearchPage";
+import SearchPage from "./components/UserSettings/SearchPage";
 import React, { useState, useEffect } from "react";
 
 const App = () => {
@@ -76,18 +76,6 @@ const App = () => {
               exact
               path="/profile/:username"
               component={UserProfile}
-              auth={isAuthenticated}
-            />
-            <ProtectedRoute
-              exact
-              path="/search"
-              component={SearchPage}
-              auth={isAuthenticated}
-            />
-            <ProtectedRoute
-              exact
-              path="/search/:searchTerm"
-              component={SearchPage}
               auth={isAuthenticated}
             />
             <ProtectedRoute
