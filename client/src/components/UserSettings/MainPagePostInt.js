@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import upvoteImg from './U.png';
-import downvoteImg from './R.png';
-import shareImg from '../UserSettings/share.svg';
-import reportImg from '../UserSettings/report.jpeg';
+import upvoteImg from '../U.png';
+import downvoteImg from '../R.png';
+import shareImg from '../share.svg';
+import reportImg from '../report.jpeg';
 
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';

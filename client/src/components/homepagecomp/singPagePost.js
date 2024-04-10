@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import upvoteImg from '../UserSettings/U.png';
-import downvoteImg from '../UserSettings/R.png';
-import shareImg from '../UserSettings/share.svg';
-import reportImg from '../UserSettings/report.jpeg';
+import upvoteImg from '../U.png';
+import downvoteImg from '../R.png';
+import shareImg from '../share.svg';
+import reportImg from '../report.jpeg';
 
-import postImage from '../UserSettings/iphone14promax_dirt_0.5x.jpg'
+
 import { useUser } from '../../userContext';
 import { useParams } from 'react-router-dom';
 import placeholderImage from './plaimg.png';
