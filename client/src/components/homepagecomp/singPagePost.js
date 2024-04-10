@@ -7,7 +7,7 @@ import reportImg from '../report.jpeg';
 
 import { useUser } from '../../userContext';
 import { useParams } from 'react-router-dom';
-import placeholderImage from './plaimg.png';
+import placeholderImage from '../plaimg.png';
 import './singPagePost.css';
 
 const SingPagePost = () => {
