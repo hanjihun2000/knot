@@ -7,6 +7,42 @@ import { ArrowsClockwise } from "@phosphor-icons/react";
 const FriendLists = () => {
   const [friendList, setFriendList] = useState([]);
   const { user } = useUser();
+
+
+  const sendMessage = async (receiverUsername) => {
+    // Prompt the user for a message
+    const messageText = window.prompt("Enter your message:");
+    if (messageText === null || messageText.trim() === "") {
+      alert("You must enter a message to send.");
+      return; // Exit if no message is entered
+    }
+  
+    const formData = new FormData();
+    formData.append('sender', user.username); // Sender username from context
+    formData.append('receiver', receiverUsername); // Receiver username passed to the function
+    formData.append('messageText', messageText);
+  
+    try {
+      const response = await fetch('http://localhost:3000/api/message/sendMessage', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const responseData = await response.json();
+      if (response.ok) {
+        alert('Message sent successfully!');
+        console.log(responseData);
+        // Any additional logic after a successful send
+      } else {
+        // Handle server errors or validation errors
+        alert(`Failed to send message: ${responseData.message}`);
+      }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      alert('An error occurred while trying to send the message.');
+    }
+  };
+
   
   const fetchFriendList = () => {
     fetch(
@@ -55,7 +91,7 @@ const FriendLists = () => {
         {friendList.map((friend, index) => (
           <li key={index} className="row">
             <NavLink to={`/profile/${friend.username}`} className="nav-link">
-              <div id="profilePicture">
+              <div id="profilePicture" onClick={() => sendMessage(friend.username)}>
                 <img
                   src={friend.profilePicture.buffer}
                   alt={friend.username}

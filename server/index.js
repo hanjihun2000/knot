@@ -44,6 +44,7 @@ const followapiRouter = require("./api/followapi");
 const postapiRouter = require("./api/postapi");
 const commentapiRouter = require("./api/commentapi");
 const adminapiRouter = require("./api/adminapi");
+const messageRouter = require("./api/messageapi");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -54,6 +55,7 @@ app.use("/api/postapi", postapiRouter);
 app.use("/api/commentapi", commentapiRouter);
 app.use("/api/followapi", followapiRouter);
 app.use("/api/adminapi", adminapiRouter);
+app.use("/api/messageapi", messageRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
