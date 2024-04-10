@@ -25,7 +25,7 @@ export const adminSidebarList = [
   {
     title :"Admin",
     icon: <UserGear />,
-    link: "/admin"
+    link: "/admin/adminViewUser"
   }
 ]
 
