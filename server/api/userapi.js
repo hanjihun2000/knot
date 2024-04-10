@@ -11,15 +11,15 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const jwt = require("jsonwebtoken");
 const upload = multer({ storage: multer.memoryStorage() });
+const fs = require("fs");
+const path = require("path");
 
 router.post("/register", upload.none(), async (req, res) => {
   // req.body for form
-  // console.log(req);
-  // console.log(req.body);
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
-  console.log(username, password, email);
+  // console.log(username, password, email);
   // check if the username is inside the users database
   const userExists = await User.exists({ username: username });
   const emailExists = await User.exists({ email: email });
@@ -40,14 +40,21 @@ router.post("/register", upload.none(), async (req, res) => {
     return res.send({ status: "error", message: "Please fill in all fields!" });
   } else {
     // create a new user account
+
+    // get the default profile picture
+    const defaultProfilePicturePath = path.join(__dirname, "../defaultProfilePicture.png");
+    const defaultProfilePictureData = fs.readFileSync(defaultProfilePicturePath);
+    const defaultProfilePictureBase64 = defaultProfilePictureData.toString("base64");
+    const profilePictureBuffer = Buffer.from(defaultProfilePictureBase64, "base64");
+
     const user = new User({
       username: username,
       password: password,
       email: email,
       accountType: "user",
       profilePicture: {
-        buffer: null,
-        mimetype: null,
+        buffer: profilePictureBuffer,
+        mimetype: "image/png",
       },
       bio: null,
       theme: null,
@@ -63,17 +70,10 @@ router.post("/register", upload.none(), async (req, res) => {
   }
 });
 
-// router.get('/test', upload.none(), async (req, res) => {
-// 	console.log(req.body.test);
-// 	res.send("Hello World!");
-// });
-
 router.get("/fetchUser", upload.none(), async (req, res) => {
   try {
     const username = req.query.username;
-    console.log(username);
     const user = await User.findOne({ username: username });
-
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
@@ -88,7 +88,6 @@ router.get("/fetchUser", upload.none(), async (req, res) => {
       followers: user.followers,
       following: user.following,
     };
-
     res.json(userInfo);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -96,13 +95,11 @@ router.get("/fetchUser", upload.none(), async (req, res) => {
 });
 
 router.post("/login", upload.none(), async (req, res) => {
-  console.log(req.body);
   try {
     const { username, password } = req.body;
 
     // Find the user by username
     const user = await User.findOne({ username });
-
     if (!user) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
@@ -113,7 +110,6 @@ router.post("/login", upload.none(), async (req, res) => {
     }
 
     // TODO: Generate and send a token for authentication
-
     res.json({ message: "Login successful" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -182,66 +178,57 @@ router.get("/viewProfilePicture", async (req, res) => {
 
     // Find the user by username
     const user = await User.findOne({ username: username });
-
     if (!user) {
-      console.log("User not found!");
       return res.status(404).json({ message: "User not found!" });
     }
 
-	let {buffer, mimetype} = user.profilePicture;
-
-	// console.log(buffer);
-
+    let {buffer, mimetype} = user.profilePicture;
+    // console.log(buffer);
 
     // if (!user.profilePicture || !user.profilePicture.buffer) {
     // 	return res.status(404).json({ message: "Profile picture not found!" });
     // }
 
-	// Set the response headers
-	if (!mimetype) {
-		mimetype = "image/jpeg";
-	}
+    // Set the response headers
+    if (!mimetype) {
+      mimetype = "image/jpeg";
+    }
 
-	res.set("Content-Type", mimetype);
-
-    // Send the profile picture buffer as the response
+	  res.set("Content-Type", mimetype);
     res.status(200).send(buffer);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: error.message });
   }
 });
 
 router.get("/fetchUserPosts", upload.none(), async (req, res) => {
-  const username = req.query.username;
-  const sender = req.query.sender;
+  try {
+    const username = req.query.username;
+    const sender = req.query.sender;
 
-  const user = await User.findOne({ username: username }).select(
-    "accountType follower"
-  );
-  if (!user) {
-    return res
-      .status(404)
-      .json({ status: "error", message: "Username does not exist!" });
-  }
-
-    //if user accountType is private, and the sender is not a follower of user, return an error
-    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender) ) 
-	&& sender !== username && sender !== "admin") {
-        return res.status(403).json({ status: "error", message: "User account is private!" });
+    const user = await User.findOne({ username: username }).select(
+      "accountType follower"
+    );
+    if (!user) {
+      return res.status(404).json({ status: "error", message: "Username does not exist!" });
     }
 
-  const posts = await Post.find({ username: username });
+    //if user accountType is private, and the sender is not a follower of user, return an error
+    if (user.accountType === "private" && (!user.follower || !user.follower.includes(sender) ) && sender !== username && sender !== "admin") {
+      return res.status(403).json({ status: "error", message: "User account is private!" });
+    }
 
-  if (!posts) {
-    return res
-      .status(404)
-      .json({ status: "error", message: "User has no posts!" });
+    const posts = await Post.find({ username: username });
+    if (!posts) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "User has no posts!" });
+    }
+
+    return res.status(200).json({ status: "success", message: "User posts fetched!", posts: posts });
+  } catch {
+    return res.status(500).json({ status: "error", message: error.message });
   }
-
-  res
-    .status(200)
-    .json({ status: "success", message: "User posts fetched!", posts: posts });
 });
 
 router.get("/viewFollowers", async (req, res) => {
@@ -284,10 +271,10 @@ router.get("/viewFollowers", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 router.get("/viewFollowing", async (req, res) => {
   try {
     const { username } = req.query;
-    console.log(username);
     const user = await User.findOne({ username: username });
 
     if (!user) {
@@ -327,58 +314,30 @@ router.get("/viewFollowing", async (req, res) => {
 });
 
 router.get("/searchUsers", upload.none(), async (req, res) => {
-  try {
-    const { username, searchTerm } = req.query;
-
-    // Find the user by username
-    const user = await User.findOne({ username }).select("following followers");
-
-    if (!user) {
-      return res.status(404).json({ message: "Search user not found!" });
-    }
-
-    const followingList = user.following;
-    const followerList = user.followers;
-    console.log(followingList);
-    console.log(followerList);
-
-    // Filter users which have the search term in their username
+  try 
+  {
+    const searchTerm = req.query.searchTerm;
     const matchedUsers = await User.find({
       username: {
         $regex: searchTerm,
         $options: "i",
       },
-    }).select("username");
-    const matchedUsernames = matchedUsers.map((user) => user.username);
+    }).select("username profilePicture");
 
-    console.log(matchedUsers);
+    // Check if no matched users found
+    if (matchedUsers.length === 0) {
+      return res.status(200).json({ status: true, message: "No users found!" });
+    }
 
-    // Prioritize users from the searcher's following and follower lists
-    const prioritizedUsers = [
-      username,
-      ...followingList,
-      ...followerList,
-    ].filter((user) => matchedUsernames.includes(user));
-    console.log(prioritizedUsers);
-    const otherUsers = matchedUsernames.filter(
-      (user) => !prioritizedUsers.includes(user)
-    );
-
-    // Combine the prioritized and other users into a single list
-    const searchResultList = [...prioritizedUsers, ...otherUsers];
-
-    const searchResults = await Promise.all(
-      searchResultList.map(async (searchResult) => {
-        const user = await User.findOne({ username: searchResult }).select(
-          "username profilePicture"
-        );
-        return user;
-      })
-    );
-
-    res.status(200).json(searchResults);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const searchResult = matchedUsers.map((user) => ({
+      username: user.username,
+      profilePicture: user.profilePicture,
+    }));
+    return res.status(200).json(searchResult);
+  } 
+  catch (error) 
+  {
+    return res.status(500).json({ status: false, message: error.message });
   }
 });
 
