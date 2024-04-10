@@ -3,3 +3,8 @@
     display: flex;
     
 }
+
+.friend-list {
+    position: fixed;
+    overflow-y: auto;
+  }

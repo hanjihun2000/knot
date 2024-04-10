@@ -1,53 +1,144 @@
-.post-container-sign {
-    /* Flex container for the whole post */
-    display: flex;
-    justify-content: center; /* Center the content if there's extra space */
-    width: 60vw; /* 60% of the viewport width */
-    margin: auto; /* Center the container on the page */
-    height: 80vh; /* 80% of the viewport height */
-    max-height: 80vh; /* Ensure it doesn't exceed 80% of the viewport height */
-  }
-  
-  .post-content-wrapper-sign {
-    /* Flex container for the image and text */
-    display: flex;
-    border: 1px solid #ccc;
-    width: 100%; /* Take full width of the parent container */
-    height: 100%; /* Take full height of the parent container */
-  }
-  
-  .post-image-container-sign {
-    width: 70%; /* 70% of the parent container width */
-    height: 100%; /* Full height of the parent container */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .post-image-sign {
-    width: 100%; /* Ensure it covers the full width of the container */
-    height: 100%; /* Ensure it covers the full height of the container */
-    object-fit: cover; /* Cover the area, may crop the image */
-  }
-  .post-text-content-sign {
-    /* This will contain the description and comments */
-    padding: 10px;
-    width: 30%; /* Remaining width after image */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow-y: auto; /* Add scroll for overflow */
-  }
-  
-  .comments-section-sign {
-    width: 100%; /* Take full width of the parent container */
-    /* If you want to limit the number of comments shown at once, you can add a max-height */
-    /* max-height: calculated_value; */
-    /* overflow-y: auto; */
-  }
-  .post-description-sign {
-    white-space: normal; /* Default value, just to be explicit */
-    word-wrap: break-word; /* Breaks the word to prevent overflow */
-  }
-  
-  
+/* MainPagePostInt.css */
+body {
+  background-image: var(--background-image);
+  height: 100vh;
+  /* overflow: auto; */
+}
+.post-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #D3D0B3;
+  border: 1px solid #787876;
+  border-radius: 10px; /* Added border-radius */
+  margin-bottom: 60px;
+  /* overflow: auto */
+  /* overflow: hidden; Added overflow property */
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.original-username {
+  font-weight: normal;
+  font-size: 12px;
+  color: #262626;
+}
+
+.options-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #262626;
+}
+
+.post-content {
+  padding: 16px;
+}
+
+.post-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.post-image-small img {
+  width: auto;
+  height: auto;
+  border: 1px solid #e6e6e6;
+}
+
+.post-image img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #e6e6e6;
+}
+
+.post-description-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.post-description {
+  flex-grow: 1;
+}
+
+.post-description span {
+  font-weight: bold;
+  color: #262626;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+.post-interact-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: "Inika"
+}
+
+.post-interact-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+
+.comments-container {
+  padding: 16px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.comment-info {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.comment-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: #fafafa; /*might need to change the color here*/
+  margin-bottom: 16px;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment {
+  margin-bottom: 8px;
+}
+.no-underline-yep{
+  text-decoration: none;
+  color: black;
+}
