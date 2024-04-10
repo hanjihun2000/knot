@@ -299,7 +299,7 @@ const UserProfile = () => {
   return (
     <div className="user-profile-container">
       <div className="user-info">
-        <img src={userProfilePic} alt="Profile" className="profile-picture" />
+        {userProfilePic && <img src={userProfilePic} alt="Profile" className="profile-picture" />}
         {user.username !== username && (
           friendList.includes(username) ? 
           <span className="follow-button">Followed</span> : 

@@ -31,6 +31,29 @@
     height: 100%; /* Ensure it covers the full height of the container */
     object-fit: cover; /* Cover the area, may crop the image */
   }
+
+  .post-user-info {
+    font-size: 20px;
+    font-weight: bold;
+    color: #262626;
+    /* middle left align */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 10px;
+  }
+
+
+  
+  
+  .post-profile-image-sign {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  
   .post-text-content-sign {
     /* This will contain the description and comments */
     padding: 10px;
@@ -96,5 +119,28 @@
     font-size: 28px;
     font-style: bold;
   }
+
+  .post-interact-button-row {
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: "Inika";
+  }
   
+  .post-interact-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    width: 20%;
+    border: none;
+    cursor: pointer;
+    font-family: "Inika";
+  }
+
+  .no-underline {
+    text-decoration: none;
+    color: #262626;
+  }
   
