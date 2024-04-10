@@ -24,7 +24,7 @@
 .main-content {
   flex-grow: 1; /* To fill the remaining space */
   height: auto; /* Full height */
-    /* Allow vertical scrolling */
+  /* Allow vertical scrolling */
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
