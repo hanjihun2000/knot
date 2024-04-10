@@ -203,7 +203,6 @@ router.get("/viewProfilePicture", async (req, res) => {
 	console.log(error);
 	res.status(500).json({ message: error.message });
 }
->>>>>>>>> Temporary merge branch 2
 });
 
 router.get("/fetchUserPosts", upload.none(), async (req, res) => {

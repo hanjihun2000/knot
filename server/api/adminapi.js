@@ -45,7 +45,6 @@ router.get("/listUserProfiles", upload.none(), async (req, res) => {
         console.error(err);
         return res.status(400).send({ status: "error", message: "Internal Server Error!" });
     }
->>>>>>>>> Temporary merge branch 2
 });
 
 router.get("/listReportedUsers", upload.none(), async (req, res) => {
@@ -70,7 +69,6 @@ router.get("/listReportedUsers", upload.none(), async (req, res) => {
         reportedUsers.push(comment.username);
       }
     });
->>>>>>> quinson-frontend-new
 
     //fetch user name and profile picture
     const users = await User.find({ username: { $in: reportedUsers } }).select(

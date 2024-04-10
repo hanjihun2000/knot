@@ -10,7 +10,6 @@ import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
 
 const MainPagePostInt = ({ post }) => {
-const MainPagePostInt = ({ post }) => {
   // console.log(post)
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -335,6 +334,7 @@ const MainPagePostInt = ({ post }) => {
     </div>
     
   );
+  
 };
 
 export default MainPagePostInt;
