@@ -83,11 +83,24 @@ body {
 
 .post-description {
   flex-grow: 1;
+  width: 100%;
+  text-align: left; /* Changed text-align */
 }
 
 .post-description span {
   font-weight: bold;
   color: #262626;
+}
+
+.post-media {
+  margin-top: 16px;
+}
+
+.post-media img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #e6e6e6;
+
 }
 
 .action-buttons {

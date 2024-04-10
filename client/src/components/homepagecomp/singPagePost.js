@@ -228,12 +228,13 @@ const SingPagePost = () => {
         <button className="options-button">⋯</button>
       </div>
       <div className="post-content">
-          <div className="post-title">{post.title}</div>
+        <div className="post-title">{post.title}</div>
+        <div className="post-media">{mediaURL && <img src={mediaURL} alt="Post Media" />}</div>
         <div className='original-username'>{post.originalUsername && <span>Shared from: {post.originalUsername}</span>}</div>
+        <div className="post-description">
+          <p>{post.text}</p>
+        </div>
         <div className="post-description-actions">
-          <div className="post-description">
-            <p>{post.description}</p>
-          </div>
           <div className="action-buttons">
             <button className="post-interact-button" onClick={sharePost}>
               <img src={shareImg} alt="Share" onClick={sharePost}/> Share
@@ -274,11 +275,6 @@ const SingPagePost = () => {
           )}
         </div>
       </div>
-      {isImageActive && post.media && (
-        <div className="image-overlay" onClick={() => setIsImageActive(false)}>
-          <img src={mediaURL} alt="Post Image Enlarged" />
-        </div>
-      )}
     </div>
   );
 };
