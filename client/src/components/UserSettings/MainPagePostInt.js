@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
-import {Share,Flag, ArrowFatUp, ArrowFatDown} from "@phosphor-icons/react";
+import {Share,Flag, ArrowFatUp, ArrowFatDown, Warning} from "@phosphor-icons/react";
 
 const MainPagePostInt = ({ post }) => {
   // console.log(post)
@@ -45,7 +44,7 @@ const MainPagePostInt = ({ post }) => {
         return response.json();
       }).then(data => {
         //get username and text from comments
-        data = data.message.map(comment => `${comment.username}: ${comment.text}`);
+        data = data.message.map(comment => `${comment.username}: ${comment.text}: ${comment.commentId}`);
         setComments(data);
       }).catch(error => console.error('Fetching error:', error));
     const closeComments = (event) => {
@@ -144,6 +143,24 @@ const MainPagePostInt = ({ post }) => {
       .catch((error) => console.error("Fetching error:", error));
   };
 
+
+  const reportComment= (commentId) => {
+    console.log(commentId);
+    fetch(`http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      alert('Comment reported!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
+
   const handleDislike = () => {
     fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
       method: "PUT",
@@ -186,7 +203,7 @@ const MainPagePostInt = ({ post }) => {
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
-  };
+  };  
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
@@ -318,12 +335,20 @@ const MainPagePostInt = ({ post }) => {
             className="comment-input"
           ></textarea>
           {showComments && (
-            <div className="comments">
+            <div className="comments-main-page">
               {comments.map((comment, index) => {
-                const [username, text] = comment.split(': ');
+                console.log(comments);
+                const [username, text, commentId] = comment.split(': ');
+                console.log(text);
                 return (
                   <div key={index} className="comment">
                     <span className="username">{username}</span>: {text}
+                    <button onClick={(e) => {
+  e.stopPropagation(); // Prevents the click event from propagating up to the document
+  reportComment(commentId);
+}} className="report-comment-sign-page">
+  <Flag size={24}/>
+</button>
                   </div>
                 );
               })}

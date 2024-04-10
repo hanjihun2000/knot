@@ -114,6 +114,8 @@ router.get("/viewFollowRequests", upload.none(), async (req, res) => {
     // //get usernames of senders
     // const senders = followRequests.map((followRequest) => followRequest.sender);
 
+    // console.log(followRequests);
+
     //get username and profile picture of senders
     const senders = await Promise.all(
       followRequests.map(async (followRequest) => {

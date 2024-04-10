@@ -3,7 +3,7 @@ import upvoteImg from '../U.png';
 import downvoteImg from '../R.png';
 import shareImg from '../share.svg';
 import reportImg from '../report.jpeg';
-
+import {Warning} from "@phosphor-icons/react";
 import { useParams } from 'react-router-dom';
 import placeholderImage from '../../components/plaimg.png';
 import './singPagePost.css';
@@ -302,6 +302,22 @@ const SingPagePost = () => {
     }).catch(error => console.error('Fetching error:', error));
   }
 
+  const reportComment= (commentId) => {
+    
+    fetch(`http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      alert('Comment reported!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
   
   
   
@@ -327,6 +343,7 @@ const SingPagePost = () => {
                 <div key={index} className="comment-sign">
                   <span className="comment-user-sign">{comment.username}: </span>
                   <span className="comment-text-sign">{comment.text}</span>
+                  <button onClick={() => reportComment(comment.commentId)} className="report-comment-sign"> <Warning size={24} color="red" /></button>
                 </div>
               ))
             ) : (

@@ -51,7 +51,7 @@ function SignUpForm() {
         if (response.ok) {
           // The request was successful, process the response data as needed.
           console.log(data);
-          
+          alert(data.message || 'Signed up successfully!');
           setIsSignUp(!isSignUp); // Update state based on the result of the login attempt
           
         } else {

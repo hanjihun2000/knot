@@ -25,26 +25,18 @@ const SearchPage = () => {
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
+        } else if (response.message === 'No users found') {
+          return setSearchUsers([]);
         }
         return response.json();
       })
       .then(data => {
-        if (!Array.isArray(data)) {
-          // Handle the case where the response is not an array
-        } else {
-          data.map((user) => {
-            if (!user.profilePicture || !user.profilePicture.buffer) {
-              user.filtered = true;
-            }
-            else {
-              const byteArray = new Uint8Array(user.profilePicture.buffer.data);
-              const blob = new Blob([byteArray], { type: user.profilePicture.mimetype });
-              user.profilePicture.buffer = URL.createObjectURL(blob);
-            }
-          });
-          const result = data.filter((user) => user.filtered !== true);
-          setSearchUsers(result);
-        }
+        data.map((user) => {
+          const byteArray = new Uint8Array(user.profilePicture.buffer.data);
+          const blob = new Blob([byteArray], { type: user.profilePicture.mimetype });
+          user.profilePicture.buffer = URL.createObjectURL(blob);
+        });
+        setSearchUsers(data);
       })
       .catch(error => console.error('Fetching error:', error));
   };
