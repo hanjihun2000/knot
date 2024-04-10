@@ -320,6 +320,10 @@ router.get("/searchUsers", upload.none(), async (req, res) => {
         $regex: searchTerm,
         $options: "i",
       },
+      accountType: {
+        $in: ["user", "private"],
+        $nin: ["admin"],
+      },
     }).select("username profilePicture");
 
     // Check if no matched users found
@@ -335,6 +339,7 @@ router.get("/searchUsers", upload.none(), async (req, res) => {
   } 
   catch (error) 
   {
+    console.error(error.message);
     return res.status(500).json({ status: false, message: error.message });
   }
 });
