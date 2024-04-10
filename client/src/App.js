@@ -80,6 +80,18 @@ const App = () => {
             />
             <ProtectedRoute
               exact
+              path="/search"
+              component={SearchPage}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path="/search/:searchTerm"
+              component={SearchPage}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
               path="/notification"
               component={NotificationPage}
               auth={isAuthenticated}
