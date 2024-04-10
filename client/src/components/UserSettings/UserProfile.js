@@ -8,12 +8,12 @@ import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
 import { Link } from 'react-router-dom';
 
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
+// import firebase from 'firebase/app';
+// import 'firebase/firestore';
+// import 'firebase/auth';
 
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {useCollectionData} from 'react-firebase-hooks/firestore';
+// import {useAuthState} from 'react-firebase-hooks/auth';
+// import {useCollectionData} from 'react-firebase-hooks/firestore';
  
 
 const UserProfile = () => {
