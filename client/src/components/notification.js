@@ -77,6 +77,7 @@ const RequestList = () => {
           </button>
         </li>
         {requestFollower.map((requestedUser, index) => {
+          console.log(requestedUser)
           return (
             <li key={index} className="notification-row">
               <NavLink
