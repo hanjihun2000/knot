@@ -278,7 +278,7 @@ const UserProfile = () => {
         {user.username !== username && (
           friendList.includes(username) ? 
           <span className="follow-button">Followed</span> : 
-          <button className="follow-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
+          <button className="follow-request-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
         )}
         <div className="user-details">
           <h2>{username}</h2>
@@ -287,8 +287,16 @@ const UserProfile = () => {
       </div>
       
       {(friendList.includes(username) && userPrivacy === 'private') || (userPrivacy !== 'private') || (user.username === username) ? (
+
+
+        
         <div className="posts-container">
-          {userPosts.map((post) => (
+          {userPosts.length === 0 ? (
+          <div>No posts to display</div>
+        ) : (
+          
+        
+          userPosts.map((post) => (
             <div key={post.postId} className="post">
               <div className="post-header">
                 <h4>{post.title}</h4>
@@ -329,8 +337,11 @@ const UserProfile = () => {
                 </Link>
               </div>
             </div>
-          ))}
+            
+          ))
+        )}
         </div>
+        
       ) : (
         <div className="private-account-message-container">
           <p className="private-account-message">
