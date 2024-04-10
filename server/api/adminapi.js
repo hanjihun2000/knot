@@ -36,26 +36,6 @@ router.get("/listUsernames", upload.none(), async (req, res) => {
 });
 
 
-router.get('/listUsernames', upload.none(), async (req, res) => {
-    try {
-        const users = await User.find().select("username");
-        return res.status(200).send({ status: "success", message: users });
-    } catch (err) {
-        console.error(err);
-        return res.status(400).send({ status: "error", message: "Internal Server Error!" });
-    }
-});
-
-router.get("/listUsernames", upload.none(), async (req, res) => {
-    try {
-        const users = await User.find().select("username");
-        return res.status(200).send({ status: "success", message: users });
-    } catch (err) {
-        console.error(err);
-        return res.status(400).send({ status: "error", message: "Internal Server Error!" });
-    }
-});
-
 router.get("/listUserProfiles", upload.none(), async (req, res) => {
     // get name and profilePicture only
     try {
