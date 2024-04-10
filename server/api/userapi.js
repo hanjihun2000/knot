@@ -134,7 +134,7 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
       const user = await User.findOne({ username: username });
   
 	  if (!user) {
-		return res.status(404).json({ message: "User not found!" });
+		  return res.status(404).json({ message: "User not found!" });
 	  }
 
 	  changableFields = ["bio", "theme", "accountType", "email", "password", "profilePicture"];
@@ -153,12 +153,6 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
         buffer: req.file.buffer,
         mimetype: req.file.mimetype
       };
-	  } else {
-      //set empty buffer
-      user.profilePicture = {
-        buffer: null,
-        mimetype: null
-      }
 	  }
   
       // Save the updated user
@@ -326,6 +320,10 @@ router.get("/searchUsers", upload.none(), async (req, res) => {
         $regex: searchTerm,
         $options: "i",
       },
+      accountType: {
+        $in: ["user", "private"],
+        $nin: ["admin"],
+      },
     }).select("username profilePicture");
 
     // Check if no matched users found
@@ -341,6 +339,7 @@ router.get("/searchUsers", upload.none(), async (req, res) => {
   } 
   catch (error) 
   {
+    console.error(error.message);
     return res.status(500).json({ status: false, message: error.message });
   }
 });

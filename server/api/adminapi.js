@@ -10,6 +10,7 @@ const router = express.Router();
 const User = require("../models/user");
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const Follow = require("../models/follow");
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -165,6 +166,9 @@ router.delete("/deleteUser", upload.none(), async (req, res) => {
     await Post.deleteMany({ username: username });
     //delete all comments made by user
     await Comment.deleteMany({ username: username });
+    //delete follow requests containing deleted user
+    await Follow.deleteMany({ sender: username });
+    await Follow.deleteMany({ receiver: username });
     await User.deleteOne({ username: username });
     res.status(200).json({
       message: "User deleted!",
