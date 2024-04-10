@@ -37,6 +37,18 @@
   margin-right: auto;
   margin-top: 40px;
   width: 50vw;
+  border-radius: 12px;
+  background-color: var(--background-color);
+  font-family: "Inika";
+}
+
+.admin-view-user-container{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  width: 50vw;
+  border-radius: 12px;
   background-color: var(--background-color);
   font-family: "Inika";
 }
