@@ -3,7 +3,7 @@ import Sidebar from '../SidebarComp/Sidebar';
 import AdminSettingSideBar from './adminSettingSideBar';
 import Navbar from '../Navbar';
 import FriendLists from '../friendlist';
-import UserPreview from './UserPreview';
+import UserPreview from './userPreview';
 
 import '../component_css/MainPage.css';
 

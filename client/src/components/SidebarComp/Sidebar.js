@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import '../component_css/Sidebar.css';
 import { sideBarItemUser } from './sideBarItemUser';
-import{ adminSidebarList } from '../admin/AdminSidebarList';
+import{ adminSidebarList } from '../admin/adminSidebarList';
 import { useHistory } from 'react-router-dom';
 import { SignOut, XCircle } from "@phosphor-icons/react";
 import logo from './knotlogo.png';

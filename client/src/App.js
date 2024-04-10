@@ -15,6 +15,10 @@ import NotificationPage from './components/notificationPage';
 import singlePageFeed from './components/singlePageFeed';
 import adminViewUser from './components/admin/adminViewUser';
 import viewReortedUserPage from './components/admin/viewReortedUserPage';
+import SearchPage from './components/SearchPage';
+import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
+import UserProfile from './components/UserSettings/UserProfile';
+
 const App = () => {
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem("token");
