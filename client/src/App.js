@@ -19,7 +19,7 @@ import SearchPage from "./components/SearchPage";
 import React, { useState, useEffect } from "react";
 
 const App = () => {
-
+ 
 
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem("token");
@@ -37,14 +37,9 @@ const App = () => {
             <Route path="/login">
               <LogInForm />
             </Route>
-            <ProtectedRoute
-              exact
-              path="/search"
-              component={SearchPage}
-              auth={isAuthenticated}
-            />
-            <Route exact path="/userprofile">
-              <UserProfile />
+            
+            <Route exact path='/userprofile'>
+              <UserProfile/>
             </Route>
             <Route exact path="/posts/:postId" component={SingPage} />
             <ProtectedRoute
@@ -81,6 +76,18 @@ const App = () => {
               exact
               path="/profile/:username"
               component={UserProfile}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path="/search"
+              component={SearchPage}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path="/search/:searchTerm"
+              component={SearchPage}
               auth={isAuthenticated}
             />
             <ProtectedRoute

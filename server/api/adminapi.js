@@ -47,7 +47,6 @@ router.get("/listUserProfiles", upload.none(), async (req, res) => {
     }
 });
 
-
 router.get("/listReportedUsers", upload.none(), async (req, res) => {
   try {
     //get usernames of reported posts
