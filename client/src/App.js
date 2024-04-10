@@ -13,7 +13,8 @@ import { UserProvider } from './userContext'; // Adjust the import path as neces
 import MainPagePost from './components/UserSettings/MainPagePost';
 import NotificationPage from './components/notificationPage';
 import singlePageFeed from './components/singlePageFeed';
-
+import adminViewUser from './components/admin/adminViewUser';
+import viewReortedUserPage from './components/admin/viewReortedUserPage';
 
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
 import UserProfile from './components/UserSettings/UserProfile';
@@ -85,6 +86,17 @@ function App() {
               path='/post'
               component={singlePageFeed}
               auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/admin/adminViewUser'
+              component={adminViewUser}
+              auth={isAuthenticated}
+            />
+            <ProtectedRoute
+              exact
+              path='/admin/view-reported-posts'
+              component={viewReortedUserPage}
             />
           </Switch>
         </SideBarProvider>

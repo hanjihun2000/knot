@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
-import ProfileSettings from '../ProfileSettings';
+import AdminSettingSideBar from './adminSettingSideBar';
 import Navbar from '../Navbar';
-import ProfileEdit from './ProfileEdit';
-import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
 import FriendLists from '../friendlist';
+import UserPreview from './UserPreview';
 
 import '../component_css/MainPage.css';
 
@@ -12,7 +11,7 @@ import '../component_css/MainPage.css';
 
 
 
-const SettingPageEdit = () => {
+const AdminViewUser = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,14 +27,14 @@ const SettingPageEdit = () => {
   };
 
   return (
-    <div className="main-container">
+    <div className="admin-main-container">
       <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="content-container">
         <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="main-content">
-          <div className="profile-edit-container">
-            <ProfileSideBarEdit/>
-            <ProfileEdit/>
+          <div className="profile-edit-container"> {/* change name to admin container*/}
+            <AdminSettingSideBar/>
+            <UserPreview/>
           </div>
           
         </div>
@@ -45,4 +44,4 @@ const SettingPageEdit = () => {
   );
 }
 
-export default SettingPageEdit;
+export default AdminViewUser;

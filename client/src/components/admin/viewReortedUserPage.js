@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Sidebar from '../SidebarComp/Sidebar';
 import ProfileSettings from '../ProfileSettings';
 import Navbar from '../Navbar';
-import ProfileEdit from './ProfileEdit';
-import ProfileSideBarEdit from '../SidebarComp/ProfileSideBar';
+import AdminProfileSettings from './adminSettingSideBar';
 import FriendLists from '../friendlist';
+import ViewReportedPosts from './viewReportedPosts';
 
 import '../component_css/MainPage.css';
 
@@ -12,7 +12,7 @@ import '../component_css/MainPage.css';
 
 
 
-const SettingPageEdit = () => {
+const ViewReortedUserPage = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,9 +33,9 @@ const SettingPageEdit = () => {
       <div className="content-container">
         <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="main-content">
-          <div className="profile-edit-container">
-            <ProfileSideBarEdit/>
-            <ProfileEdit/>
+          <div className="profile-edit-container"> {/* change name to admin container*/ }
+            <AdminProfileSettings/>
+            <ViewReportedPosts/>
           </div>
           
         </div>
@@ -45,4 +45,4 @@ const SettingPageEdit = () => {
   );
 }
 
-export default SettingPageEdit;
+export default ViewReortedUserPage;
