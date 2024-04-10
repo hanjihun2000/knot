@@ -362,10 +362,10 @@ const SingPagePost = () => {
             <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
           </div>
           <div className="post-interact-button-row">  
-            <button className="post-interact-button" onClick={sharePost}>
+            <button className="post-interact-button-button-group" onClick={sharePost}>
               <Share className= "Share-icon"/>
             </button>
-            <button className="post-interact-button" onClick={sendReport}>
+            <button className="post-interact-button-button-group" onClick={sendReport}>
               <div><Flag className= "Flag-icon"/></div>
             </button>
             <button className={`post-interact-button ${like ? 'upclicked' : ''}`} onClick={handleLike}>
