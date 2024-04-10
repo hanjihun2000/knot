@@ -14,7 +14,7 @@ import MainPagePost from './components/UserSettings/MainPagePost';
 import NotificationPage from './components/notificationPage';
 import singlePageFeed from './components/singlePageFeed';
 import adminViewUser from './components/admin/adminViewUser';
-import viewReortedUserPage from './components/admin/viewReortedUserPage';
+import viewReortedUserPage from './components/admin/viewReportedUserPage';
 import SearchPage from './components/SearchPage';
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
 import UserProfile from './components/UserSettings/UserProfile';
