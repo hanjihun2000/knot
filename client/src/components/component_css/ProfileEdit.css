@@ -27,12 +27,15 @@
   
   .edit-form input[type="text"],
   .edit-form input[type="password"],
-  .edit-form textarea,
   .edit-form button {
     margin-bottom: 10px; /* Spacing between fields */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+  }
+
+  .edit-form textarea{
+    margin-left: -8px;
   }
   
   .edit-form button {
@@ -69,6 +72,7 @@
     margin-bottom: 20px;
   }
   
+
   .profile-picture img {
     width: 150px;
     height: 150px;
@@ -110,7 +114,7 @@
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid yellow;
+    border: 2px solid rgb(190, 190, 189);
     margin-left: auto;
     margin-right: auto;
   }
