@@ -130,7 +130,6 @@ router.post("/logout", upload.none(), (req, res) => {
   }
 });
 
-
 router.put("/editUserProfile", upload.single('profilePicture'), async (req, res) => {
     try {
       const { username } = req.body;
@@ -152,19 +151,19 @@ router.put("/editUserProfile", upload.single('profilePicture'), async (req, res)
 		user[field] = req.body[field];
 	  }
   
-	  // Add image to user with buffer and mimetype
-	  if (req.file) {
-      user.profilePicture = {
-        buffer: req.file.buffer,
-        mimetype: req.file.mimetype
-      };
-	  } else {
-      //set empty buffer
-      user.profilePicture = {
-        buffer: null,
-        mimetype: null
+      // Add image to user with buffer and mimetype
+      if (req.file) {
+        user.profilePicture = {
+          buffer: req.file.buffer,
+          mimetype: req.file.mimetype
+        };
+      } else {
+        //set empty buffer
+        user.profilePicture = {
+          buffer: null,
+          mimetype: null
+        }
       }
-	  }
   
       // Save the updated user
       const updatedUser = await user.save();

@@ -1,33 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
-import upvoteImg from '../U.png';
-import downvoteImg from '../R.png';
-import shareImg from '../share.svg';
-import reportImg from '../report.jpeg';
+import upvoteImg from '../UserSettings/U.png';
+import downvoteImg from '../UserSettings/R.png';
 
+import postImage from '../UserSettings/iphone14promax_dirt_0.5x.jpg'
+import { useUser } from '../../userContext';
 import { useParams } from 'react-router-dom';
-import placeholderImage from '../../components/plaimg.png';
+import placeholderImage from './plaimg.png';
 import './singPagePost.css';
 
-import { useUser } from '../../userContext';
-import { NavLink } from 'react-router-dom';
-
 const SingPagePost = () => {
-  const [like, setLike] = useState(false);
-  const [dislike, setDislike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [dislikeCount, setDislikeCount] = useState(0);
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
   const { username } = useUser(); // setUsername removed since it wasn't used
   const [imageSrc, setImageSrc] = useState(placeholderImage);
   const [isImageActive, setIsImageActive] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const { postId } = useParams();
   const [postData, setPostData] = useState([]);
-  const [profilePic, setProfilePic] = useState(placeholderImage);
   const {user} = useUser();
   const handleImageClick = () => {
     setIsImageActive(current => !current);
+  };
+
+  const toggleComments = () => {  
+    setShowComments(!showComments);
   };
 
 
@@ -88,6 +87,19 @@ const SingPagePost = () => {
   };
 
   useEffect(() => {
+    const closeComments = (event) => {
+      if (!event.target.closest('.comments-container') && showComments) {
+        setShowComments(false);
+      }
+    };
+
+    document.addEventListener('click', closeComments);
+    return () => {
+      document.removeEventListener('click', closeComments);
+    };
+  }, [showComments]);
+
+  useEffect(() => {
     // Define the function to fetch data
    
     const fetchData = async () => {
@@ -99,10 +111,6 @@ const SingPagePost = () => {
       const data = await response.json();
       console.log(data);
       setPostData(data);
-      setLikeCount(data.likes.length);
-      setDislikeCount(data.dislikes.length);
-      setLike(data.likes.includes(user.username));
-      setDislike(data.dislikes.includes(user.username));
       if (data && data.media && data.media.buffer) {
         // If data.media.buffer is present, handle it
         try {
@@ -117,7 +125,7 @@ const SingPagePost = () => {
           
           setImageSrc(placeholderImage);
         }
-      } else {
+      }else {
         // media is null or undefined, handle the scenario
         console.log('Media data is not available.');
       
@@ -145,78 +153,6 @@ const SingPagePost = () => {
     fetchData();
   }, [postId]); 
 
-  const handleLike = () => {
-    fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        postId: postId,
-        username: user.username,
-        like: true,
-        undo: like,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then(() => {
-        if (like) {
-          setLikeCount(likeCount - 1);
-        } else {
-          setLikeCount(likeCount + 1);
-        }
-        if (dislike) {
-          setDislikeCount(dislikeCount - 1);
-        }
-        setLike(!like);
-        setDislike(false);
-        // setLikeCount(data.likeCount);
-        // setDislikeCount(data.dislikeCount);
-      })
-      .catch((error) => console.error("Fetching error:", error));
-  };
-
-  const handleDislike = () => {
-    fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        postId: postId,
-        username: user.username,
-        like: false,
-        undo: dislike,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then(() => {
-        if (dislike) {
-          setDislikeCount(dislikeCount - 1);
-        } else {
-          setDislikeCount(dislikeCount + 1);
-        }
-        if (like) {
-          setLikeCount(likeCount - 1);
-        }
-        setDislike(!dislike);
-        setLike(false);
-        // setDislikeCount(data.dislikeCount);
-      })
-      .catch((error) => console.error("Fetching error:", error));
-  };
-
-
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -224,6 +160,13 @@ const SingPagePost = () => {
     }
   }, [newComment]);
 
+  const handleLike = () => {
+    setLikes(likes + 1);
+  };
+
+  const handleDislike = () => {
+    setDislikes(dislikes + 1);
+  };
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -236,127 +179,39 @@ const SingPagePost = () => {
       setNewComment('');
     }
   };
-
-  const loadProfilePic = async () => {
-    fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${postData.username}`)
-      .then((response) => {
-        if (!response.ok) {
-          console.log(response);
-          throw new Error("Network response was not ok");
-        }
-        return response.blob();
-      })
-      .then((data) => {
-        console.log(data);
-        if (data.size) {
-          const blobUrl = URL.createObjectURL(data);
-          setProfilePic(blobUrl);
-        } else {
-          setProfilePic(placeholderImage);
-        }
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });
-  };
-
-  useEffect(() => {
-    loadProfilePic();
-  } , [postData.username]);
-
-  const sharePost = () => {
-    fetch(`http://localhost:8000/api/postapi/sharePost`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        postId: postId,
-        username: user.username
-      })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      console.log(response)
-      alert('Post shared successfully!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
-
-  const sendReport = () => {
-    fetch(`http://localhost:8000/api/postapi/reportPost`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        postId: postId,
-      })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      alert('Post reported!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
-
-  
   
   
   return (
     <div className="post-container-sign">
       <div className="post-content-wrapper-sign">
         <div className="post-image-container-sign">
-          <img src={imageSrc} alt="Image" className="post-image-sign" />
+          <img src={imageSrc} alt="Beach" className="post-image-sign" />
         </div>
         <div className="post-text-content-sign">
-          <NavLink to={`/profile/${postData.username}`} className="post-username-sign no-underline">
-            <div className="post-user-info">
-              <img src={profilePic} alt="Profile" className="post-profile-image-sign" />
-              <span className="username">{postData.username}</span>
-            </div>
-          </NavLink>
           <p className="post-description-sign">
-            {postData.text}
+           {postData.text}
           </p>
           <div className="comments-section-sign">
-            {comments.length > 0 ? (
-              comments.map((comment, index) => (
-                <div key={index} className="comment-sign">
-                  <span className="comment-user-sign">{comment.username}: </span>
-                  <span className="comment-text-sign">{comment.text}</span>
-                </div>
-              ))
-            ) : (
-              <div className="no-comments-sign">No comments yet.</div>
-            )}
-          </div>
-          <textarea
-            ref={textareaRef}
-            value={newComment}
-            onChange={handleCommentChange}
-            onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleAddComment()}
-            placeholder="Write a comment..."
-            className="new-comment-input-sign"
-          ></textarea>
-          <div className='button-container-sign'>
-            <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
-          </div>
-          <div className="post-interact-button-row">  
-            <button className="post-interact-button" onClick={sharePost}>
-              <img src={shareImg} alt="Share"/>
-            </button>
-            <button className="post-interact-button" onClick={sendReport}>
-              <img src={reportImg} alt="Report"/>
-            </button>
-            <button className="post-interact-button" onClick={handleLike}>
-              <img src={upvoteImg} alt="Upvote" /> ({likeCount})
-            </button>
-            <button className="post-interact-button" onClick={handleDislike}>
-              <img src={downvoteImg} alt="Downvote" /> ({dislikeCount})
-            </button>
+            
+          {comments.length > 0 ? (
+    comments.map((comment, index) => (
+      <div key={index} className="comment-sign">
+        <span className="comment-user-sign">{comment.username}: </span>
+        <span className="comment-text-sign">{comment.text}</span>
+      </div>
+    ))
+  ) : (
+    <div className="no-comments-sign">No comments yet.</div>
+  )} 
+            <textarea
+          ref={textareaRef}
+          value={newComment}
+          onChange={handleCommentChange}
+          onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleAddComment()}
+          placeholder="Write a comment..."
+          className="new-comment-input-sign"
+        ></textarea>
+        <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
           </div>
         </div>
       </div>

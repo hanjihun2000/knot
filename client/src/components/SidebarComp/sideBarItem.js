@@ -1,7 +1,7 @@
 import React from 'react'
-import {House, MagnifyingGlass, Gear, Bell, UserGear} from "@phosphor-icons/react";
+import {House, MagnifyingGlass, Gear, Bell} from "@phosphor-icons/react";
 
-export const adminSidebarList = [
+export const sideBarItem = [
   {
     title: "Home Page",
     icon: <House />,
@@ -21,12 +21,8 @@ export const adminSidebarList = [
     title: "Notification",
     icon: <Bell />,
     link: "/notification"
-  },
-  {
-    title :"Admin",
-    icon: <UserGear />,
-    link: "/admin"
   }
+
 ]
 
 

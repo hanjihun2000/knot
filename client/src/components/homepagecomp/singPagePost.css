@@ -5,17 +5,15 @@
     width: 60vw; /* 60% of the viewport width */
     margin: auto; /* Center the container on the page */
     height: 80vh; /* 80% of the viewport height */
-    background-color: var(--background-color); /*change this to var(--background-color); is not working*/
-    border-radius: 10px; /* Rounded corners */
-    font-family: "Inika"; /* Default font */
+    max-height: 80vh; /* Ensure it doesn't exceed 80% of the viewport height */
   }
   
   .post-content-wrapper-sign {
     /* Flex container for the image and text */
     display: flex;
+    border: 1px solid #ccc;
     width: 100%; /* Take full width of the parent container */
     height: 100%; /* Take full height of the parent container */
-
   }
   
   .post-image-container-sign {
@@ -31,29 +29,6 @@
     height: 100%; /* Ensure it covers the full height of the container */
     object-fit: cover; /* Cover the area, may crop the image */
   }
-
-  .post-user-info {
-    font-size: 20px;
-    font-weight: bold;
-    color: #262626;
-    /* middle left align */
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-left: 10px;
-  }
-
-
-  
-  
-  .post-profile-image-sign {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  
   .post-text-content-sign {
     /* This will contain the description and comments */
     padding: 10px;
@@ -62,14 +37,10 @@
     flex-direction: column;
     justify-content: space-between;
     overflow-y: auto; /* Add scroll for overflow */
-    background-color: var(--background-image);
-    border-radius: 10px;
-    overflow-x: hidden;
   }
   
   .comments-section-sign {
     width: 100%; /* Take full width of the parent container */
-    font-size: 20px;
     /* If you want to limit the number of comments shown at once, you can add a max-height */
     /* max-height: calculated_value; */
     /* overflow-y: auto; */
@@ -78,69 +49,5 @@
     white-space: normal; /* Default value, just to be explicit */
     word-wrap: break-word; /* Breaks the word to prevent overflow */
   }
-  .no-comments-sign {
-    /* Style for the "No comments" text */
-    text-align: center;
-    font-style: italic;
-    height: 100%;
-    font-size: 20px;
-  }
-  .button-container-sign {
-    /* Style for the comment button */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-    }
-  .submit-comment-sign {
-    /* Style for the comment input and button */
-    padding: 4px;
-    border-radius: 10px;
-    background-color: transparent;
-    width: 80%;
-    border-color:#80808036;
-    font-size: 20px;
-    font-family: "Inika"; /* Default font */
-  }
-  .submit-comment-sign:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: rgba(23, 23, 23, 0.3);
-  }
-  .new-comment-input-sign{
-    background-color: transparent;
-    width: 90%;
-    font-family: "Inika"; /* Default font */
-    font-size: 20px;
-  }
-  .post-description-sign{
-    font-size: 28px;
-    font-style: bold;
-  }
-
-  .post-interact-button-row {
-    display: flex;
-    justify-content: center;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: "Inika";
-  }
   
-  .post-interact-button {
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    width: 20%;
-    border: none;
-    cursor: pointer;
-    font-family: "Inika";
-  }
-
-  .no-underline {
-    text-decoration: none;
-    color: #262626;
-  }
   

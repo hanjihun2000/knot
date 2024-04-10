@@ -9,7 +9,7 @@ body {
   margin: 0 auto;
   background-color: #D3D0B3;
   border: 1px solid #787876;
-  border-radius: 20px; /* Added border-radius */
+  border-radius: 10px; /* Added border-radius */
   margin-bottom: 60px;
   /* overflow: auto */
   /* overflow: hidden; Added overflow property */
@@ -92,22 +92,32 @@ body {
 
 .action-buttons {
   display: flex;
-  justify-content: center;
 }
 
-.post-interact-button {
+.vote-button {
   display: flex;
-  justify-content: center;
+  align-items: center;
   background-color: transparent;
-  width: 20%;
-  /* left right padding*/
-  padding: 10px;
   border: none;
   cursor: pointer;
-  font-family: "Inika"
+  margin-right: 16px;
 }
 
-.post-interact-button img {
+.vote-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.share-button img {
   width: 20px;
   height: 20px;
   margin-right: 4px;
@@ -142,7 +152,6 @@ body {
 .comment {
   margin-bottom: 8px;
 }
-
 .no-underline-yep{
   text-decoration: none;
   color: black;
