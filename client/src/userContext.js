@@ -7,8 +7,7 @@ export const UserProvider = ({ children }) => {
     bio: '',
     followers: [],
     following: [],
-    accountType: '',
-    
+    theme: ''
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -53,7 +52,7 @@ export const UserProvider = ({ children }) => {
         bio: data.bio || '',
         followers: data.followers || [],
         following: data.following || [],
-        accountType: data.accountType
+        data: data.theme
       });
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', username);
@@ -71,7 +70,7 @@ export const UserProvider = ({ children }) => {
       bio: '',
       followers: [],
       following: [],
-      accountType: ''
+      theme: ''
     });
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -103,7 +102,7 @@ export const UserProvider = ({ children }) => {
           bio: data.bio || '',
           followers: data.followers || [],
           following: data.following || [],
-          accountType: data.accountType
+          theme : data.theme
         }));
       } catch (e) {
         setError(e.message);
