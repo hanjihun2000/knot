@@ -49,6 +49,33 @@ const UserPreview = () => {
     }
   }
 
+  const deleteUser = async (username) => {
+    try {
+      const response = await fetch('http://localhost:8000/api/adminapi/deleteUser', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include any other headers like Authorization if needed
+        },
+        body: JSON.stringify({username: username}),
+      });
+  
+      const result = await response.json();
+  
+      console.log(result);
+  
+      if (response.ok) {
+        console.log('Success:', result.message);
+        alert(`User ${username} deleted successfully`)
+        fetchAllUsers();
+      } else {
+        console.error('Error:', result.message);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
   useEffect(() => {
     fetchAllUsers();
   }, []);
@@ -71,7 +98,7 @@ const UserPreview = () => {
                       </div>
                       <div id="userPreview-username">{user.username}</div>
                     </NavLink>
-                    <button className="delete-button">Delete</button>
+                    <button className="delete-button" onClick={() => deleteUser(user.username)}>Delete</button>
                   </div>
                 </li>
               );
