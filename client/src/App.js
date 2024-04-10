@@ -17,7 +17,7 @@ import adminViewUser from './components/admin/adminViewUser';
 import viewReortedUserPage from './components/admin/viewReportedUserPage';
 import SearchPage from './components/SearchPage';
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
-import UserProfile from './components/UserSettings/UserProfile';
+import UserProfilePage from './components/UserSettings/UserProfilePage';
 
 const App = () => {
   // Check if the user is authenticated by verifying the token's presence
@@ -39,9 +39,7 @@ const App = () => {
               <LogInForm />
             </Route>
             
-            <Route exact path='/userprofile'>
-              <UserProfile/>
-            </Route>
+            
             <Route exact path="/posts/:postId" component={SingPage} />
             <ProtectedRoute
               exact
@@ -74,9 +72,8 @@ const App = () => {
               auth={isAuthenticated}
             />
             <Route
-              exact
-              path="/profile/:username"
-              component={UserProfile}
+              exact path="/profile/:username"
+              component={UserProfilePage}
              
             />
             <ProtectedRoute
