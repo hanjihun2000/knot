@@ -1,5 +1,24 @@
-.singpage-content-container{
-
+.singpage-container {
     display: flex;
-    
+    height: calc(100vh - 80px); /* Full viewport height */
+    background-image: var(--background-image);
+    flex-direction: column;
+    /* overflow: auto; */
+  }
+  
+.singpage-content-container {
+display: flex;
+flex-grow: 1;
+flex-direction: row; /* Explicitly define direction if not default */
+height: 100%;
+}
+
+.singpage-content {
+flex-grow: 1; /* To fill the remaining space */
+height: auto; /* Full height */
+/* Allow vertical scrolling */
+overflow-y: scroll;
+display: flex;
+flex-direction: column;
+font-family: "Inika";
 }
