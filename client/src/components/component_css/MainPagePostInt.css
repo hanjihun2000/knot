@@ -11,6 +11,7 @@ body {
   border: 1px solid #787876;
   border-radius: 20px; /* Added border-radius */
   margin-bottom: 60px;
+  width: 100%;
   /* overflow: auto */
   /* overflow: hidden; Added overflow property */
 }
@@ -71,7 +72,6 @@ body {
 .post-image img {
   width: 100%;
   height: auto;
-  border: 1px solid #e6e6e6;
 }
 
 .post-description-actions {
@@ -92,11 +92,13 @@ body {
 
 .action-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  gap:4px;
 }
 
 .post-interact-button {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   background-color: transparent;
   width: 20%;
@@ -146,4 +148,59 @@ body {
 .no-underline-yep{
   text-decoration: none;
   color: black;
+}
+
+.button-group{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 12px;
+}
+.arrowUp-icon{
+  width: 32px;
+  height: 32px;
+}
+
+.post-interact-button.upclicked{
+  color:#00ff009c;
+}
+
+.arrowDown-icon{
+  width: 32px;
+  height: 32px;
+}
+
+.post-interact-button.downclicked{
+  color: #FF0000;
+}
+
+.Flag-icon{
+  width: 32px;
+  height: 32px;
+}
+
+.Share-icon{
+  width: 32px;
+  height: 32px;
+}
+
+.like-dislike-group{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 12px;
+}
+.like-dislike-count{
+  color: var(--text-color-count);
+}
+
+.post-interact-button-button-group:hover{
+  background-color: rgba(23, 23, 23, 0.3);
+}
+
+.post-interact-button-button-group{
+  background-color: transparent;
+  border-color: none;
+  border: none;
+  border-radius: 8px;
 }

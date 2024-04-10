@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import upvoteImg from '../U.png';
-import downvoteImg from '../R.png';
-import shareImg from '../share.svg';
-import reportImg from '../report.jpeg';
 
 import '../component_css/MainPagePostInt.css';
 import { useUser } from '../../userContext';
 import { NavLink } from 'react-router-dom';
+import {Share,Flag, ArrowFatUp, ArrowFatDown} from "@phosphor-icons/react";
 
 const MainPagePostInt = ({ post }) => {
   // console.log(post)
@@ -23,6 +20,8 @@ const MainPagePostInt = ({ post }) => {
   const [dislike, setDislike] = useState();
   const [likeCount, setLikeCount] = useState();
   const [dislikeCount, setDislikeCount] = useState();
+  const [likeClicked, setLikeClicked] = useState(false);
+  const [dislikeClicked, setDislikeClicked] = useState(false);
 
   const [isImageActive, setIsImageActive] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -270,7 +269,14 @@ const MainPagePostInt = ({ post }) => {
           <span className="username">{post.username}</span>
         </div>
         </NavLink>
-        <button className="options-button">⋯</button>
+            <div className="button-group">
+              <button className="post-interact-button-button-group" onClick={sharePost}>
+                <div><Share className= "Share-icon"/></div>
+              </button>
+              <button className="post-interact-button-button-group" onClick={sendReport}>
+                <div><Flag className= "Flag-icon"/></div>
+              </button>
+            </div>
       </div>
       <div className="post-content">
         <NavLink to={`/posts/${post.postId}`} className = 'no-underline-yep' >
@@ -287,18 +293,17 @@ const MainPagePostInt = ({ post }) => {
             <p>{post.description}</p>
           </div>
           <div className="action-buttons">
-            <button className="post-interact-button" onClick={sharePost}>
-              <img src={shareImg} alt="Share"/> Share
+            
+            <div className='like-dislike-group'>
+            <button className={`post-interact-button ${like ? 'upclicked' : ''}`} onClick={handleLike}>
+              <div><ArrowFatUp className= "arrowUp-icon"/> </div>
+              <div className="like-dislike-count">{likeCount}</div>
             </button>
-            <button className="post-interact-button" onClick={sendReport}>
-              <img src={reportImg} alt="Report"/> Report
+            <button className={`post-interact-button ${dislike ? 'downclicked' : ''}`} onClick={handleDislike}>
+              <div><ArrowFatDown className= "arrowDown-icon"/></div>
+              <div className="like-dislike-count">{dislikeCount}</div>
             </button>
-            <button className="post-interact-button" onClick={handleLike}>
-              <img src={upvoteImg} alt="Upvote" /> Like ({likeCount})
-            </button>
-            <button className="post-interact-button" onClick={handleDislike}>
-              <img src={downvoteImg} alt="Downvote" /> Dislike ({dislikeCount})
-            </button>
+            </div>
           </div>
         </div>
         <div className="comments-container" onClick={toggleComments}>
