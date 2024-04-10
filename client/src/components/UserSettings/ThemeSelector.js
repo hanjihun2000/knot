@@ -52,7 +52,7 @@ function ThemeSelector() {
       <h2 classname =" theme-setting-title">Theme setting</h2>
       <p>Let’s change up the theme</p>
       <div className="theme-buttons">
-        <button className="theme-button white" onClick={() => setTheme('white')}>White</button>
+        <button className="theme-button white" onClick={() => setTheme('white')}>Classic</button>
         <button className="theme-button dark" onClick={() => setTheme('dark')}>Dark</button>
         <button className="theme-button spring" onClick={() => setTheme('spring')}>Spring</button>
         <button className="theme-button summer" onClick={() => setTheme('summer')}>Summer</button>

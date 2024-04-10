@@ -35,10 +35,12 @@ const UserPreview = () => {
             });
             const imageObjectURL = URL.createObjectURL(blob);
             return {...user, profilePicture: imageObjectURL};
+          } else {
+            return user;
           }
         }));
-        console.log(updatedUsers)
         setUsers(updatedUsers);
+        console.log(users);
       } else {
         console.error('Error:', result.message);
       }
@@ -46,6 +48,34 @@ const UserPreview = () => {
       console.error('Fetch error:', error);
     }
   }
+
+  const deleteUser = async (username) => {
+    try {
+      if (!window.confirm(`Are you sure you want to delete user ${username}?`)) return;
+      const response = await fetch('http://localhost:8000/api/adminapi/deleteUser', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include any other headers like Authorization if needed
+        },
+        body: JSON.stringify({username: username}),
+      });
+  
+      const result = await response.json();
+  
+      console.log(result);
+  
+      if (response.ok) {
+        console.log('Success:', result.message);
+        alert(`User ${username} deleted successfully`)
+        setUsers(prevUsers => prevUsers.filter(user => user.username !== username));
+      } else {
+        console.error('Error:', result.message);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
 
   useEffect(() => {
     fetchAllUsers();
@@ -65,12 +95,12 @@ const UserPreview = () => {
                     <NavLink to={`/profile/${user.username}`} className="userComponent" >
                       <div id="user-profile-picture">
                         <img 
-                          src={user.profilePicture || 'path/to/default/image.png'}
+                          src={user.profilePicture || '../../default-profile-picture.png'}
                         />
                       </div>
                       <div id="userPreview-username">{user.username}</div>
                     </NavLink>
-                    <button className="delete-button">Delete</button>
+                    <button className="delete-button" onClick={() => deleteUser(user.username)}>Delete</button>
                   </div>
                 </li>
               );
