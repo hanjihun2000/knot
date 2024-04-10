@@ -14,7 +14,7 @@ import MainPagePost from './components/UserSettings/MainPagePost';
 import NotificationPage from './components/notificationPage';
 import singlePageFeed from './components/singlePageFeed';
 import adminViewUser from './components/admin/adminViewUser';
-import viewReortedUserPage from './components/admin/viewReportedUserPage';
+import AdminViewReportedUser from './components/admin/adminViewReportedUser';
 import SearchPage from './components/SearchPage';
 import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
 import UserProfilePage from './components/UserSettings/UserProfilePage';
@@ -109,7 +109,7 @@ const App = () => {
             <ProtectedRoute
               exact
               path='/admin/view-reported-posts'
-              component={viewReortedUserPage}
+              component={AdminViewReportedUser}
             />
           </Switch>
         </SideBarProvider>

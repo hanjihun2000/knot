@@ -7,7 +7,9 @@ export const UserProvider = ({ children }) => {
     bio: '',
     followers: [],
     following: [],
+    accountType: '',
     theme: ''
+    
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,10 +54,12 @@ export const UserProvider = ({ children }) => {
         bio: data.bio || '',
         followers: data.followers || [],
         following: data.following || [],
-        data: data.theme
+        accountType: data.accountType,
+        theme: data.theme,
       });
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', username);
+      localStorage.setItem('accountType', data.accountType);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -70,7 +74,8 @@ export const UserProvider = ({ children }) => {
       bio: '',
       followers: [],
       following: [],
-      theme: ''
+      theme: '',
+      accountType: ''
     });
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -78,6 +83,7 @@ export const UserProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     const token = localStorage.getItem('token');
+
     const username = user.username;
 
     if (username && token) {

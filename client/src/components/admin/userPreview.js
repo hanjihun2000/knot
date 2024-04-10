@@ -57,7 +57,8 @@ const UserPreview = () => {
       <h2>View User</h2>
         <div className="userPreview-container">
           <ul className="user-list">
-            {users.map((user) => {
+            {users.filter(user => user !== undefined)
+            .map((user) => {              
               return (
                 <li key={user.id} className="user-item">
                   <div className="userPreview-user-info">

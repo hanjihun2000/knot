@@ -13,7 +13,8 @@ const Sidebar = () => {
   const { isOpen, setIsOpen } = useSideBarContext();
   const history = useHistory();
   const { user, logout } = useUser(); 
-
+  const accountType = !!localStorage.getItem("accountType");
+  console.log(accountType);
   const handleLogout = () => {
     logout();
     history.push('/login');
@@ -21,10 +22,11 @@ const Sidebar = () => {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', user.theme);
     console.log('User state updated:', user);
+    console.log("testing1",user.accountType);
   }, [user]);
 
   const getSidebarItems = () => {
-    console.log("testing1",user.accountType);
+    
     return user.accountType === 'admin' ? adminSidebarList : sideBarItemUser;
   };
 
