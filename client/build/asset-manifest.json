@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.884224bc.css",
+    "main.js": "/static/js/main.17bb88f9.js",
+    "static/media/R.png": "/static/media/R.f1b8daf9b107c8479780.png",
+    "static/media/knotlogo.png": "/static/media/knotlogo.acaa31e085d60b2e5fae.png",
+    "static/media/unnamed.png": "/static/media/unnamed.9f2d97dfae3068509276.png",
+    "static/media/iphone14promax_dirt_0.5x.jpg": "/static/media/iphone14promax_dirt_0.5x.85f25f0015f9269f0095.jpg",
+    "static/media/OIP.jpg": "/static/media/OIP.d4fcb30679661357aea8.jpg",
+    "static/media/plaimg.png": "/static/media/plaimg.c180ae878f1ad2eacada.png",
+    "static/media/enlarge-icon.png": "/static/media/enlarge-icon.d75187d6bd4a2a26428b.png",
+    "index.html": "/index.html",
+    "static/media/share.svg": "/static/media/share.999a0fc9ddcd0a1684f6884340f744d9.svg",
+    "main.884224bc.css.map": "/static/css/main.884224bc.css.map",
+    "main.17bb88f9.js.map": "/static/js/main.17bb88f9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.884224bc.css",
+    "static/js/main.17bb88f9.js"
+  ]
+}

@@ -100,7 +100,8 @@
   flex-direction: row; /* Items are arranged horizontally */
   font-size: 1.2em;
   margin-bottom: 10px; /* Add space below each list item */ /* Start with the element off to the left */
- }
+  color: var(--text-color-sidebar);
+}
  .sidebar-list #active{
   background-color: var(--background-color); /* Gray background on hover */
   width: 100%;
@@ -178,6 +179,7 @@
     position: bottom; /* Add this line */
     bottom: 0; /* Add this line */
     align-self: center;
+    color: var(--text-color-sidebar);
   }
   
   .profile-name {
@@ -208,6 +210,7 @@
     border: none;
     background-color: transparent;
     font-family: "Inika";
+    color: var(--text-color-sidebar);
   }
 
   .logout-svg{

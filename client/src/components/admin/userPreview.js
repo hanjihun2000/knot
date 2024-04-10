@@ -1,5 +1,5 @@
 import './userPreview.css';
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { useUser } from '../../userContext';
 import {userDemoList} from './userDemoList';
 import { NavLink } from 'react-router-dom';

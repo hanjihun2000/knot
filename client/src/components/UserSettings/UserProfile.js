@@ -7,6 +7,7 @@ import enlargeIcon from './enlarge-icon.png';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
 import { Link } from 'react-router-dom';
+import FriendLists from '../friendlist';
 
 
 const UserProfile = () => {
@@ -14,12 +15,16 @@ const UserProfile = () => {
   const {user} = useUser();
   const [userPosts, setUserPosts] = useState([]);
   const [userBio, setUserBio] = useState('');
-  const [showPosts, setShowPosts] = useState(true);
+ 
   const [userComments, setUserComments] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [friendList, setFriendList] = useState([]);
+  const [userPrivacy, setUserPrivacy] = useState('');  
+
+
+
   const handleEditClick = (post) => {
     setEditingPost(post);
     setEditingText(post.text);
@@ -69,8 +74,8 @@ const UserProfile = () => {
   
       alert(data.message); // Or handle the success response in another way
     } catch (err) {
-      console.error('Error sending follow request:', err.message);
-      alert(err.message); // Or handle the error in another way
+      alert('Please make an account and try again.');
+      
     }
   };
   
@@ -212,7 +217,7 @@ const UserProfile = () => {
       .then(data => {
         
         setUserBio(data.bio);
-        
+        setUserPrivacy(data.accountType);
         
       })
       .catch(error => console.error('Fetching error:', error));
@@ -236,33 +241,10 @@ const UserProfile = () => {
 
   
 
-  const fetchComments = () => {
-    const commentsUrl = `http://localhost:8000/api/commentapi/fetchComments?username=${username}`;
-    fetch(commentsUrl)
-      .then(response => response.json())
-      .then(data => {
-        if (data.comments) {
-          setUserComments(data.comments);
-        }
-       
-      })
-      .catch(error => console.error('Error fetching user comments:', error));
-  };
+ 
 
-  // Function to handle the toggle between posts and comments
-  const toggleView = (view) => {
-    setShowPosts(view === 'posts');
-    if (view === 'comments' && userComments.length === 0) {
-      fetchComments(); // Fetch comments only if we haven't already
-    }
-  };
 
-  const handleToggleView = (view) => {
-    if (view === 'comments' && userComments.length === 0) {
-      fetchComments();
-    }
-    setShowPosts(view === 'posts');
-  };
+
 
   const renderMedia = (media) => {
     
@@ -304,7 +286,7 @@ const UserProfile = () => {
         </div>
       </div>
       
-      {showPosts ? (
+      {(friendList.includes(username) && userPrivacy === 'private') || (userPrivacy !== 'private') || (user.username === username) ? (
         <div className="posts-container">
           {userPosts.map((post) => (
             <div key={post.postId} className="post">
@@ -350,13 +332,10 @@ const UserProfile = () => {
           ))}
         </div>
       ) : (
-        <div className="comments-container">
-          <h3>Comments</h3>
-          {userComments.map((comment, index) => (
-            <div key={index} className="comment">
-              <p>{comment.text}</p>
-            </div>
-          ))}
+        <div className="private-account-message-container">
+          <p className="private-account-message">
+            The posts of this user are private. Send a follow request to see their posts.
+          </p>
         </div>
       )}
     </div>
