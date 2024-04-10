@@ -14,7 +14,7 @@ const UserPreview = () => {
             {userDemoList.map((user) => {
               return (
                 <li key={user.id} className="user-item">
-                  <div className="user-info">
+                  <div className="userPreview-user-info">
                     <NavLink to={`/profile/${user.username}`} className="userComponent" >
                       <div id="user-profile-picture">
                         <img 

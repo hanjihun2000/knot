@@ -1,7 +1,6 @@
 .main-container {
   display: flex;
   height: calc(100vh - 80px); /* Full viewport height */
-  background-image: var(--background-image);
   flex-direction: column;
   /* overflow: auto; */
 }
@@ -56,4 +55,8 @@
 .friend-list {
   position: fixed;
   overflow-y: auto;
+}
+
+.admin-main-container{
+  overflow: hidden;
 }
