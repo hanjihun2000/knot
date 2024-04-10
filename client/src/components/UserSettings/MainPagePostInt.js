@@ -356,11 +356,7 @@ const MainPagePostInt = ({ post }) => {
           )}
         </div>
       </div>
-      {isImageActive && post.media && (
-        <div className="image-overlay" onClick={() => setIsImageActive(false)}>
-          <img src={mediaURL} alt="Post Image Enlarged" />
-        </div>
-      )}
+      
     </div>
     
   );

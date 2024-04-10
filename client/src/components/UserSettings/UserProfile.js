@@ -303,17 +303,28 @@ const UserProfile = () => {
               </div>
               {editingPost && editingPost.postId === post.postId ? (
                 <div>
-                  <div className="post-media">{renderMedia(post.media)}</div>
+                  <div className = "post-media-container">
+                  <div className="post-media">
+                    {renderMedia(post.media)}
+                  </div>
+                  </div>
+                  <div/>
+                  <div className = "text-area-div">
                   <textarea
                     className="text-description"
                     value={editingText}
                     onChange={handleTextChange}
                   />
+                  
+                 </div>
+                
                 </div>
               ) : (
                 <div>
                   <div className="post-media">{renderMedia(post.media)}</div>
+                  <div>
                   <textarea readOnly className="text-description" value={post.text}></textarea>
+                  </div>
                 </div>
               )}
               <div className="post-actions">

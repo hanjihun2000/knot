@@ -149,17 +149,22 @@
 
 
   .comment-sign {
-    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+    display: block;
   }
+  
 
   .report-comment-sign {
     border: none; /* Removes the border */
     padding: 0; /* Removes padding */
     background: none; /* Removes any background to make it transparent */
     cursor: pointer; /* Changes cursor to pointer to indicate it's clickable */
+
     position: absolute;
-    
-    margin-left: 9vw;
+    right: 0;
   }
   
   /* Optional: style for when the mouse hovers over the button */

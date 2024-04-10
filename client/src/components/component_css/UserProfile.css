@@ -1,16 +1,14 @@
 .user-profile-container {
-    max-width: 600px;
-    
-    padding: 20px;
-    background-color: var(--background-color);
-   
-    border-radius: 8px;
-    position: absolute;
-    top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-      
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding:20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  width: 50vw;
+  border-radius: 12px;
+  background-color: var(--background-color);
+  font-family: "Inika";
   }
   
   .user-info {
@@ -46,11 +44,16 @@
   }
   
   .post {
-    background-color: var(--background-color);
-    border: 1px solid #787876;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 80px;
   }
   
   .post h4 {
@@ -118,6 +121,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .post-image img {
@@ -150,6 +154,9 @@ position: absolute;
     border-color: #eee;
     font-family: "Inika";
     background-color: rgba(23, 23, 23, 0.3);        
+  }
+  .text-area-div{
+    width: 100%;
   }
 
 
@@ -189,9 +196,14 @@ textarea[readonly] {
   background-color: #f3f3f3; /* Light grey to indicate it is disabled */
   color: #6c757d; /* Dim text color to indicate non-editability */
   cursor: not-allowed; 
+  
+  
 }
 .follow-button{
   position: absolute;
   right:2vw;
   top:3vh;
+}
+.picture{
+  width: 25vw;
 }

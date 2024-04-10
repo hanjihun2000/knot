@@ -73,7 +73,7 @@ const SingPagePost = () => {
       
       setComments([...comments, commentToAdd]);
       setNewComment(''); // Reset the input field
-      postComment(newComment.trim());
+      
 
       // Here, you might also want to send the comment to the server
       // const response = await fetch('/api/commentapi/addComment', {
