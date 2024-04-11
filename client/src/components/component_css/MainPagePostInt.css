@@ -161,6 +161,7 @@ body {
   justify-content: center;
   flex-direction: row;
   gap: 4px;
+  margin-right: 35px;
 }
 .arrowUp-icon{
   width: 32px;

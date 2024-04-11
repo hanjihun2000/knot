@@ -135,11 +135,17 @@ function SignUpForm() {
         <button onClick = {togglePopup}>terms and agreement</button>
       </div>
       {isTermsVisible && (
-        <div className="termsPopup">
+        <div className={`termsPopup ${isTermsVisible ? 'visible' : ''}`}>
           <div className="termsContent">
             
-            <p>Terms and conditions go here. Include all relevant information and clauses that users must agree to before proceeding.</p>
-            <button onClick={togglePopup}>Close</button>
+            <p>Permanent Friendship Warning: Once you follow someone, you're friends forever!!!</p>
+            <p>Memory Overload Warning: Be warned, excessive use of this platform may lead to an overflow of happy memories, causing spontaneous outbursts of nostalgia. Use at your own risk of happiness.
+
+</p>
+<p>Responsibility for Typos: Any and all typos made by you while using our platform will be blamed on autocorrect, slippery fingers, or the sudden appearance of pet noses. We accept no responsibility for these unavoidable life events.</p>
+
+<p>Happiness Guarantee: While we can't promise every day will be perfect, we're committed to adding a sprinkle of joy to your daily digital routine. If you're not smiling, give us a chance to tickle your funny bone with our content.</p>
+            <button className = "close-button" onClick={togglePopup}>I do not agree (I actually do) and will proceed.</button>
           </div>
         </div>
       )}

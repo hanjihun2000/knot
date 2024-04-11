@@ -132,3 +132,45 @@
   }
   
   
+  .termsPopup {
+    position: fixed; /* or absolute, depending on your layout */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 400px;
+    background-color: #D3D0B3;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+   
+    display: none; /* Hidden by default */
+  }
+  
+  /* When terms are visible */
+  .termsPopup.visible {
+    display: block; /* Show the popup */
+    background-color: #D3D0B3;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 400px;
+    margin-top: -28px;
+    font-family: "Inika" ,Arial, sans-serif;
+    
+  }
+  
+  .termsContent {
+    overflow-y: auto; /* Allow scrolling within the popup */
+    max-height: 100%; /* Ensure content does not overflow the popup */
+  }
+  .close-button{
+    background-color: transparent;
+    border-color: rgba(128, 128, 128, 0.193);
+    
+    border-radius: 8px;
+  }
+  .close-button:hover{
+    background-color: rgba(23, 23, 23, 0.3);
+  }

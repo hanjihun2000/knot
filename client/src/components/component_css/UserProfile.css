@@ -15,7 +15,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    
+    position: relative;
   }
   
   .profile-picture {
@@ -119,6 +119,7 @@
 
 .picture{
   max-width: 100%;
+  margin-left: 20%;
 }
 
 .follow-request-button{
@@ -206,4 +207,23 @@ textarea[readonly] {
 .pencilSimpleLine-icon{
   height: 20px;
   width: 20px;
+}
+
+.magnifyingGlassPlus-icon:hover{
+  height: 20px;
+  width: 20px;
+  background-color: rgba(23, 23, 23, 0.3);
+  border-radius: 4px;
+}
+.trash-icon:hover{
+  height: 20px;
+  width: 20px;
+  background-color: rgba(23, 23, 23, 0.3);
+  border-radius: 4px;
+}
+.pencilSimpleLine-icon:hover{
+  height: 20px;
+  width: 20px;
+  background-color: rgba(23, 23, 23, 0.3);
+  border-radius: 4px;
 }
