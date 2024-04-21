@@ -71,8 +71,8 @@ router.post("/makeFollowRequest", upload.none(), async (req, res) => {
     });
     if (followExists) {
       return res
-        .status(400)
-        .send({ status: "error", message: "Follow request already exists!" });
+        .status(200)
+        .send({ status: "success", message: "Follow request already exists!" });
     }
 
     follow.save();

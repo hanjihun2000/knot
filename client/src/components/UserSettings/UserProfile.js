@@ -286,7 +286,7 @@ const UserProfile = () => {
         </div>
       </div>
       
-      {(friendList.includes(username) && userPrivacy === 'private') || (userPrivacy !== 'private') || (user.username === username) ? (
+      {(friendList.includes(username) && userPrivacy === 'private') || (userPrivacy !== 'private') || (user.username === username) || (userPrivacy === "admin") ? (
 
 
         
