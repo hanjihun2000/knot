@@ -3,9 +3,9 @@ import upvoteImg from '../U.png';
 import downvoteImg from '../R.png';
 import shareImg from '../share.svg';
 import reportImg from '../report.jpeg';
-
 import { useParams } from 'react-router-dom';
 import placeholderImage from '../../components/plaimg.png';
+import {Share,Flag, ArrowFatUp, ArrowFatDown, Warning} from "@phosphor-icons/react";
 import './singPagePost.css';
 
 import { useUser } from '../../userContext';
@@ -73,7 +73,7 @@ const SingPagePost = () => {
       
       setComments([...comments, commentToAdd]);
       setNewComment(''); // Reset the input field
-      postComment(newComment.trim());
+      
 
       // Here, you might also want to send the comment to the server
       // const response = await fetch('/api/commentapi/addComment', {
@@ -302,6 +302,22 @@ const SingPagePost = () => {
     }).catch(error => console.error('Fetching error:', error));
   }
 
+  const reportComment= (commentId) => {
+    
+    fetch(`http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      alert('Comment reported!');
+      return response.json();
+    }).catch(error => console.error('Fetching error:', error));
+  }
   
   
   
@@ -327,6 +343,7 @@ const SingPagePost = () => {
                 <div key={index} className="comment-sign">
                   <span className="comment-user-sign">{comment.username}: </span>
                   <span className="comment-text-sign">{comment.text}</span>
+                  <button onClick={() => reportComment(comment.commentId)} className="report-comment-sign"> <Warning size={24} color="red" /></button>
                 </div>
               ))
             ) : (
@@ -345,17 +362,19 @@ const SingPagePost = () => {
             <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
           </div>
           <div className="post-interact-button-row">  
-            <button className="post-interact-button" onClick={sharePost}>
-              <img src={shareImg} alt="Share"/>
+            <button className="post-interact-button-button-group" onClick={sharePost}>
+              <Share className= "Share-icon"/>
             </button>
-            <button className="post-interact-button" onClick={sendReport}>
-              <img src={reportImg} alt="Report"/>
+            <button className="post-interact-button-button-group" onClick={sendReport}>
+              <div><Flag className= "Flag-icon"/></div>
             </button>
-            <button className="post-interact-button" onClick={handleLike}>
-              <img src={upvoteImg} alt="Upvote" /> ({likeCount})
+            <button className={`post-interact-button ${like ? 'upclicked' : ''}`} onClick={handleLike}>
+              <div><ArrowFatUp className= "arrowUp-icon"/> </div>
+              <div className="like-dislike-count">{likeCount}</div>
             </button>
-            <button className="post-interact-button" onClick={handleDislike}>
-              <img src={downvoteImg} alt="Downvote" /> ({dislikeCount})
+            <button className={`post-interact-button ${dislike ? 'downclicked' : ''}`} onClick={handleDislike}>
+              <div><ArrowFatDown className= "arrowDown-icon"/></div>
+              <div className="like-dislike-count">{dislikeCount}</div>
             </button>
           </div>
         </div>

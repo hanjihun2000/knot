@@ -24,7 +24,7 @@ function LogInForm() {
     event.preventDefault();
     const loggedIn = await login(username, password); // Use login from UserContext
     setIsLoggedIn(!loggedIn); // Update state based on the result of the login attempt
-    console.log(loggedIn); //
+   
   };
 
 

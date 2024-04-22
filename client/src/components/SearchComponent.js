@@ -1,9 +1,8 @@
-// import "../component_css/SearchPage.css";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
-// import { useUser } from '../userContext';
 import React, { useState, useEffect } from "react";
-// import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import './component_css/SearchComponent.css';
+
 
 const SearchPage = () => {
   const [ searchUsersList, setSearchUsers ] = useState([]);
@@ -52,37 +51,32 @@ const SearchPage = () => {
 
   return (
     <div className="search-page">
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search for usernames..."
-          value={searchTerm}
-          onChange={handleSearchTermChange}
-        />
-        <button type="submit">Search</button>
-      </form>
+        <form onSubmit={handleSearch} className="search-container">
+          <input
+            type="text"
+            placeholder="Search for usernames..."
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            className="search-input"
+          />
+        </form>
       <div className="results-container">
         {!searchTerm ? (
           <p>Type something to find new friends</p>
         ) : searchUsersList && searchUsersList.length > 0 ? (
           searchUsersList.map((user) => (
             <div key={user.username} className="user-card">
-              <NavLink
-                to={`/profile/${user.username}`}
-                className="profile-link"
-              >
-                <img
-                  src={user.profilePicture.buffer}
-                  alt={user.username}
-                  className="profile-picture"
-                />
-                <span className="username">{user.username}</span>
+              <NavLink to={`/profile/${user.username}`} className="profile-link">
+                <div className="center-container">
+                  <img src={user.profilePicture.buffer} alt={user.username} className="profile-picture-search" />
+                  <span className="search-username">{user.username}</span>
+                </div>
               </NavLink>
             </div>
           ))
         ) : (
           <p>No results found.</p>
-        )}
+        )}.
       </div>
     </div>
   );
@@ -90,32 +84,4 @@ const SearchPage = () => {
 
 export default SearchPage;
 
-// const handleSearchTermChange = (event) => {
-//   setSearchTerm(event.target.value);
-// };
-
-// const handleSearch = async () => {
-//   try {
-//     const response = await axios.get(
-//       `http://localhost:8000/api/userapi/searchUsers?username=jay&searchTerm=${searchTerm}`
-//     );
-//     setUsers(response.data);
-//   } catch (error) {
-//     console.error("Error fetching users:", error);
-//   }
-// };
-
-
-/* <div className="search-container">
-  <input
-    type="text"
-    placeholder="Search for usernames..."
-    value={searchTerm}
-    onChange={handleSearchTermChange}
-    className="search-input"
-  />
-  <button onClick={handleSearch} className="search-button">
-    Search
-  </button>
-</div> */
 

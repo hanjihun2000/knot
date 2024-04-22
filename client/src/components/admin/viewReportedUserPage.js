@@ -1,48 +1,82 @@
-import React, { useState } from 'react';
-import Sidebar from '../SidebarComp/Sidebar';
-import ProfileSettings from '../ProfileSettings';
-import Navbar from '../Navbar';
-import AdminProfileSettings from './adminSettingSideBar';
-import FriendLists from '../friendlist';
-import ViewReportedPosts from './viewReportedPosts';
-
-import '../component_css/MainPage.css';
-
-
+import './viewReportedUserPage.css';
+import React, {useState, useEffect} from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 
 const ViewReportedUserPage = () => {
 
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [users, setUsers] = useState([]);
 
-  const togglePasswordVisibility = () => {
-    setPasswordShown(!passwordShown);
-  };
-  const toggleConfirmPasswordVisibility = () => {
-    setConfirmPasswordShown(!confirmPasswordShown);
-  };
+  const fetchAllUsers = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/adminapi//listReportedUsers', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include any other headers like Authorization if needed
+        },
+      });
+  
+      const result = await response.json();
+  
+      console.log(result);
+  
+      if (response.ok) {
+        console.log('Success:', result.message);
+        const updatedUsers = await Promise.all(result.message.map((user) => {
+          //set profilePicture to blob
+          if (user.profilePicture && user.profilePicture.buffer) {
+            const byteArray = new Uint8Array(user.profilePicture.buffer.data);
+            const blob = new Blob([byteArray], {
+              type: user.profilePicture.mimetype,
+            });
+            const imageObjectURL = URL.createObjectURL(blob);
+            return {...user, profilePicture: imageObjectURL};
+          }
+        }));
+        console.log(updatedUsers)
+        setUsers(updatedUsers);
+      } else {
+        console.error('Error:', result.message);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
 
   return (
-    <div className="main-container">
-      <Navbar className="navBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="content-container">
-        <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="main-content">
-          <div className="profile-edit-container"> {/* change name to admin container*/ }
-            <AdminProfileSettings/>
-            <ViewReportedPosts/>
-          </div>
-          
+    <div className="userPreview-page">
+      <h2>View User</h2>
+        <div className="userPreview-container">
+          <ul className="user-list">
+            {users.filter(user => user !== undefined)
+            .map((user) => {
+              return (
+                <li key={user.id} className="user-item">
+                  <div className="userPreview-user-info">
+                    <NavLink to={`/profile/${user.username}`} className="userComponent" >
+                      <div id="user-profile-picture">
+                        <img 
+                          src={user.profilePicture || 'path/to/default/image.png'}
+                        />
+                      </div>
+                      <div id="userPreview-username">{user.username}</div>
+                    </NavLink>
+                    <button className="delete-button">Delete</button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>  
         </div>
-          <FriendLists className="friend-list"/>
-      </div>
     </div>
   );
-}
+};
 
 export default ViewReportedUserPage;

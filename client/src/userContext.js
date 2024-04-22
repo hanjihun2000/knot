@@ -8,6 +8,7 @@ export const UserProvider = ({ children }) => {
     followers: [],
     following: [],
     accountType: '',
+    theme: ''
     
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -53,10 +54,12 @@ export const UserProvider = ({ children }) => {
         bio: data.bio || '',
         followers: data.followers || [],
         following: data.following || [],
-        accountType: data.accountType
+        accountType: data.accountType,
+        theme: data.theme,
       });
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', username);
+      localStorage.setItem('accountType', data.accountType);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -71,6 +74,7 @@ export const UserProvider = ({ children }) => {
       bio: '',
       followers: [],
       following: [],
+      theme: '',
       accountType: ''
     });
     localStorage.removeItem('token');
@@ -79,6 +83,7 @@ export const UserProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     const token = localStorage.getItem('token');
+
     const username = user.username;
 
     if (username && token) {
@@ -103,7 +108,7 @@ export const UserProvider = ({ children }) => {
           bio: data.bio || '',
           followers: data.followers || [],
           following: data.following || [],
-          accountType: data.accountType
+          theme : data.theme
         }));
       } catch (e) {
         setError(e.message);

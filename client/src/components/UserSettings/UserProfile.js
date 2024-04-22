@@ -7,19 +7,24 @@ import enlargeIcon from './enlarge-icon.png';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../../userContext';
 import { Link } from 'react-router-dom';
-
+import FriendLists from '../friendlist';
+import {PencilSimpleLine, Trash, MagnifyingGlassPlus} from "@phosphor-icons/react";
 
 const UserProfile = () => {
   const { username } = useParams();
   const {user} = useUser();
   const [userPosts, setUserPosts] = useState([]);
   const [userBio, setUserBio] = useState('');
-  const [showPosts, setShowPosts] = useState(true);
+ 
   const [userComments, setUserComments] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [friendList, setFriendList] = useState([]);
+  const [userPrivacy, setUserPrivacy] = useState('');  
+
+
+
   const handleEditClick = (post) => {
     setEditingPost(post);
     setEditingText(post.text);
@@ -37,8 +42,7 @@ const UserProfile = () => {
       })
       .then(data => {
         const usernames = data.map(user => user.username);
-        console.log(usernames);
-        console.log(data);
+        
         setFriendList(usernames);
         
       })
@@ -69,8 +73,8 @@ const UserProfile = () => {
   
       alert(data.message); // Or handle the success response in another way
     } catch (err) {
-      console.error('Error sending follow request:', err.message);
-      alert(err.message); // Or handle the error in another way
+      alert('Please make an account and try again.');
+      
     }
   };
   
@@ -212,7 +216,7 @@ const UserProfile = () => {
       .then(data => {
         
         setUserBio(data.bio);
-        
+        setUserPrivacy(data.accountType);
         
       })
       .catch(error => console.error('Fetching error:', error));
@@ -227,7 +231,8 @@ const UserProfile = () => {
       .then(data => {
         
         if (data.posts) {
-          setUserPosts(data.posts);
+          
+          setUserPosts((data.posts).reverse());
           
         }
       })
@@ -236,33 +241,10 @@ const UserProfile = () => {
 
   
 
-  const fetchComments = () => {
-    const commentsUrl = `http://localhost:8000/api/commentapi/fetchComments?username=${username}`;
-    fetch(commentsUrl)
-      .then(response => response.json())
-      .then(data => {
-        if (data.comments) {
-          setUserComments(data.comments);
-        }
-       
-      })
-      .catch(error => console.error('Error fetching user comments:', error));
-  };
+ 
 
-  // Function to handle the toggle between posts and comments
-  const toggleView = (view) => {
-    setShowPosts(view === 'posts');
-    if (view === 'comments' && userComments.length === 0) {
-      fetchComments(); // Fetch comments only if we haven't already
-    }
-  };
 
-  const handleToggleView = (view) => {
-    if (view === 'comments' && userComments.length === 0) {
-      fetchComments();
-    }
-    setShowPosts(view === 'posts');
-  };
+
 
   const renderMedia = (media) => {
     
@@ -296,7 +278,7 @@ const UserProfile = () => {
         {user.username !== username && (
           friendList.includes(username) ? 
           <span className="follow-button">Followed</span> : 
-          <button className="follow-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
+          <button className="follow-request-button" onClick={() => sendFollowRequest(user.username, username)}>Follow</button>
         )}
         <div className="user-details">
           <h2>{username}</h2>
@@ -304,26 +286,45 @@ const UserProfile = () => {
         </div>
       </div>
       
-      {showPosts ? (
+      {(friendList.includes(username) && userPrivacy === 'private') || (userPrivacy !== 'private') || (user.username === username) || (userPrivacy === "admin") ? (
+
+
+        
         <div className="posts-container">
-          {userPosts.map((post) => (
+          {userPosts.length === 0 ? (
+          <div>No posts to display</div>
+        ) : (
+          
+        
+          userPosts.map((post) => (
             <div key={post.postId} className="post">
               <div className="post-header">
                 <h4>{post.title}</h4>
               </div>
               {editingPost && editingPost.postId === post.postId ? (
                 <div>
-                  <div className="post-media">{renderMedia(post.media)}</div>
+                  <div className = "post-media-container">
+                  <div className="post-media">
+                    {renderMedia(post.media)}
+                  </div>
+                  </div>
+                  <div/>
+                  <div className = "text-area-div">
                   <textarea
                     className="text-description"
                     value={editingText}
                     onChange={handleTextChange}
                   />
+                  
+                 </div>
+                
                 </div>
               ) : (
                 <div>
                   <div className="post-media">{renderMedia(post.media)}</div>
+                  <div>
                   <textarea readOnly className="text-description" value={post.text}></textarea>
+                  </div>
                 </div>
               )}
               <div className="post-actions">
@@ -336,32 +337,102 @@ const UserProfile = () => {
                       </>
                     ) : (
                       <>
-                        <img src={editIcon} alt="Edit" className="action-icon" onClick={() => handleEditClick(post)} />
-                        <img src={trashIcon} alt="Delete" className="action-icon" onClick={() => handleDeletePost(post)} />
+                      <div alt="Edit" className="action-icon" onClick={() => handleEditClick(post)}><PencilSimpleLine className= "pencilSimpleLine-icon" /></div>
+                      <div alt="Edit" className="action-icon" onClick={() => handleDeletePost(post)}><Trash className= "trash-icon" /></div>
+                       
                       </>
                     )}
                   </>
                 )}
                 <Link to={`/posts/${post.postId}`} state={{ post }} className="post-link">
-                  <img src={enlargeIcon} alt="Enlarge" className="action-icon" />
+                <div alt="Edit" className="action-icon" ><MagnifyingGlassPlus className= "magnifyingGlassPlus-icon" /></div>
                 </Link>
               </div>
             </div>
-          ))}
+            
+          ))
+        )}
         </div>
+        
       ) : (
-        <div className="comments-container">
-          <h3>Comments</h3>
-          {userComments.map((comment, index) => (
-            <div key={index} className="comment">
-              <p>{comment.text}</p>
-            </div>
-          ))}
+        <div className="private-account-message-container">
+          <p className="private-account-message">
+            The posts of this user are private. Send a follow request to see their posts.
+          </p>
         </div>
       )}
     </div>
   );
   ;}
 
+
+
+  /*
+
+import React from 'react';
+import '../component_css/ThemeSelector.css'; // Make sure to create a corresponding CSS file
+import { useUser } from '../../userContext';
+function ThemeSelector() {
+  const { user,setUser } = useUser(); 
+  let theme = !!localStorage.getItem("theme");
+
+  const setTheme = async (theme) => {
+    // Set the theme attribute on the document element
+    const apiUrl = 'http://localhost:8000/api/userapi/editUserProfile';
+
+    // Use FormData to handle file uploads
+    const formData = new FormData();
+    formData.append('username', user.username);
+    formData.append('theme', theme);
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'PUT', // Make sure to use 'PUT' if that's what your backend is expecting
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+       
+        alert(data.message || 'Profile Edit Successful!');
+        
+        setUser((currentUser) => ({
+          ...currentUser,
+          
+          theme: theme
+        }));
+      } else {
+        alert(data.message || 'An error occurred during edit');
+      }
+    } catch (error) {
+      console.error('There was an error!', error);
+      alert('An unexpected error occurred. Please try again later.');
+    }
+    localStorage.setItem('theme',theme);
+  };
+
+    
+   
+    // Set up your API request with the user's selected theme
+   
+
+  
+  return (
+    <div className="theme-selector">
+      <h2 classname =" theme-setting-title">Theme setting</h2>
+      <p>Let’s change up the theme</p>
+      <div className="theme-buttons">
+        <button className="theme-button white" onClick={() => setTheme('white')}>White</button>
+        <button className="theme-button dark" onClick={() => setTheme('dark')}>Dark</button>
+        <button className="theme-button spring" onClick={() => setTheme('spring')}>Spring</button>
+        <button className="theme-button summer" onClick={() => setTheme('summer')}>Summer</button>
+      </div>
+    </div>
+  );
+}
+
+export default ThemeSelector;
+*/
 
 export default UserProfile;

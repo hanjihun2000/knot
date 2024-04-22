@@ -33,6 +33,7 @@
 .refresh-icon{
     width: 20px;
     height: 20px;
+    color: var(--text-color-sidebar);
 }
 
 .notification-row{

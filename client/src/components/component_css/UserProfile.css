@@ -1,23 +1,21 @@
 .user-profile-container {
-    max-width: 600px;
-    
-    padding: 20px;
-    background-color: var(--background-color);
-    border: 1px solid #787876;
-    border-radius: 4px;
-    position: absolute;
-    top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-      
-    width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding:20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  width: 50vw;
+  border-radius: 12px;
+  background-color: var(--background-color);
+  font-family: "Inika";
   }
   
   .user-info {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    
+    position: relative;
   }
   
   .profile-picture {
@@ -42,15 +40,16 @@
   
   .posts,
   .comments {
-    width: 48%;
+    width: 30%;
   }
   
   .post {
-    background-color: var(--background-color);
+    background-color: var(--background-color-2);
     border: 1px solid #787876;
     border-radius: 4px;
     padding: 10px;
-    margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 80px;
   }
   
   .post h4 {
@@ -104,20 +103,13 @@
   max-height: 75vh; /* Set a max-height or height for the scrolling effect */
 }
 
-.post {
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 80px;
-}
 
 .post-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .post-image img {
@@ -127,10 +119,38 @@
 
 .picture{
   max-width: 100%;
+  margin-left: 20%;
 }
 
+.follow-request-button{
+background: transparent;
+position: absolute;
+  right:2vw;
+  top:3vh;
+  border-radius: 8px;
+  border-color: #eee;
+  font-family: "Inika";
+  height: 30px;
+}
+
+
+.follow-request-button:hover{
+  background: transparent;
+  position: absolute;
+    right:2vw;
+    top:3vh;
+    border-radius: 8px;
+    border-color: #eee;
+    font-family: "Inika";
+    background-color: rgba(23, 23, 23, 0.3);        
+  }
+  .text-area-div{
+    width: 100%;
+  }
+
+
 textarea {
-  width: 100%; /* Adjust as needed */
+  width: 96%; /* Adjust as needed */
   height: 150px; /* Adjust as needed */
   padding: 10px; /* Adds space inside the borders */
   border: 1px solid #ccc; /* Subtle border color */
@@ -165,9 +185,45 @@ textarea[readonly] {
   background-color: #f3f3f3; /* Light grey to indicate it is disabled */
   color: #6c757d; /* Dim text color to indicate non-editability */
   cursor: not-allowed; 
+  
+  
 }
 .follow-button{
   position: absolute;
   right:2vw;
   top:3vh;
+}
+.picture{
+  width: 25vw;
+}
+.magnifyingGlassPlus-icon{
+  height: 20px;
+  width: 20px;
+}
+.trash-icon{
+  height: 20px;
+  width: 20px;
+}
+.pencilSimpleLine-icon{
+  height: 20px;
+  width: 20px;
+}
+
+.magnifyingGlassPlus-icon:hover{
+  height: 20px;
+  width: 20px;
+  background-color: rgba(23, 23, 23, 0.3);
+  border-radius: 4px;
+}
+.trash-icon:hover{
+  height: 20px;
+  width: 20px;
+  background-color: rgba(23, 23, 23, 0.3);
+  border-radius: 4px;
+}
+.pencilSimpleLine-icon:hover{
+  height: 20px;
+  width: 20px;
+  background-color: rgba(23, 23, 23, 0.3);
+  border-radius: 4px;
 }

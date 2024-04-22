@@ -31,9 +31,14 @@ router.post("/createPost", upload.single("media"), async (req, res) => {
 
   const { username, title, text, media } = req.body;
 
+  let mediaBuffer = null;
+  let mediaMimetype = null;
 
-  const buffer = req.file ? req.file.buffer : null;
-  const mimetype = req.file ? req.file.mimetype : null;
+
+  if (req.file) {
+    mediaBuffer = req.file.buffer;
+    mediaMimetype = req.file.mimetype;
+  }
 
   let id;
   // generate a postId that is unique
@@ -69,7 +74,7 @@ router.post("/createPost", upload.single("media"), async (req, res) => {
     username: username,
     title: title,
     text: text,
-    media: buffer && mimetype ? { buffer: buffer, mimetype: mimetype } : null,
+    media: mediaBuffer && mediaMimetype ? { buffer: mediaBuffer, mimetype: mediaMimetype } : null,
     likes: [],
     dislikes: [],
     IsReported: false,

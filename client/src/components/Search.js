@@ -1,5 +1,4 @@
 // api
-
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import "../component_css/SearchPage.css";
 import React, { useState, useEffect } from "react";

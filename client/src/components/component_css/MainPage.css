@@ -28,6 +28,7 @@
   display: flex;
   flex-direction: column;
   font-family: "Inika";
+  color: var(--text-color-sidebar);
 }
 
 .profile-edit-container {
@@ -39,6 +40,7 @@
   border-radius: 12px;
   background-color: var(--background-color);
   font-family: "Inika";
+  color: var(--text-color-sidebar);
 }
 
 .admin-view-user-container{

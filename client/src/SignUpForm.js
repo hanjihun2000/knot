@@ -46,9 +46,7 @@ function SignUpForm() {
         // The request was successful, process the response data as needed.
         console.log(data);
         alert(data.message, 'Signed up successfully!');
-
-        // Here, you would typically redirect the user to a login page
-        // or show some sort of confirmation screen.
+        
         // window.location.href = '/login';
       } else {
         // The request was completed but the server responded with an error status.
