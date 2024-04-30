@@ -207,8 +207,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) f
 - [React](https://reactjs.org/)
 - [Node.js](https://nodejs.org/)
 
-Generative AI tools used:
+Generative AI tools used for code writing:
 
 - [GPT-4](https://www.openai.com/gpt-4/)
-- [Claude](https://www.anthropic.com/claude)
-- [Stable Diffusion](https://stability.ai/stable-image)
+- [Claude 3](https://www.anthropic.com/claude)
