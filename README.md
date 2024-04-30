@@ -199,3 +199,16 @@ To access admin functionalities, please create a login account through MongoDB w
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
+
+## Acknowledgments
+
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
+- [React](https://reactjs.org/)
+- [Node.js](https://nodejs.org/)
+
+Generative AI tools used:
+
+- [GPT-4](https://www.openai.com/gpt-4/)
+- [Claude](https://www.anthropic.com/claude)
+- [Stable Diffusion](https://stability.ai/stable-image)
