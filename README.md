@@ -1,94 +1,113 @@
-# Knot Development Information
+# Knot - Weaving Stories, Building Communities
 
-## Docker
+Knot is a community-oriented social platform designed to foster connections and interactions among users through story sharing and community building. The application allows users to create, follow, comment, and manage posts within a supportive environment.
 
-`docker-compose up -d` to initiate both client and server environment
+## Project Description
 
-`docker-compose up -d --build` to rebuild both client and server environment
+### What does the project do?
 
-`docker-compose down` to close both client and server environment
+Knot provides a platform for users to:
+- Register and manage user accounts.
+- Follow other users and manage follow requests.
+- Create, edit, and comment on posts.
+- Search for users and content.
+- Administer user activities and content (Admin roles).
 
-`docker-compose restart` to restart both client and server environment
+### Why these technologies?
 
-## GitHub
+We chose technologies such as React for the front end for its reusable components and efficient updates, Node.js for the backend for its non-blocking I/O capabilities, and MongoDB for a flexible, schema-less database that scales well. These choices support a robust, scalable app architecture that can handle dynamic community interactions.
 
-Here are instructions for staging, committing, branching, merging, pushing, and pulling using both Visual Studio Code (VSCode) and the command line:
+### Future Implementations
 
-### Staging Files
+- Implementing real-time notifications.
+- Enhanced privacy settings.
+- Machine learning algorithms for personalized content recommendations.
 
-**VSCode:**
+## Installation and Running the Project
 
-1. Open your project in VSCode.
-2. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-3. You'll see a list of modified files under the "Changes" section.
-4. Hover over a file and click the "+" icon to stage it, or use the "Stage All Changes" button to stage all modified files.
+### Prerequisites
 
-**Command Line:**
+Ensure you have Node.js and npm/yarn installed:
+```bash
+node --version
+npm --version
+# or
+yarn --version
+```
 
-1. Navigate to your project directory.
-2. Use `git add <file>` to stage a specific file, or `git add .` to stage all modified files.
+### Installation
 
-### Committing Changes
+Clone the repository:
+```bash
+git clone https://github.com/hanjihun2000/knot-csci3100-project.git
+cd knot-csci3100-project
+```
 
-**VSCode:**
+Install dependencies:
+```bash
+cd client
+npm install
+cd ../server
+npm install
+```
 
-1. After staging your files, enter a commit message in the "Message" text box at the top of the Source Control view.
-2. Click the checkmark icon or press Ctrl+Enter (Windows/Linux) or Cmd+Enter (Mac) to commit your changes.
+### Setting Up the Database
 
-**Command Line:**
+1. Create a `.env` file in the `server` directory.
+2. Add the following environment variables:
+```bash
+MONGO_URI=your_mongo_uri
+JWT_SECRET=your_jwt_secret
+```
 
-1. Use `git commit -m "Your commit message"` to commit your staged changes.
+### Running the Application
 
-### Branching
+To run the server:
+```bash
+cd server
+npm start
+cd ../client
+npm start
+```
 
-**VSCode:**
+Access the application at `http://localhost:3000`.
 
-1. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-2. Click on the branch name in the bottom-left corner of the view.
-3. Select "Create new branch" and enter a name for your new branch.
+## How to Use the Project
 
-**Command Line:**
+After running the project, you can:
+- Sign up to create a new account.
+- Edit your profile information.
+- Explore user profiles and follow/unfollow users.
+- Create and edit your posts.
+- Comment and interact on posts.
+- Search for specific users.
 
-1. Use `git branch <branch-name>` to create a new branch.
-2. Use `git checkout <branch-name>` to switch to that branch.
+## Credentials Required
 
-### Merging
+To access admin functionalities, please login with the following credentials:
+  - Username: `admin`
+  - Password: `admin`
 
-**VSCode:**
 
-1. Switch to the branch you want to merge into (e.g., `main` or `master`).
-2. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-3. Click on the branch name in the bottom-left corner of the view.
-4. Select "Merge from..." and choose the branch you want to merge.
 
-**Command Line:**
+## Collaborators
 
-1. Switch to the branch you want to merge into with `git checkout <branch-to-merge-into>`.
-2. Use `git merge <branch-to-merge>` to merge the specified branch into your current branch.
+- [Cheng Chung Hei Sennett](#)
+- [Hon Kwan Shun Quinson](#)
+- [Daniel Sharjil Huq](#)
+- [HAN Jihun](#)
+- [Josiah Olyver Lee Yong Zhi](#)
 
-### Pushing to a Remote
+## References
 
-**VSCode:**
+This project was inspired by and adapted from several UML and software design pattern resources, including [Design Patterns for Humans](https://github.com/kamranahmedse/design-patterns-for-humans).
 
-1. After committing your changes, you'll see a "Publish to..." section in the Source Control view.
-2. Click on the "Publish to..." button and select your remote (e.g., `origin`) and the branch you want to push to.
+## Licence
 
-**Command Line:**
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
 
-1. Use `git push <remote-name> <branch-name>` to push your local branch to a remote repository.
-2. For example, `git push origin main` to push your local `main` branch to the `origin` remote.
+## Additional Sections
 
-### Pulling from a Remote
+### Badges
 
-**VSCode:**
-
-1. Switch to the branch you want to pull changes into.
-2. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-3. Click on the "..." menu and select "Pull from..." or "Pull, Push" to fetch and merge changes from a remote.
-
-**Command Line:**
-
-1. Use `git pull <remote-name> <branch-name>` to pull changes from a remote repository into your local branch.
-2. For example, `git pull origin main` to pull the latest changes from the `origin` remote's `main` branch into your local `main` branch.
-
-These instructions cover the basic Git operations for staging, committing, branching, merging, pushing, and pulling using both VSCode's integrated Git tools and the command line interface. Feel free to include these in your project's README for others to reference.
+![GitHub followers][]![GitHub stars][]### Bug TrackerReport bugs at our [Issues page](https://github.com/your-github/knot/issues).### ContributingPlease read [CONTRIBUTING.md](CONTRIBUTING) for details on our code of conduct, and the process for submitting pull requests to us.### TestsRun tests using:```bashnpm test# oryarn test```## Authors and AcknowledgementsTeam Group D6 of the Department of Computer Science and Engineering, The Chinese University of Hong Kong. Special thanks to our mentor Dr. XYZ and all contributors.## Future Release Plans- Version 2.0: Integration of AI to enhance user interaction.- Version 2.1: Addition of multi-language support.
