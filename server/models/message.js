@@ -1,25 +1,28 @@
 const mongoose = require("../index");
-const uri = process.env.ATLAS_URI;
 const Schema = mongoose.Schema;
 
-const messageSchema = new Schema({
+// Creating a new schema for messages
+const messageSchema = new Schema(
+  {
     sender: {
       type: String,
-      required: true
+      required: true,
     },
     receiver: {
       type: String,
-      required: true
+      required: true,
     },
     messageText: {
       type: String,
-      required: true
+      required: true,
     },
     timeOfMessage: {
       type: Date,
-      default: Date.now
-    }
-  }, { timestamps: true }); // This adds createdAt and updatedAt timestamps
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
 
-
+// Exporting the message model
 module.exports = mongoose.model("message", messageSchema);
