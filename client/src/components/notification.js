@@ -7,7 +7,7 @@ import { ArrowsClockwise } from "@phosphor-icons/react";
 const RequestList = () => {
   const [requestFollower, setRequestFollower] = useState([]);
   const { user } = useUser();
-  
+
   const fetchRequestFollower = () => {
     fetch(
       `http://localhost:8000/api/followapi/viewFollowRequests?username=${user.username}`
@@ -60,7 +60,9 @@ const RequestList = () => {
   //there might be stuff to change here ask daniel later
   function createImageObjectURL(userProfile) {
     const byteArray = new Uint8Array(userProfile.profilePicture.buffer.data);
-    const blob = new Blob([byteArray], { type: userProfile.profilePicture.mimetype });
+    const blob = new Blob([byteArray], {
+      type: userProfile.profilePicture.mimetype,
+    });
     const imageObjectURL = URL.createObjectURL(blob);
     return imageObjectURL;
   }
@@ -77,7 +79,7 @@ const RequestList = () => {
           </button>
         </li>
         {requestFollower.map((requestedUser, index) => {
-          console.log(requestedUser)
+          console.log(requestedUser);
           return (
             <li key={index} className="notification-row">
               <NavLink

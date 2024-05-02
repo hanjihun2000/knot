@@ -1,5 +1,5 @@
-import React from 'react';
-import './component_css/ProfileSettings.css';
+import React from "react";
+import "./component_css/ProfileSettings.css";
 
 const ProfileSettings = () => {
   return (

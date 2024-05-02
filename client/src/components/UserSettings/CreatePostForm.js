@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react';
-import '../component_css/CreatePostForm.css';
-import defaultImage from './iphone14promax_dirt_0.5x.jpg';
-import { useUser } from '../../userContext';
-import { Redirect } from 'react-router-dom'; 
+import React, { useState, useRef } from "react";
+import "../component_css/CreatePostForm.css";
+import defaultImage from "./iphone14promax_dirt_0.5x.jpg";
+import { useUser } from "../../userContext";
+import { Redirect } from "react-router-dom";
 const CreatePostForm = () => {
-  const [postTitle, setPostTitle] = useState('');
-  const [postDescription, setPostDescription] = useState('');
+  const [postTitle, setPostTitle] = useState("");
+  const [postDescription, setPostDescription] = useState("");
   const [postImage, setPostImage] = useState(defaultImage);
-  const { user, logout } = useUser(); 
+  const { user, logout } = useUser();
   const fileInputRef = useRef(null);
-  const [postFileType, setPostFileType] = useState('');
+  const [postFileType, setPostFileType] = useState("");
   const [Created, setCreated] = useState(false);
   const handlePostTitleChange = (e) => {
     setPostTitle(e.target.value);
@@ -38,26 +38,28 @@ const CreatePostForm = () => {
     e.preventDefault();
     console.log(fileInputRef.current.files[0]);
     const formData = new FormData();
-    formData.append('username', user.username); // You might want to dynamically set this
-    formData.append('title', postTitle);
-    formData.append('text', postDescription);
-  
+    formData.append("username", user.username); // You might want to dynamically set this
+    formData.append("title", postTitle);
+    formData.append("text", postDescription);
+
     // Only append the file if a file was selected
     if (fileInputRef.current.files[0]) {
-      console.log('check');
-      formData.append('media', fileInputRef.current.files[0]);
+      console.log("check");
+      formData.append("media", fileInputRef.current.files[0]);
     }
-  
+
     try {
-      const response = await fetch('http://localhost:8000/api/postapi/createPost', {
-        method: 'POST',
-        body: formData, // formData will be the body of the request
-        
-      });
-  
+      const response = await fetch(
+        "http://localhost:8000/api/postapi/createPost",
+        {
+          method: "POST",
+          body: formData, // formData will be the body of the request
+        }
+      );
+
       const responseData = await response.json();
       if (response.ok) {
-        alert('Post created successfully!');
+        alert("Post created successfully!");
         console.log(responseData);
         setCreated(!Created);
         // Reset form state here if desired
@@ -66,15 +68,15 @@ const CreatePostForm = () => {
         alert(`Failed to create post: ${responseData.message}`);
       }
     } catch (error) {
-      console.error('Failed to create post:', error);
-      alert('An error occurred while trying to create the post.');
+      console.error("Failed to create post:", error);
+      alert("An error occurred while trying to create the post.");
     }
   };
 
-  if(Created){
+  if (Created) {
     return <Redirect to="/home" />;
   }
-  
+
   return (
     <div className="create-post-container">
       <div className="create-post-header">Create Post</div>
@@ -87,34 +89,39 @@ const CreatePostForm = () => {
         className="post-title-input"
       />
       <div className="post-image-container">
-      <div className="post-preview-container">
-      {
-          postFileType === "image" && <img src={postImage} alt="Post" className="post-image" />
-        }
-        {
-          postFileType === "video" && <video controls src={postImage} className="post-video"></video>
-        }
-      </div>
-        
-        
+        <div className="post-preview-container">
+          {postFileType === "image" && (
+            <img src={postImage} alt="Post" className="post-image" />
+          )}
+          {postFileType === "video" && (
+            <video controls src={postImage} className="post-video"></video>
+          )}
+        </div>
+
         <input
           type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           accept="image/*,video/*,.mkv"
-          name="media" 
+          name="media"
         />
       </div>
       <div className="photo-container">
-        <button onClick={handleAttachPhotoClick} className="attach-photo-button">Attach Photo</button>   </div>
-        <textarea
-          placeholder="What's on your mind?"
-          value={postDescription}
-          onChange={handlePostDescriptionChange}
-          className="post-description-input"
-        />
-        <button onClick={handleSubmit} className="create-post-button">
+        <button
+          onClick={handleAttachPhotoClick}
+          className="attach-photo-button"
+        >
+          Attach Photo
+        </button>{" "}
+      </div>
+      <textarea
+        placeholder="What's on your mind?"
+        value={postDescription}
+        onChange={handlePostDescriptionChange}
+        className="post-description-input"
+      />
+      <button onClick={handleSubmit} className="create-post-button">
         Create Post
       </button>
     </div>

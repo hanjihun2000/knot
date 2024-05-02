@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
-import Sidebar from '../SidebarComp/Sidebar';
-import AdminSettingSideBar from './adminSettingSideBar';
-import Navbar from '../Navbar';
-import FriendLists from '../friendlist';
-import ViewReportedUserPage from './viewReportedUserPage';
+import React, { useState } from "react";
+import Sidebar from "../SidebarComp/Sidebar";
+import AdminSettingSideBar from "./adminSettingSideBar";
+import Navbar from "../Navbar";
+import FriendLists from "../friendlist";
+import ViewReportedUserPage from "./viewReportedUserPage";
 
-import '../component_css/MainPage.css';
-
-
-
-
+import "../component_css/MainPage.css";
 
 const AdminViewReportedUser = () => {
-
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -32,16 +27,17 @@ const AdminViewReportedUser = () => {
       <div className="content-container">
         <Sidebar className="sideBar" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="main-content">
-          <div className="admin-view-user-container"> {/* change name to admin container*/}
-            <AdminSettingSideBar/>
-            <ViewReportedUserPage/>
+          <div className="admin-view-user-container">
+            {" "}
+            {/* change name to admin container*/}
+            <AdminSettingSideBar />
+            <ViewReportedUserPage />
           </div>
-          
         </div>
-          <FriendLists className="friend-list"/>
+        <FriendLists className="friend-list" />
       </div>
     </div>
   );
-}
+};
 
 export default AdminViewReportedUser;

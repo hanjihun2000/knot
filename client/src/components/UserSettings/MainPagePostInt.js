@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
-import '../component_css/MainPagePostInt.css';
-import { useUser } from '../../userContext';
-import { NavLink } from 'react-router-dom';
-import {Share,Flag, ArrowFatUp, ArrowFatDown, Warning} from "@phosphor-icons/react";
+import "../component_css/MainPagePostInt.css";
+import { useUser } from "../../userContext";
+import { NavLink } from "react-router-dom";
+import {
+  Share,
+  Flag,
+  ArrowFatUp,
+  ArrowFatDown,
+  Warning,
+} from "@phosphor-icons/react";
 
 const MainPagePostInt = ({ post }) => {
   // console.log(post)
@@ -36,17 +42,24 @@ const MainPagePostInt = ({ post }) => {
   // console.log(post.postId)
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/commentapi/fetchComments?postId=${post.postId}`)
-      .then(response => {
+    fetch(
+      `http://localhost:8000/api/commentapi/fetchComments?postId=${post.postId}`
+    )
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
-      }).then(data => {
+      })
+      .then((data) => {
         //get username and text from comments
-        data = data.message.map(comment => `${comment.username}: ${comment.text}: ${comment.commentId}`);
+        data = data.message.map(
+          (comment) =>
+            `${comment.username}: ${comment.text}: ${comment.commentId}`
+        );
         setComments(data);
-      }).catch(error => console.error('Fetching error:', error));
+      })
+      .catch((error) => console.error("Fetching error:", error));
     const closeComments = (event) => {
       if (!event.target.closest(".comments-container") && showComments) {
         setShowComments(false);
@@ -143,23 +156,26 @@ const MainPagePostInt = ({ post }) => {
       .catch((error) => console.error("Fetching error:", error));
   };
 
-
-  const reportComment= (commentId) => {
+  const reportComment = (commentId) => {
     console.log(commentId);
-    fetch(`http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    fetch(
+      `http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-      alert('Comment reported!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        alert("Comment reported!");
+        return response.json();
+      })
+      .catch((error) => console.error("Fetching error:", error));
+  };
 
   const handleDislike = () => {
     fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
@@ -203,103 +219,122 @@ const MainPagePostInt = ({ post }) => {
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
-  };  
+  };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
+    if (e.key === "Enter" && !e.shiftKey && newComment.trim() !== "") {
       e.preventDefault();
       setComments([...comments, `${user.username}: ${newComment}`]);
       fetch(`http://localhost:8000/api/commentapi/createComment`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           postId: post.postId,
           username: user.username,
-          text: newComment.trim()
+          text: newComment.trim(),
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
         })
-      }).then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      }).then(data => {
-        console.log(data.message);
-      }).catch(error => console.error('Fetching error:', error));
-      setNewComment('');
+        .then((data) => {
+          console.log(data.message);
+        })
+        .catch((error) => console.error("Fetching error:", error));
+      setNewComment("");
     }
   };
 
   const sharePost = () => {
     fetch(`http://localhost:8000/api/postapi/sharePost`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: post.postId,
-        username: user.username
+        username: user.username,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log(response);
+        alert("Post shared successfully!");
+        return response.json();
       })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      console.log(response)
-      alert('Post shared successfully!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
+      .catch((error) => console.error("Fetching error:", error));
+  };
 
   const sendReport = () => {
     fetch(`http://localhost:8000/api/postapi/reportPost`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: post.postId,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        alert("Post reported!");
+        return response.json();
       })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      alert('Post reported!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
+      .catch((error) => console.error("Fetching error:", error));
+  };
 
-  
   return (
-    
     <div className="post-container">
       <div className="post-header">
-      <NavLink to={`/profile/${post.username}`} className = 'no-underline-yep' >
-        <div className="user-info no-underline-yep">
-          {userProfilePic && (
-            <img
-              src={userProfilePic}
-              alt="User Profile"
-              className="profile-pic"
-            />
-          )}
-          <span className="username">{post.username}</span>
-        </div>
+        <NavLink to={`/profile/${post.username}`} className="no-underline-yep">
+          <div className="user-info no-underline-yep">
+            {userProfilePic && (
+              <img
+                src={userProfilePic}
+                alt="User Profile"
+                className="profile-pic"
+              />
+            )}
+            <span className="username">{post.username}</span>
+          </div>
         </NavLink>
-            <div className="button-group">
-              <button className="post-interact-button-button-group" onClick={sharePost}>
-                <div><Share className= "Share-icon"/></div>
-              </button>
-              <button className="post-interact-button-button-group" onClick={sendReport}>
-                <div><Flag className= "Flag-icon"/></div>
-              </button>
+        <div className="button-group">
+          <button
+            className="post-interact-button-button-group"
+            onClick={sharePost}
+          >
+            <div>
+              <Share className="Share-icon" />
             </div>
+          </button>
+          <button
+            className="post-interact-button-button-group"
+            onClick={sendReport}
+          >
+            <div>
+              <Flag className="Flag-icon" />
+            </div>
+          </button>
+        </div>
       </div>
       <div className="post-content">
-        <NavLink to={`/posts/${post.postId}`} className = 'no-underline-yep' >
+        <NavLink to={`/posts/${post.postId}`} className="no-underline-yep">
           <div className="post-title">{post.title}</div>
         </NavLink>
-        <div className='original-username'>{post.originalUsername && <span>Shared from: {post.originalUsername}</span>}</div>
+        <div className="original-username">
+          {post.originalUsername && (
+            <span>Shared from: {post.originalUsername}</span>
+          )}
+        </div>
         <div className="post-image" onClick={handleImageClick}>
           {post.media && (
             <img src={mediaURL} alt="Post Media" className="post-image" />
@@ -310,16 +345,27 @@ const MainPagePostInt = ({ post }) => {
             <p>{post.description}</p>
           </div>
           <div className="action-buttons">
-            
-            <div className='like-dislike-group'>
-            <button className={`post-interact-button ${like ? 'upclicked' : ''}`} onClick={handleLike}>
-              <div><ArrowFatUp className= "arrowUp-icon"/> </div>
-              <div className="like-dislike-count">{likeCount}</div>
-            </button>
-            <button className={`post-interact-button ${dislike ? 'downclicked' : ''}`} onClick={handleDislike}>
-              <div><ArrowFatDown className= "arrowDown-icon"/></div>
-              <div className="like-dislike-count">{dislikeCount}</div>
-            </button>
+            <div className="like-dislike-group">
+              <button
+                className={`post-interact-button ${like ? "upclicked" : ""}`}
+                onClick={handleLike}
+              >
+                <div>
+                  <ArrowFatUp className="arrowUp-icon" />{" "}
+                </div>
+                <div className="like-dislike-count">{likeCount}</div>
+              </button>
+              <button
+                className={`post-interact-button ${
+                  dislike ? "downclicked" : ""
+                }`}
+                onClick={handleDislike}
+              >
+                <div>
+                  <ArrowFatDown className="arrowDown-icon" />
+                </div>
+                <div className="like-dislike-count">{dislikeCount}</div>
+              </button>
             </div>
           </div>
         </div>
@@ -338,17 +384,20 @@ const MainPagePostInt = ({ post }) => {
             <div className="comments-main-page">
               {comments.map((comment, index) => {
                 console.log(comments);
-                const [username, text, commentId] = comment.split(': ');
+                const [username, text, commentId] = comment.split(": ");
                 console.log(text);
                 return (
                   <div key={index} className="comment">
                     <span className="username">{username}</span>: {text}
-                    <button onClick={(e) => {
-  e.stopPropagation(); // Prevents the click event from propagating up to the document
-  reportComment(commentId);
-}} className="report-comment-sign-page">
-  <Flag size={24}/>
-</button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevents the click event from propagating up to the document
+                        reportComment(commentId);
+                      }}
+                      className="report-comment-sign-page"
+                    >
+                      <Flag size={24} />
+                    </button>
                   </div>
                 );
               })}
@@ -356,11 +405,8 @@ const MainPagePostInt = ({ post }) => {
           )}
         </div>
       </div>
-      
     </div>
-    
   );
-  
 };
 
 export default MainPagePostInt;

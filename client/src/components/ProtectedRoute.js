@@ -1,9 +1,9 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   // Check for an authentication token in localStorage
-  const isAuthenticated = !!localStorage.getItem('token');
+  const isAuthenticated = !!localStorage.getItem("token");
 
   return (
     <Route

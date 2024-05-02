@@ -1,28 +1,25 @@
-import React from 'react'
-import {House, MagnifyingGlass, Gear, Bell} from "@phosphor-icons/react";
+import React from "react";
+import { House, MagnifyingGlass, Gear, Bell } from "@phosphor-icons/react";
 
 export const sideBarItemUser = [
   {
     title: "Home Page",
     icon: <House />,
-    link: "/home"
+    link: "/home",
   },
   {
     title: "Search",
     icon: <MagnifyingGlass />,
-    link: "/search"
+    link: "/search",
   },
   {
     title: "Settings",
     icon: <Gear />,
-    link: "/settings/profile-edit"
+    link: "/settings/profile-edit",
   },
   {
     title: "Notification",
     icon: <Bell />,
-    link: "/notification"
-  }
-
-]
-
-
+    link: "/notification",
+  },
+];

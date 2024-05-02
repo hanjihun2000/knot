@@ -1,32 +1,30 @@
-import './App.css';
-import React from 'react';
-import SignUpForm from './components/SignUpForm';
-import LogInForm from './components/LogInForm';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import SingPage from './components/homepagecomp/singPage';
-import SettingPageEdit from './components/UserSettings/SettingPageEdit';
-import SettingPagePrivacy from './components/UserSettings/SettingPagePrivacy';
-import ProtectedRoute from './components/ProtectedRoute';
-import SettingPageThemes from './components/UserSettings/SettingPageThemes';
-import { SideBarProvider } from './components/SidebarComp/SideBarContext'; // Ensure the path is correct
-import { UserProvider } from './userContext'; // Adjust the import path as necessary
-import MainPagePost from './components/UserSettings/MainPagePost';
-import NotificationPage from './components/notificationPage';
-import singlePageFeed from './components/singlePageFeed';
-import adminViewUser from './components/admin/adminViewUser';
-import AdminViewReportedUser from './components/admin/adminViewReportedUser';
-import SearchPage from './components/SearchPage';
-import MainPageHomePage from './components/UserSettings/MainPageHomePage'; // Adjust your
-import UserProfilePage from './components/UserSettings/UserProfilePage';
+import "./App.css";
+import React from "react";
+import SignUpForm from "./components/SignUpForm";
+import LogInForm from "./components/LogInForm";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import SingPage from "./components/homepagecomp/singPage";
+import SettingPageEdit from "./components/UserSettings/SettingPageEdit";
+import SettingPagePrivacy from "./components/UserSettings/SettingPagePrivacy";
+import ProtectedRoute from "./components/ProtectedRoute";
+import SettingPageThemes from "./components/UserSettings/SettingPageThemes";
+import { SideBarProvider } from "./components/SidebarComp/SideBarContext"; // Ensure the path is correct
+import { UserProvider } from "./userContext"; // Adjust the import path as necessary
+import MainPagePost from "./components/UserSettings/MainPagePost";
+import NotificationPage from "./components/notificationPage";
+import singlePageFeed from "./components/singlePageFeed";
+import adminViewUser from "./components/admin/adminViewUser";
+import AdminViewReportedUser from "./components/admin/adminViewReportedUser";
+import SearchPage from "./components/SearchPage";
+import MainPageHomePage from "./components/UserSettings/MainPageHomePage"; // Adjust your
+import UserProfilePage from "./components/UserSettings/UserProfilePage";
 
 const App = () => {
   // Check if the user is authenticated by verifying the token's presence
   const isAuthenticated = !!localStorage.getItem("token");
 
   return (
-    
     <Router>
-     
       <UserProvider>
         {" "}
         {/* Wrap the entire application or the relevant part with UserProvider */}
@@ -38,8 +36,7 @@ const App = () => {
             <Route path="/login">
               <LogInForm />
             </Route>
-            
-            
+
             <Route exact path="/posts/:postId" component={SingPage} />
             <ProtectedRoute
               exact
@@ -72,9 +69,9 @@ const App = () => {
               auth={isAuthenticated}
             />
             <Route
-              exact path="/profile/:username"
+              exact
+              path="/profile/:username"
               component={UserProfilePage}
-             
             />
             <ProtectedRoute
               exact
@@ -102,13 +99,13 @@ const App = () => {
             />
             <ProtectedRoute
               exact
-              path='/admin/adminViewUser'
+              path="/admin/adminViewUser"
               component={adminViewUser}
               auth={isAuthenticated}
             />
             <ProtectedRoute
               exact
-              path='/admin/view-reported-posts'
+              path="/admin/view-reported-posts"
               component={AdminViewReportedUser}
             />
           </Switch>
