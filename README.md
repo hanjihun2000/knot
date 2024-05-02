@@ -1,94 +1,213 @@
-# Knot Development Information
+# Knot - Weaving Stories, Building Communities
 
-## Docker
+Knot is a community-oriented social platform designed to foster connections and interactions among users through story sharing and community building. The application allows users to create, follow, comment, and manage posts within a supportive environment.
 
-`docker-compose up -d` to initiate both client and server environment
+## Project Description
 
-`docker-compose up -d --build` to rebuild both client and server environment
+### What does the project do?
 
-`docker-compose down` to close both client and server environment
+Knot provides a platform for users to:
 
-`docker-compose restart` to restart both client and server environment
+- Register and manage user accounts.
+- Follow other users and manage follow requests.
+- Create, edit, and comment on posts.
+- Search for users and content.
+- Administer user activities and content (Admin roles).
 
-## GitHub
+### Future Implementations
 
-Here are instructions for staging, committing, branching, merging, pushing, and pulling using both Visual Studio Code (VSCode) and the command line:
+- Enhanced user settings.
+- Improved security features.
+- Improved search functionality.
 
-### Staging Files
+## Installation and Running the Project
 
-**VSCode:**
+### Prerequisites
 
-1. Open your project in VSCode.
-2. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-3. You'll see a list of modified files under the "Changes" section.
-4. Hover over a file and click the "+" icon to stage it, or use the "Stage All Changes" button to stage all modified files.
+Ensure you have Node.js and npm installed:
 
-**Command Line:**
+```bash
+node --version
+npm --version
+```
 
-1. Navigate to your project directory.
-2. Use `git add <file>` to stage a specific file, or `git add .` to stage all modified files.
+### Installation
 
-### Committing Changes
+Clone the repository:
 
-**VSCode:**
+```bash
+git clone https://github.com/hanjihun2000/knot-csci3100-project.git
+cd knot-csci3100-project
+```
 
-1. After staging your files, enter a commit message in the "Message" text box at the top of the Source Control view.
-2. Click the checkmark icon or press Ctrl+Enter (Windows/Linux) or Cmd+Enter (Mac) to commit your changes.
+Install dependencies:
 
-**Command Line:**
+```bash
+cd client
+npm install
+cd ../server
+npm install
+```
 
-1. Use `git commit -m "Your commit message"` to commit your staged changes.
+### Setting Up the Database
 
-### Branching
+1. Create a MongoDB Atlas database.
+2. Create a `.env` file in the `server` directory.
+3. Add the following environment variables:
 
-**VSCode:**
+```bash
+export ATLAS_URI=your_mongo_uri
+```
 
-1. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-2. Click on the branch name in the bottom-left corner of the view.
-3. Select "Create new branch" and enter a name for your new branch.
+### Running the Application
 
-**Command Line:**
+To run the server:
 
-1. Use `git branch <branch-name>` to create a new branch.
-2. Use `git checkout <branch-name>` to switch to that branch.
+```bash
+cd server
+npm start
+cd ../client
+npm start
+```
 
-### Merging
+Access the application at `http://localhost:3000`.
 
-**VSCode:**
+## How to Use the Project
 
-1. Switch to the branch you want to merge into (e.g., `main` or `master`).
-2. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-3. Click on the branch name in the bottom-left corner of the view.
-4. Select "Merge from..." and choose the branch you want to merge.
+### Getting Started
 
-**Command Line:**
+#### 1. Creating an Account
 
-1. Switch to the branch you want to merge into with `git checkout <branch-to-merge-into>`.
-2. Use `git merge <branch-to-merge>` to merge the specified branch into your current branch.
+To start using Knot, you'll need to create an account:
 
-### Pushing to a Remote
+- Navigate to the Sign-up page.
+- Enter your email address, choose a username, and set a secure password.
+- Read the terms and conditions.
+- Click the "Sign up" button to create your account.
+- If you already have an account, click the "Click here to log in" link.
 
-**VSCode:**
+![Sign-up Page](img/signup.png)
 
-1. After committing your changes, you'll see a "Publish to..." section in the Source Control view.
-2. Click on the "Publish to..." button and select your remote (e.g., `origin`) and the branch you want to push to.
+#### 2. Logging In
 
-**Command Line:**
+Once you have an account:
 
-1. Use `git push <remote-name> <branch-name>` to push your local branch to a remote repository.
-2. For example, `git push origin main` to push your local `main` branch to the `origin` remote.
+- Go to the Login page.
+- Enter your username and password.
+- Click the "log in" button to access your account.
 
-### Pulling from a Remote
+![Login Page](img/login.png)
 
-**VSCode:**
+### Using Knot
 
-1. Switch to the branch you want to pull changes into.
-2. Go to the Source Control view (Ctrl+Shift+G on Windows/Linux, Cmd+Shift+G on Mac).
-3. Click on the "..." menu and select "Pull from..." or "Pull, Push" to fetch and merge changes from a remote.
+#### 3. Main Navigation
 
-**Command Line:**
+After logging in, you'll be taken to the main interface where you can:
 
-1. Use `git pull <remote-name> <branch-name>` to pull changes from a remote repository into your local branch.
-2. For example, `git pull origin main` to pull the latest changes from the `origin` remote's `main` branch into your local `main` branch.
+- Click "Create" to make a new post.
+- Use the "Home Page" to view recent activity and posts.
+- The "Search" feature helps you find specific users.
+- "Settings" allow you to adjust your account preferences.
+- Check "Notification" for recent alerts.
+- The "Logout" button lets you sign out securely.
 
-These instructions cover the basic Git operations for staging, committing, branching, merging, pushing, and pulling using both VSCode's integrated Git tools and the command line interface. Feel free to include these in your project's README for others to reference.
+![Main Navigation](img/main_page.png)
+
+#### 4. Creating a Post
+
+To share your thoughts or content:
+
+- Click the "Create" button on the main menu.
+- Type your post content into the text area provided.
+- Attach photos if desired by clicking "Attach Photo."
+- Click "Create Post" to publish your post.
+
+![Creating a Post](img/create_post.png)
+
+#### 5. Interacting with Posts
+
+Engage with the community by:
+
+- Using the like and dislike buttons to react to posts.
+- Type in the text box and click "Comment" to leave a response on posts you find interesting.
+
+![Interacting with Posts](img/post_page.png)
+
+#### 6. Editing Your Profile
+
+To update your profile information:
+
+- Navigate to "Settings" and select "Edit Profile."
+- From here, you can change your profile picture, update your username, and modify your password.
+- Click "Confirm" after making your changes to save them.
+
+![Editing Profile](img/edit_profile.png)
+
+#### 7. Viewing Profile Pages
+
+To view a user's profile:
+
+- Click on a username anywhere within the platform.
+- This will take you to their profile page where you can see their posts, followers, and whom they are following.
+- You can also view their profile picture and personal bio if they've added one.
+
+![Viewing Profile Pages](img/profile.png)
+
+#### 8. Sending and Receiving Follow Requests
+
+##### Sending a Follow Request
+
+- On a user's profile page, click the "Follow" button to send them a follow request.
+- If their account is public, you'll follow them immediately. If their account is private, they will receive a follow request.
+
+##### Receiving a Follow Request
+
+- When someone sends you a follow request, you will receive a notification.
+- Navigate to the "Notification" tab from the main menu.
+- Here you will see all your follow requests along with other notifications.
+- You can choose to "accept" or "reject" the follow request.
+
+![Follow Requests](img/notifications.png)
+
+#### 9. Admin Features
+
+If you have admin privileges:
+
+- Access the "Admin" section from the main menu.
+- Here you can view reported users, delete posts, and manage the community.
+
+![Admin Features](img/admin.png)
+
+Enjoy connecting and sharing with the Knot community!
+
+## Admin Credentials
+
+To access admin functionalities, please create a login account through MongoDB with the following credentials:
+
+- Username: `'admin'`
+- Password: (your choice)
+- accountType: `'admin'`
+
+## Collaborators
+
+- [Cheng Chung Hei Sennett](https://github.com/sennettcheng)
+- [Hon Kwan Shun Quinson](https://github.com/hksquinson)
+- [Daniel Sharjil Huq](https://github.com/DanielSHuq)
+- [HAN Jihun](https://github.com/hanjihun2000)
+- [Josiah Olyver Lee Yong Zhi](https://github.com/josiahleee)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
+
+## Acknowledgments
+
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
+- [React](https://reactjs.org/)
+- [Node.js](https://nodejs.org/)
+
+Generative AI tools used for code writing:
+
+- [GPT-4](https://www.openai.com/gpt-4/)
+- [Claude 3](https://www.anthropic.com/claude)
