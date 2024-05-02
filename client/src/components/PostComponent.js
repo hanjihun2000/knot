@@ -1,5 +1,5 @@
-import React from 'react';
-import PostComponent from './PostComponent';
+import React from "react";
+import PostComponent from "./PostComponent";
 
 const App = () => {
   return (

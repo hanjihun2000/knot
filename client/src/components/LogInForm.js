@@ -1,21 +1,18 @@
-import React, { useState,useEffect } from 'react';
-import { Redirect, Link } from 'react-router-dom'; // Import Redirect here
-import './component_css/LogInForm.css';
-import logo from '../unnamed.png';
-import toggleVisi from '../OIP.jpg';
-import { useUser } from '../userContext';
+import React, { useState, useEffect } from "react";
+import { Redirect, Link } from "react-router-dom"; // Import Redirect here
+import "./component_css/LogInForm.css";
+import logo from "../unnamed.png";
+import toggleVisi from "../OIP.jpg";
+import { useUser } from "../userContext";
 function LogInForm() {
-  
-
-
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
   const { user, login, logout } = useUser();
   useEffect(() => {
-    console.log('Login state changed:', isLoggedIn);
+    console.log("Login state changed:", isLoggedIn);
     if (isLoggedIn) {
       // Your redirection logic
     }
@@ -24,9 +21,7 @@ function LogInForm() {
     event.preventDefault();
     const loggedIn = await login(username, password); // Use login from UserContext
     setIsLoggedIn(!loggedIn); // Update state based on the result of the login attempt
-   
   };
-
 
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
@@ -39,9 +34,9 @@ function LogInForm() {
 
   return (
     <div className="root">
-      <div className='header'></div>
+      <div className="header"></div>
       <div className="login-form-container">
-        <img className='knot-logo' src={logo} alt="Show/Hide" />
+        <img className="knot-logo" src={logo} alt="Show/Hide" />
         <div className="signup-form-header">
           <h1>Knot</h1>
         </div>
@@ -61,9 +56,16 @@ function LogInForm() {
               placeholder="Password"
               required
             />
-            <img className='toggle-vis' src={toggleVisi} alt="Show/Hide" onClick={togglePasswordVisibility} />
+            <img
+              className="toggle-vis"
+              src={toggleVisi}
+              alt="Show/Hide"
+              onClick={togglePasswordVisibility}
+            />
           </div>
-          <button className="submit-log" type="submit">log in</button>
+          <button className="submit-log" type="submit">
+            log in
+          </button>
         </form>
       </div>
       <div className="signin-redirect">

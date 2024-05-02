@@ -1,22 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
-import upvoteImg from '../U.png';
-import downvoteImg from '../R.png';
-import shareImg from '../share.svg';
-import reportImg from '../report.jpeg';
-import { useParams } from 'react-router-dom';
-import placeholderImage from '../../components/plaimg.png';
-import {Share,Flag, ArrowFatUp, ArrowFatDown, Warning} from "@phosphor-icons/react";
-import './singPagePost.css';
+import React, { useState, useEffect, useRef } from "react";
+import upvoteImg from "../U.png";
+import downvoteImg from "../R.png";
+import shareImg from "../share.svg";
+import reportImg from "../report.jpeg";
+import { useParams } from "react-router-dom";
+import placeholderImage from "../../components/plaimg.png";
+import {
+  Share,
+  Flag,
+  ArrowFatUp,
+  ArrowFatDown,
+  Warning,
+} from "@phosphor-icons/react";
+import "./singPagePost.css";
 
-import { useUser } from '../../userContext';
-import { NavLink } from 'react-router-dom';
+import { useUser } from "../../userContext";
+import { NavLink } from "react-router-dom";
 
 const SingPagePost = () => {
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const textareaRef = useRef(null);
   const { username } = useUser(); // setUsername removed since it wasn't used
@@ -25,12 +31,10 @@ const SingPagePost = () => {
   const { postId } = useParams();
   const [postData, setPostData] = useState([]);
   const [profilePic, setProfilePic] = useState(placeholderImage);
-  const {user} = useUser();
+  const { user } = useUser();
   const handleImageClick = () => {
-    setIsImageActive(current => !current);
+    setIsImageActive((current) => !current);
   };
-
-
 
   const postComment = async (newCommentText) => {
     const commentData = {
@@ -38,26 +42,28 @@ const SingPagePost = () => {
       text: newCommentText, // Text content of the comment
       postId: postId, // Assuming each comment is associated with a postId
     };
-  
+
     try {
-      const response = await fetch('http://localhost:8000/api/commentapi/createComment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(commentData),
-      });
-  
+      const response = await fetch(
+        "http://localhost:8000/api/commentapi/createComment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(commentData),
+        }
+      );
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       // Assuming the server responds with the newly added comment
       const addedComment = await response.json();
-  
+
       // Optionally update comments list in the state
       setComments((prevComments) => [...prevComments, addedComment]);
-  
     } catch (error) {
       console.error("Failed to post comment:", error);
       // Handle the error (e.g., show an error message)
@@ -70,10 +76,9 @@ const SingPagePost = () => {
         username: user.username, // Assuming you want to use the logged-in user's name
         text: newComment.trim(),
       };
-      
+
       setComments([...comments, commentToAdd]);
-      setNewComment(''); // Reset the input field
-      
+      setNewComment(""); // Reset the input field
 
       // Here, you might also want to send the comment to the server
       // const response = await fetch('/api/commentapi/addComment', {
@@ -89,11 +94,13 @@ const SingPagePost = () => {
 
   useEffect(() => {
     // Define the function to fetch data
-   
+
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:8000/api/postapi/fetchPost?postId=${postId}`);
+      const response = await fetch(
+        `http://localhost:8000/api/postapi/fetchPost?postId=${postId}`
+      );
       if (!response.ok) {
-        console.error('Failed to fetch post:', response.status);
+        console.error("Failed to fetch post:", response.status);
         return;
       }
       const data = await response.json();
@@ -106,44 +113,45 @@ const SingPagePost = () => {
       if (data && data.media && data.media.buffer) {
         // If data.media.buffer is present, handle it
         try {
-          const byteArray = new Uint8Array(data.media.buffer.data || data.media.buffer);
+          const byteArray = new Uint8Array(
+            data.media.buffer.data || data.media.buffer
+          );
           const blob = new Blob([byteArray], { type: data.media.mimetype });
           const imageObjectURL = URL.createObjectURL(blob);
-      
-        
+
           setImageSrc(imageObjectURL); // Assume you have a state or some way to handle the image source URL
         } catch (error) {
-          console.error('Error creating blob from binary data', error);
-          
+          console.error("Error creating blob from binary data", error);
+
           setImageSrc(placeholderImage);
         }
       } else {
         // media is null or undefined, handle the scenario
-        console.log('Media data is not available.');
-      
+        console.log("Media data is not available.");
+
         // Here you could set a default image or a placeholder
         // setImageSrc(placeholderImage);
       }
 
-      const commentsResponse = await fetch(`http://localhost:8000/api/commentapi/fetchComments?postId=${postId}`);
-    if (!commentsResponse.ok) {
-      console.error('Failed to fetch comments:', commentsResponse.status);
-      // Handle error, perhaps set an error state to display a message
-      return;
-    }
-    const commentsData = await commentsResponse.json();
-    console.log(commentsData);
-    // Set comments to state
-    if(commentsData.message.length > 0) {
-    setComments(commentsData.message);
-    }
-      
-      
+      const commentsResponse = await fetch(
+        `http://localhost:8000/api/commentapi/fetchComments?postId=${postId}`
+      );
+      if (!commentsResponse.ok) {
+        console.error("Failed to fetch comments:", commentsResponse.status);
+        // Handle error, perhaps set an error state to display a message
+        return;
+      }
+      const commentsData = await commentsResponse.json();
+      console.log(commentsData);
+      // Set comments to state
+      if (commentsData.message.length > 0) {
+        setComments(commentsData.message);
+      }
     };
 
     // Call the fetch function
     fetchData();
-  }, [postId]); 
+  }, [postId]);
 
   const handleLike = () => {
     fetch(`http://localhost:8000/api/postapi/likeDislikePost`, {
@@ -216,29 +224,29 @@ const SingPagePost = () => {
       .catch((error) => console.error("Fetching error:", error));
   };
 
-
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [newComment]);
-
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey && newComment.trim() !== '') {
+    if (e.key === "Enter" && !e.shiftKey && newComment.trim() !== "") {
       e.preventDefault();
       setComments([...comments, newComment.trim()]);
-      setNewComment('');
+      setNewComment("");
     }
   };
 
   const loadProfilePic = async () => {
-    fetch(`http://localhost:8000/api/userapi/viewProfilePicture?username=${postData.username}`)
+    fetch(
+      `http://localhost:8000/api/userapi/viewProfilePicture?username=${postData.username}`
+    )
       .then((response) => {
         if (!response.ok) {
           console.log(response);
@@ -256,71 +264,76 @@ const SingPagePost = () => {
         }
       })
       .catch((error) => {
-        console.error('There was an error!', error);
+        console.error("There was an error!", error);
       });
   };
 
   useEffect(() => {
     loadProfilePic();
-  } , [postData.username]);
+  }, [postData.username]);
 
   const sharePost = () => {
     fetch(`http://localhost:8000/api/postapi/sharePost`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: postId,
-        username: user.username
+        username: user.username,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log(response);
+        alert("Post shared successfully!");
+        return response.json();
       })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      console.log(response)
-      alert('Post shared successfully!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
+      .catch((error) => console.error("Fetching error:", error));
+  };
 
   const sendReport = () => {
     fetch(`http://localhost:8000/api/postapi/reportPost`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: postId,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        alert("Post reported!");
+        return response.json();
       })
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      alert('Post reported!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
+      .catch((error) => console.error("Fetching error:", error));
+  };
 
-  const reportComment= (commentId) => {
-    
-    fetch(`http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+  const reportComment = (commentId) => {
+    fetch(
+      `http://localhost:8000/api/commentapi/reportComment?commentId=${commentId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-      alert('Comment reported!');
-      return response.json();
-    }).catch(error => console.error('Fetching error:', error));
-  }
-  
-  
-  
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        alert("Comment reported!");
+        return response.json();
+      })
+      .catch((error) => console.error("Fetching error:", error));
+  };
+
   return (
     <div className="post-container-sign">
       <div className="post-content-wrapper-sign">
@@ -328,22 +341,35 @@ const SingPagePost = () => {
           <img src={imageSrc} alt="Image" className="post-image-sign" />
         </div>
         <div className="post-text-content-sign">
-          <NavLink to={`/profile/${postData.username}`} className="post-username-sign no-underline">
+          <NavLink
+            to={`/profile/${postData.username}`}
+            className="post-username-sign no-underline"
+          >
             <div className="post-user-info">
-              <img src={profilePic} alt="Profile" className="post-profile-image-sign" />
+              <img
+                src={profilePic}
+                alt="Profile"
+                className="post-profile-image-sign"
+              />
               <span className="username">{postData.username}</span>
             </div>
           </NavLink>
-          <p className="post-description-sign">
-            {postData.text}
-          </p>
+          <p className="post-description-sign">{postData.text}</p>
           <div className="comments-section-sign">
             {comments.length > 0 ? (
               comments.map((comment, index) => (
                 <div key={index} className="comment-sign">
-                  <span className="comment-user-sign">{comment.username}: </span>
+                  <span className="comment-user-sign">
+                    {comment.username}:{" "}
+                  </span>
                   <span className="comment-text-sign">{comment.text}</span>
-                  <button onClick={() => reportComment(comment.commentId)} className="report-comment-sign"> <Warning size={24} color="red" /></button>
+                  <button
+                    onClick={() => reportComment(comment.commentId)}
+                    className="report-comment-sign"
+                  >
+                    {" "}
+                    <Warning size={24} color="red" />
+                  </button>
                 </div>
               ))
             ) : (
@@ -354,26 +380,48 @@ const SingPagePost = () => {
             ref={textareaRef}
             value={newComment}
             onChange={handleCommentChange}
-            onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleAddComment()}
+            onKeyPress={(e) =>
+              e.key === "Enter" && !e.shiftKey && handleAddComment()
+            }
             placeholder="Write a comment..."
             className="new-comment-input-sign"
           ></textarea>
-          <div className='button-container-sign'>
-            <button onClick={handleAddComment} className="submit-comment-sign">Comment</button>
+          <div className="button-container-sign">
+            <button onClick={handleAddComment} className="submit-comment-sign">
+              Comment
+            </button>
           </div>
-          <div className="post-interact-button-row">  
-            <button className="post-interact-button-button-group" onClick={sharePost}>
-              <Share className= "Share-icon"/>
+          <div className="post-interact-button-row">
+            <button
+              className="post-interact-button-button-group"
+              onClick={sharePost}
+            >
+              <Share className="Share-icon" />
             </button>
-            <button className="post-interact-button-button-group" onClick={sendReport}>
-              <div><Flag className= "Flag-icon"/></div>
+            <button
+              className="post-interact-button-button-group"
+              onClick={sendReport}
+            >
+              <div>
+                <Flag className="Flag-icon" />
+              </div>
             </button>
-            <button className={`post-interact-button ${like ? 'upclicked' : ''}`} onClick={handleLike}>
-              <div><ArrowFatUp className= "arrowUp-icon"/> </div>
+            <button
+              className={`post-interact-button ${like ? "upclicked" : ""}`}
+              onClick={handleLike}
+            >
+              <div>
+                <ArrowFatUp className="arrowUp-icon" />{" "}
+              </div>
               <div className="like-dislike-count">{likeCount}</div>
             </button>
-            <button className={`post-interact-button ${dislike ? 'downclicked' : ''}`} onClick={handleDislike}>
-              <div><ArrowFatDown className= "arrowDown-icon"/></div>
+            <button
+              className={`post-interact-button ${dislike ? "downclicked" : ""}`}
+              onClick={handleDislike}
+            >
+              <div>
+                <ArrowFatDown className="arrowDown-icon" />
+              </div>
               <div className="like-dislike-count">{dislikeCount}</div>
             </button>
           </div>
@@ -381,8 +429,6 @@ const SingPagePost = () => {
       </div>
     </div>
   );
-
 };
-
 
 export default SingPagePost;

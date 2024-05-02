@@ -1,21 +1,20 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
-    username: '',
+    username: "",
     profilePicture: "https://via.placeholder.com/150",
-    bio: '',
+    bio: "",
     followers: [],
     following: [],
-    accountType: '',
-    theme: ''
-    
+    accountType: "",
+    theme: "",
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
+    const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
       setUser((currentUser) => ({ ...currentUser, username: storedUsername }));
       setIsLoading(false);
@@ -31,10 +30,10 @@ export const UserProvider = ({ children }) => {
   const login = async (username, password) => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/userapi/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8000/api/userapi/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
@@ -45,21 +44,23 @@ export const UserProvider = ({ children }) => {
       let profilePictureURL = "https://via.placeholder.com/150"; // Default/fallback image URL
       if (data.profilePicture && data.profilePicture.buffer) {
         const byteArray = new Uint8Array(data.profilePicture.buffer.data);
-        const blob = new Blob([byteArray], { type: data.profilePicture.mimetype });
+        const blob = new Blob([byteArray], {
+          type: data.profilePicture.mimetype,
+        });
         profilePictureURL = URL.createObjectURL(blob);
       }
       setUser({
         username,
         profilePicture: profilePictureURL,
-        bio: data.bio || '',
+        bio: data.bio || "",
         followers: data.followers || [],
         following: data.following || [],
         accountType: data.accountType,
         theme: data.theme,
       });
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', username);
-      localStorage.setItem('accountType', data.accountType);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("username", username);
+      localStorage.setItem("accountType", data.accountType);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -69,46 +70,51 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     setUser({
-      username: '',
+      username: "",
       profilePicture: "https://via.placeholder.com/150",
-      bio: '',
+      bio: "",
       followers: [],
       following: [],
-      theme: '',
-      accountType: ''
+      theme: "",
+      accountType: "",
     });
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
   };
 
   const fetchProfile = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     const username = user.username;
 
     if (username && token) {
       try {
-        const response = await fetch(`http://localhost:8000/api/userapi/fetchUser?username=${username}`, {
-          method: 'GET',
-          headers: { 'Authorization': `Bearer ${token}` },
-        });
+        const response = await fetch(
+          `http://localhost:8000/api/userapi/fetchUser?username=${username}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-        if (!response.ok) throw new Error('Failed to fetch user profile.');
+        if (!response.ok) throw new Error("Failed to fetch user profile.");
 
         const data = await response.json();
         let profilePictureURL = "https://via.placeholder.com/150"; // Default/fallback image URL
         if (data.profilePicture && data.profilePicture.buffer) {
           const byteArray = new Uint8Array(data.profilePicture.buffer.data);
-          const blob = new Blob([byteArray], { type: data.profilePicture.mimetype });
+          const blob = new Blob([byteArray], {
+            type: data.profilePicture.mimetype,
+          });
           profilePictureURL = URL.createObjectURL(blob);
         }
         setUser((currentUser) => ({
           ...currentUser,
           profilePicture: profilePictureURL,
-          bio: data.bio || '',
+          bio: data.bio || "",
           followers: data.followers || [],
           following: data.following || [],
-          theme : data.theme
+          theme: data.theme,
         }));
       } catch (e) {
         setError(e.message);

@@ -45,7 +45,7 @@ Install dependencies:
 ```bash
 cd client
 npm install
-cd ../server
+cd server
 npm install
 ```
 
@@ -64,9 +64,9 @@ export ATLAS_URI=your_mongo_uri
 To run the server:
 
 ```bash
-cd server
+cd client
 npm start
-cd ../client
+cd server
 npm start
 ```
 
